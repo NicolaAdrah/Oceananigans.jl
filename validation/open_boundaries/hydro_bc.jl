@@ -302,14 +302,20 @@ simulation = Simulation(model, Δt=0.1minutes, stop_time=1days)
 u, v, w = model.velocities
 η = model.free_surface.η
 
+output_dir = "validation/open_boundaries/hydro_bc_output"
+
+if !isdir(output_dir)
+    mkpath(output_dir)
+end
+
 simulation.output_writers[:total_velocities] = JLD2Writer(model, (; u, v, w),
                                                           schedule = TimeInterval(10minutes),
-                                                          filename = "hydrostatic_open_boundaries.jld2",
+                                                          filename = joinpath(output_dir, "hydrostatic_open_boundaries.jld2"),
                                                           overwrite_existing = true)
 
 simulation.output_writers[:free_surface] = JLD2Writer(model, (; η),
                                                       schedule = TimeInterval(10minutes),
-                                                      filename = "hydrostatic_open_boundaries_free_surface.jld2",
+                                                      filename = joinpath(output_dir, "hydrostatic_open_boundaries_free_surface.jld2"),
                                                       overwrite_existing = true)
 
 run!(simulation)
@@ -320,10 +326,10 @@ run!(simulation)
 
 using GLMakie
 
-u = FieldTimeSeries("hydrostatic_open_boundaries.jld2", "u")
-v = FieldTimeSeries("hydrostatic_open_boundaries.jld2", "v")
-w = FieldTimeSeries("hydrostatic_open_boundaries.jld2", "w")
-η = FieldTimeSeries("hydrostatic_open_boundaries_free_surface.jld2", "η")
+u = FieldTimeSeries(joinpath(output_dir, "hydrostatic_open_boundaries.jld2"), "u")
+v = FieldTimeSeries(joinpath(output_dir, "hydrostatic_open_boundaries.jld2"), "v")
+w = FieldTimeSeries(joinpath(output_dir, "hydrostatic_open_boundaries.jld2"), "w")
+η = FieldTimeSeries(joinpath(output_dir, "hydrostatic_open_boundaries_free_surface.jld2"), "η")
 
 Nt = length(u.times)
 
@@ -348,7 +354,7 @@ lines!(axη, ηn)
 ylims!(axw, (-1e-5, 1e-5))
 ylims!(axη, (-0.1, 0.2))
 
-record(fig, "cu_hydro_bc.mp4", 1:Nt) do i 
+record(fig, joinpath(output_dir, "cu_hydro_bc.mp4"), 1:Nt) do i
     @info "doing iteration $i of $Nt"
     n[] = i
 end
