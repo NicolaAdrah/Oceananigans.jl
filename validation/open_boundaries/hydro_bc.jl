@@ -11,10 +11,10 @@ wt = time_ns()
 
 z = MutableVerticalDiscretization((-10, 0))
 
-grid = RectilinearGrid(size = (50, 10),     
+grid = RectilinearGrid(size = (50, 50, 1),     
                           x = (0, 500kilometers),
-                          # y = (0, 500kilometers),
-                          topology = (Bounded, Flat, Bounded),
+                          y = (0, 500kilometers),
+                          topology = (Bounded, Bounded, Bounded),
                           z = z)
 
 free_surface = ImplicitFreeSurface() 
@@ -33,23 +33,39 @@ end
 
 OrlanskiBoundaryCondition = BoundaryCondition{<:Open, <:OrlanskiBoundary}
 
+# Current-field allocation
 uᵂ  = Field{Nothing, Nothing, Center}(grid)
 uᴱ  = Field{Nothing, Nothing, Center}(grid)
+uᴺ  = Field{Nothing, Nothing, Center}(grid)
+uˢ  = Field{Nothing, Nothing, Center}(grid)
+
+# History-field allocation
 u₁ᵂ = Field{Nothing, Nothing, Center}(grid)
 u₁ᴱ = Field{Nothing, Nothing, Center}(grid)
+u₁ᴺ = Field{Nothing, Nothing, Center}(grid)
+u₁ˢ = Field{Nothing, Nothing, Center}(grid)
 
 # Initialize the boundary fields with zeros or appropriate initial conditions
 fill!(uᵂ, 0)
 fill!(uᴱ, 0)
+fill!(uᴺ, 0)
+fill!(uˢ, 0)
 fill!(u₁ᵂ, 0)
 fill!(u₁ᴱ, 0)
+fill!(u₁ᴺ, 0)
+fill!(u₁ˢ, 0)
 
-u_west = OpenBoundaryCondition(OrlanskiBoundary(uᵂ, u₁ᵂ))
-u_east = OpenBoundaryCondition(OrlanskiBoundary(uᴱ, u₁ᴱ))
+u_west  = OpenBoundaryCondition(OrlanskiBoundary(uᵂ, u₁ᵂ))
+u_east  = OpenBoundaryCondition(OrlanskiBoundary(uᴱ, u₁ᴱ))
+u_north = OpenBoundaryCondition(OrlanskiBoundary(uᴺ, u₁ᴺ))
+u_south = OpenBoundaryCondition(OrlanskiBoundary(uˢ, u₁ˢ))
 
 @inline getbc(bc::OrlanskiBoundaryCondition, j, k, args...) = bc.condition.uᴮ[1, j, k]
 
-u_bcs = FieldBoundaryConditions(west=u_west, east=u_east)
+# CHECK HERE
+@inline getbc(bc::OrlanskiBoundaryCondition, i, j, k, args...) = bc.condition.uᴮ[i, 1, k]
+
+u_bcs = FieldBoundaryConditions(west=u_west, east=u_east, north=u_north, south=u_south)
 
 @kernel function _update_west_bc(uᴮ, grid, uⁿ⁺¹, u₁, Δt)
   j, k = @index(Global, NTuple)
