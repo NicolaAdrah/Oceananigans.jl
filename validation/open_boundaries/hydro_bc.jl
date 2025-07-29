@@ -11,10 +11,10 @@ wt = time_ns()
 
 z = MutableVerticalDiscretization((-10, 0))
 
-grid = RectilinearGrid(size = (50, 50, 1),     
+grid = RectilinearGrid(size = (50, 10),     
                           x = (0, 500kilometers),
-                          y = (0, 500kilometers),
-                          topology = (Bounded, Bounded, Bounded),
+                        #   y = (0, 500kilometers),
+                          topology = (Bounded, Flat, Bounded),
                           z = z)
 
 free_surface = ImplicitFreeSurface() 
@@ -57,15 +57,16 @@ fill!(u₁ˢ, 0)
 
 u_west  = OpenBoundaryCondition(OrlanskiBoundary(uᵂ, u₁ᵂ))
 u_east  = OpenBoundaryCondition(OrlanskiBoundary(uᴱ, u₁ᴱ))
-u_north = OpenBoundaryCondition(OrlanskiBoundary(uᴺ, u₁ᴺ))
-u_south = OpenBoundaryCondition(OrlanskiBoundary(uˢ, u₁ˢ))
+# u_north = OpenBoundaryCondition(OrlanskiBoundary(uᴺ, u₁ᴺ))
+# u_south = OpenBoundaryCondition(OrlanskiBoundary(uˢ, u₁ˢ))
 
 @inline getbc(bc::OrlanskiBoundaryCondition, j, k, args...) = bc.condition.uᴮ[1, j, k]
 
 # CHECK HERE
-@inline getbc(bc::OrlanskiBoundaryCondition, i, j, k, args...) = bc.condition.uᴮ[i, 1, k]
+# @inline getbc(bc::OrlanskiBoundaryCondition, i, j, k, args...) = bc.condition.uᴮ[i, 1, k]
 
-u_bcs = FieldBoundaryConditions(west=u_west, east=u_east, north=u_north, south=u_south)
+# u_bcs = FieldBoundaryConditions(west=u_west, east=u_east, north=u_north, south=u_south)
+u_bcs = FieldBoundaryConditions(west=u_west, east=u_east)
 
 @kernel function _update_west_bc(uᴮ, grid, uⁿ⁺¹, u₁, Δt)
   j, k = @index(Global, NTuple)
@@ -76,22 +77,14 @@ u_bcs = FieldBoundaryConditions(west=u_west, east=u_east, north=u_north, south=u
 
         # 1) compute differences
         Δuₓ = uⁿ⁺¹[3, j, k] - uⁿ⁺¹[2, j, k]
-        # Δuₓ = u₁[3, j, k] - u₁[2, j, k]
-
-        # 3-point stencil
-        # Δuₓ = (-3*uⁿ⁺¹[2, j, k] + 4*uⁿ⁺¹[3, j, k] - uⁿ⁺¹[4, j, k]) / 2
-
-        # 4-point stencil
-        # Δuₓ = (-11*uⁿ⁺¹[2, j, k] + 18*uⁿ⁺¹[3, j, k] - 9*uⁿ⁺¹[4, j, k] 
-                # + 2*uⁿ⁺¹[5, j, k]) / 6
 
         Δuₜ = uⁿ⁺¹[2, j, k] - u₁[2, j, k]
 
         max_speed = - sqrt(9.80665 * grid.Lz)
 
         # 2) raw phase speed estimate - handle potential division by zero
-        speed = if abs(Δuₓ) > 1e-20
-            - Δuₜ / (Δuₓ) 
+        speed = if abs(Δuₓ * Δt) > 1e-20
+            - (Δuₜ * Δxᶠᶜᶜ(1, j, k, grid)) / (Δuₓ * Δt) 
         else
             0.0  # Default to zero if gradient is too small
         end
@@ -101,24 +94,11 @@ u_bcs = FieldBoundaryConditions(west=u_west, east=u_east, north=u_north, south=u
             speed = 0.0  # Default to zero for first time step
         end
 
-        # Debug: Calculate the raw c value and maximum c value
-        raw_c = abs(speed * Δt / Δxᶠᶜᶜ(1, j, k, grid))
-        max_c = abs(max_speed * Δt / Δxᶠᶜᶜ(1, j, k, grid))
-
-        # Debug: Calculate the percentage difference
-        if j == 1 && k == 1  # Only print for the first (j,k) pair to avoid too many messages
-            percent_diff = raw_c / max_c * 100
-            @info "West BC: comp_c = $raw_c, exact_c = $max_c,
-            ratio = $percent_diff%"
-        end
-
         # 3) Following Orlanski's conditions, c_x should be between 0 and max_speed
         if speed < 0.0
             speed = 0.0
         elseif speed > max_speed
             speed = max_speed
-        # elseif abs(raw_c) < 1e-4
-            # speed = max_speed  # Avoid very small speeds
         end
 
         # 4) nondimensional Courant number
@@ -126,10 +106,9 @@ u_bcs = FieldBoundaryConditions(west=u_west, east=u_east, north=u_north, south=u
 
         # 5) Orlanski update
         uᴮ[1, j, k] = (uᴮ[1, j, k] - c * uⁿ⁺¹[2, j, k]) / (1 - c)
-        # uᴮ[1, j, k] = (uᴮ[1, j, k] - (1/2) * c * (4*uⁿ⁺¹[2, j, k] - uⁿ⁺¹[3, j, k])) / (1 - 3*c/2)
         
-        # Store current values for next time step
-        u₁[2, j, k] = uᴮ[1, j, k]  # Store the boundary value we just computed
+        # Store the boundary value we just computed
+        u₁[2, j, k] = uᴮ[1, j, k]
     end
 end
 
@@ -143,23 +122,15 @@ end
 
         # 1) compute differences
         Δuₓ = uⁿ⁺¹[Nx, j, k] - uⁿ⁺¹[Nx-1, j, k]
-        # Δuₓ = u₁[Nx, j, k] - u₁[Nx-1, j, k]
-
-        # 3-point stencil
-        # Δuₓ = (3*uⁿ⁺¹[Nx, j, k] -4*uⁿ⁺¹[Nx-1, j, k] + uⁿ⁺¹[Nx-2, j, k] ) / 2
-
-        # 4-point stencil
-        # Δuₓ = (11*uⁿ⁺¹[Nx,   j, k] - 18*uⁿ⁺¹[Nx-1, j, k] + 9*uⁿ⁺¹[Nx-2, j, k] -
-                # 2*uⁿ⁺¹[Nx-3, j, k]) / 6
 
         Δuₜ = uⁿ⁺¹[Nx, j, k] - u₁[Nx, j, k]
 
         max_speed = - sqrt(9.80665 * grid.Lz)
 
         # 2) raw phase speed estimate - handle potential division by zero
-        speed = if abs(Δuₓ) > 1e-20
+        speed = if abs(Δuₓ * Δt) > 1e-20
             # @warn "computing c_x"
-            - Δuₜ / (Δuₓ)
+            - (Δuₜ * Δxᶠᶜᶜ(Nx+1, j, k, grid)) / (Δuₓ * Δt) 
         else
             # @warn "computing c_x = 0.0"
             0.0  # Default to zero if gradient is too small
@@ -171,17 +142,6 @@ end
             speed = 0.0  # Default to zero for first time step
         end
 
-        # Debug: Calculate the raw c value and maximum c value
-        raw_c = abs(speed * Δt / Δxᶠᶜᶜ(Nx+1, j, k, grid))
-        max_c = abs(max_speed * Δt / Δxᶠᶜᶜ(Nx+1, j, k, grid))
-        
-        # Debug: Calculate the percentage difference
-        if j == 1 && k == 1  # Only print for the first (j,k) pair to avoid too many messages
-            percent_diff = raw_c / max_c * 100
-            @info "East BC: comp_c = $raw_c, exact_c = $max_c,
-            ratio = $percent_diff%"
-        end
-
         # 3) Following Orlanski's conditions, c_x should be between 0 and max_speed
         if speed < 0.0 
             # @warn "speed < 0.0"
@@ -189,8 +149,6 @@ end
         elseif speed > max_speed
             # @warn "speed > max_speed"
             speed = max_speed
-        # elseif abs(raw_c) < 1e-4
-            # speed = max_speed  # Avoid very small speeds
         end
         
         # 4) nondimensional Courant number
@@ -198,10 +156,9 @@ end
 
         # 5) Orlanski update
         uᴮ[Nx+1, j, k] = (uᴮ[Nx+1, j, k] - c * uⁿ⁺¹[Nx, j, k]) / (1 - c)
-        # uᴮ[Nx+1, j, k] = (uᴮ[Nx+1, j, k] + (1/2) * c * (4*uⁿ⁺¹[Nx, j, k] - uⁿ⁺¹[Nx-1, j, k])) / (1 + 3*c/2)
 
-        # Store current values for next time step
-        u₁[Nx, j, k] = uᴮ[Nx+1, j, k]  # Store the boundary value we just computed
+        # Store the boundary value we just computed
+        u₁[Nx, j, k] = uᴮ[Nx+1, j, k]  
     end
 end
 
