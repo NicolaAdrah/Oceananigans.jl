@@ -105,10 +105,7 @@ u_bcs = FieldBoundaryConditions(west=u_west, east=u_east)
         c = speed * Δt / Δxᶠᶜᶜ(1, j, k, grid)
 
         # 5) Orlanski update
-        uᴮ[1, j, k] = (uᴮ[1, j, k] - c * uⁿ⁺¹[2, j, k]) / (1 - c)
-        
-        # Store the boundary value we just computed
-        u₁[2, j, k] = uᴮ[1, j, k]
+        uᴮ[1, j, k] = (uᴮ[1, j, k] - c * uⁿ⁺¹[2, j, k]) / (1 - c)        
     end
 end
 
@@ -158,7 +155,7 @@ end
         uᴮ[Nx+1, j, k] = (uᴮ[Nx+1, j, k] - c * uⁿ⁺¹[Nx, j, k]) / (1 - c)
 
         # Store the boundary value we just computed
-        u₁[Nx, j, k] = uᴮ[Nx+1, j, k]  
+        # u₁[Nx, j, k] = uᴮ[Nx+1, j, k]  
     end
 end
 
@@ -248,6 +245,7 @@ end
 #####
 
 model = HydrostaticFreeSurfaceModel(; grid,
+                                     timestepper = :SplitRungeKutta3,
                                       free_surface,
                                     #   vertical_coordinate = ZStar(),
                                       boundary_conditions = (; u=u_bcs))
