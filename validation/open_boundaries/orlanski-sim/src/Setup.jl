@@ -42,19 +42,12 @@ function build_u_bcs(uᵂ, uᴱ, u₁ᵂ, u₁ᴱ)
     FieldBoundaryConditions(west=u_west, east=u_east)
 end
 
-function build_c_bcs()
-    c_west = OpenBoundaryCondition(GradientBoundaryCondition(0.0))
-    c_east = OpenBoundaryCondition(GradientBoundaryCondition(0.0))
-    FieldBoundaryConditions(west=c_west, east=c_east)
-end
-
 # ---------- Initial conditions ----------
 const Rx = 250kilometers
 const σ  =  50kilometers
-const σc =  100kilometers
 
 _gaussian_bump_η(x, z) = 0.1 * exp(-((x - Rx)^2 / σ^2))
-_gaussian_bump_c(x, z) = exp(-((x - Rx)^2 / σc^2))
+_gaussian_bump_c(x, z) = exp(-((x - Rx)^2 / σ^2))
 
 η₀(x, z) = _gaussian_bump_η(x, z)
 c₀(x, z) = _gaussian_bump_c(x, z)
@@ -62,21 +55,22 @@ c₀(x, z) = _gaussian_bump_c(x, z)
 # ---------- Model ----------
 function build_model()
     grid = build_grid()
-    free_surface = build_free_surface("Implicit")
+    # free_surface = build_free_surface("Implicit")
     uᵂ, uᴱ, u₁ᵂ, u₁ᴱ = allocate_boundary_fields(grid)
     u_bcs = build_u_bcs(uᵂ, uᴱ, u₁ᵂ, u₁ᴱ)
-    c_bcs = build_c_bcs()
+    # c_bcs = build_c_bcs()
     model = HydrostaticFreeSurfaceModel(; grid,
-        free_surface,
+        # free_surface,
         # timestepper = :SplitRungeKutta3,
-        boundary_conditions = (; u = u_bcs, c = c_bcs),
+        velocities = PrescribedVelocityFields(u = 1.0),
+        boundary_conditions = (; u = u_bcs),
         tracers = :c,
         tracer_advection = WENO(),
-        closure = ScalarDiffusivity(κ=(; c = 1e-6))
     )
 
     # set ICs
-    set!(model; η = η₀, c = c₀)
+    # set!(model; η = η₀, c = c₀)
+    set!(model; c = c₀)
 
     # initialize Orlanski history fields
     # BCs.initialize_boundary_history!(model, u₁ᵂ, u₁ᴱ)
