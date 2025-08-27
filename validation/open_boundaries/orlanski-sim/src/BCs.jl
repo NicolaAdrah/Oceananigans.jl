@@ -43,7 +43,11 @@ const OrlanskiBoundaryCondition = BoundaryCondition{<:Open, <:OrlanskiBoundary}
             0.0
         end
         if isnan(speed); speed = 0.0; end
-        speed = clamp(speed, 0.0, max_speed)
+        if speed < 0.0
+            speed = 0.0
+        elseif speed > max_speed
+            speed = max_speed
+        end
         c = speed * Δt / Δxᶠᶜᶜ(1, j, k, grid)
         uᴮ[1, j, k] = (uᴮ[1, j, k] - c * uⁿ⁺¹[2, j, k]) / (1 - c)
     end
@@ -62,7 +66,13 @@ end
             0.0
         end
         if isnan(speed); speed = 0.0; end
-        speed = clamp(speed, 0.0, max_speed)
+        if speed < 0.0 
+            # @warn "speed < 0.0"
+            speed = 0.0
+        elseif speed > max_speed
+            # @warn "speed > max_speed"
+            speed = max_speed
+        end
         c = speed * Δt / Δxᶠᶜᶜ(Nx+1, j, k, grid)
         uᴮ[Nx+1, j, k] = (uᴮ[Nx+1, j, k] - c * uⁿ⁺¹[Nx, j, k]) / (1 - c)
     end
@@ -139,7 +149,15 @@ function initialize_boundary_history!(model, u₁ᵂ, u₁ᴱ)
     return nothing
 end
 
+function update_orlanski_history!(model, u₁ᵂ, u₁ᴱ)
+    u    = model.velocities.u
+    grid = model.grid
+    launch!(architecture(grid), grid, :xyz, _initialize_history_field!, u₁ᵂ, u)
+    launch!(architecture(grid), grid, :xyz, _initialize_history_field!, u₁ᴱ, u)
+    return nothing
+end
+
 export OrlanskiBoundary, OrlanskiBoundaryCondition,
-       initialize_boundary_history!, impose_volume_conservation!
+       initialize_boundary_history!, impose_volume_conservation!, update_orlanski_history!
 
 end # module
