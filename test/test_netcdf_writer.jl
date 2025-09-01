@@ -6,6 +6,8 @@ using TimesDates: TimeDate
 
 using CUDA
 using NCDatasets
+using SeawaterPolynomials.TEOS10: TEOS10EquationOfState
+using SeawaterPolynomials.SecondOrderSeawaterPolynomials: RoquetEquationOfState
 
 using Oceananigans: Clock
 using Oceananigans.Models.HydrostaticFreeSurfaceModels: VectorInvariant
@@ -102,7 +104,7 @@ function test_netcdf_grid_metrics_rectilinear(arch, FT)
                            topology = (Periodic, Bounded, Bounded),
                            size = (Nx, Ny, Nz),
                            halo = (Hx, Hy, Hz),
-                           extent = (1, 2, 3))
+                           x = (0, 1), y = (0, 2), z = LinRange(0, 3, Nz + 1))
 
     model = NonhydrostaticModel(; grid,
                                   closure = ScalarDiffusivity(ν=4e-2, κ=4e-2),
@@ -331,7 +333,7 @@ function test_netcdf_grid_metrics_latlon(arch, FT)
                                  halo = (Hλ, Hφ, Hz),
                                  longitude = (-15, 15),
                                  latitude = (-10, 10),
-                                 z = (-1000, 0))
+                                 z = LinRange(-1000, 0, Nz + 1))
 
     model = HydrostaticFreeSurfaceModel(; grid,
                                           momentum_advection = VectorInvariant(),
@@ -582,7 +584,7 @@ function test_netcdf_grid_metrics_latlon(arch, FT)
     return nothing
 end
 
-function test_netcdf_rectilinear_grid_fitted_bottom(arch)
+function test_netcdf_rectilinear_grid_fitted_bottom(arch, bottom_boundary_type)
     Nx, Ny, Nz = 16, 16, 16
     Hx, Hy, Hz = 2, 3, 4
 
@@ -601,7 +603,7 @@ function test_netcdf_rectilinear_grid_fitted_bottom(arch)
     mount(x, y) = height * exp(-x^2 / 2width^2) * exp(-y^2 / 2width^2)
     bottom(x, y) = -H + mount(x, y)
 
-    grid = ImmersedBoundaryGrid(underlying_grid, GridFittedBottom(bottom))
+    grid = ImmersedBoundaryGrid(underlying_grid, bottom_boundary_type(bottom))
 
     model = NonhydrostaticModel(; grid,
                                   closure = ScalarDiffusivity(ν=4e-2, κ=4e-2),
@@ -664,14 +666,14 @@ function test_netcdf_rectilinear_grid_fitted_bottom(arch)
     @test dimsize(ds_h[:bottom_height]) == (x_caa=Nx + 2Hx, y_aca=Ny + 2Hy)
 
     for loc in ("ccc", "fcc", "cfc", "ccf")
-        @test haskey(ds_h, "immersed_boundary_mask_$loc")
-        @test eltype(ds_h["immersed_boundary_mask_$loc"]) == Float64
+        @test haskey(ds_h, "peripheral_nodes_$loc")
+        @test eltype(ds_h["peripheral_nodes_$loc"]) == Float64
     end
 
-    @test dimsize(ds_h[:immersed_boundary_mask_ccc]) == (x_caa=Nx + 2Hx,     y_aca=Ny + 2Hy,     z_aac=Nz + 2Hz)
-    @test dimsize(ds_h[:immersed_boundary_mask_fcc]) == (x_faa=Nx + 2Hx + 1, y_aca=Ny + 2Hy,     z_aac=Nz + 2Hz)
-    @test dimsize(ds_h[:immersed_boundary_mask_cfc]) == (x_caa=Nx + 2Hx,     y_afa=Ny + 2Hy + 1, z_aac=Nz + 2Hz)
-    @test dimsize(ds_h[:immersed_boundary_mask_ccf]) == (x_caa=Nx + 2Hx,     y_aca=Ny + 2Hy,     z_aaf=Nz + 2Hz + 1)
+    @test dimsize(ds_h[:peripheral_nodes_ccc]) == (x_caa=Nx + 2Hx,     y_aca=Ny + 2Hy,     z_aac=Nz + 2Hz)
+    @test dimsize(ds_h[:peripheral_nodes_fcc]) == (x_faa=Nx + 2Hx + 1, y_aca=Ny + 2Hy,     z_aac=Nz + 2Hz)
+    @test dimsize(ds_h[:peripheral_nodes_cfc]) == (x_caa=Nx + 2Hx,     y_afa=Ny + 2Hy + 1, z_aac=Nz + 2Hz)
+    @test dimsize(ds_h[:peripheral_nodes_ccf]) == (x_caa=Nx + 2Hx,     y_aca=Ny + 2Hy,     z_aaf=Nz + 2Hz + 1)
 
     @test all(ds_h[:bottom_height][:, :] .≈ Array(parent(grid.immersed_boundary.bottom_height)))
 
@@ -686,14 +688,14 @@ function test_netcdf_rectilinear_grid_fitted_bottom(arch)
     @test dimsize(ds_n[:bottom_height]) == (x_caa=Nx, y_aca=Ny)
 
     for loc in ("ccc", "fcc", "cfc", "ccf")
-        @test haskey(ds_n, "immersed_boundary_mask_$loc")
-        @test eltype(ds_n["immersed_boundary_mask_$loc"]) == Float32
+        @test haskey(ds_n, "peripheral_nodes_$loc")
+        @test eltype(ds_n["peripheral_nodes_$loc"]) == Float32
     end
 
-    @test dimsize(ds_n[:immersed_boundary_mask_ccc]) == (x_caa=Nx,     y_aca=Ny,     z_aac=Nz)
-    @test dimsize(ds_n[:immersed_boundary_mask_fcc]) == (x_faa=Nx + 1, y_aca=Ny,     z_aac=Nz)
-    @test dimsize(ds_n[:immersed_boundary_mask_cfc]) == (x_caa=Nx,     y_afa=Ny + 1, z_aac=Nz)
-    @test dimsize(ds_n[:immersed_boundary_mask_ccf]) == (x_caa=Nx,     y_aca=Ny,     z_aaf=Nz + 1)
+    @test dimsize(ds_n[:peripheral_nodes_ccc]) == (x_caa=Nx,     y_aca=Ny,     z_aac=Nz)
+    @test dimsize(ds_n[:peripheral_nodes_fcc]) == (x_faa=Nx + 1, y_aca=Ny,     z_aac=Nz)
+    @test dimsize(ds_n[:peripheral_nodes_cfc]) == (x_caa=Nx,     y_afa=Ny + 1, z_aac=Nz)
+    @test dimsize(ds_n[:peripheral_nodes_ccf]) == (x_caa=Nx,     y_aca=Ny,     z_aaf=Nz + 1)
 
     @test all(ds_n[:bottom_height][:, :] .≈ Array(interior(grid.immersed_boundary.bottom_height)))
 
@@ -708,14 +710,14 @@ function test_netcdf_rectilinear_grid_fitted_bottom(arch)
     @test dimsize(ds_s[:bottom_height]) == (x_caa=nx, y_aca=ny)
 
     for loc in ("ccc", "fcc", "cfc", "ccf")
-        @test haskey(ds_s, "immersed_boundary_mask_$loc")
-        @test eltype(ds_s["immersed_boundary_mask_$loc"]) == Float32
+        @test haskey(ds_s, "peripheral_nodes_$loc")
+        @test eltype(ds_s["peripheral_nodes_$loc"]) == Float32
     end
 
-    @test dimsize(ds_s[:immersed_boundary_mask_ccc]) == (x_caa=nx, y_aca=ny, z_aac=nz)
-    @test dimsize(ds_s[:immersed_boundary_mask_fcc]) == (x_faa=nx, y_aca=ny, z_aac=nz)
-    @test dimsize(ds_s[:immersed_boundary_mask_cfc]) == (x_caa=nx, y_afa=ny, z_aac=nz)
-    @test dimsize(ds_s[:immersed_boundary_mask_ccf]) == (x_caa=nx, y_aca=ny, z_aaf=nz)
+    @test dimsize(ds_s[:peripheral_nodes_ccc]) == (x_caa=nx, y_aca=ny, z_aac=nz)
+    @test dimsize(ds_s[:peripheral_nodes_fcc]) == (x_faa=nx, y_aca=ny, z_aac=nz)
+    @test dimsize(ds_s[:peripheral_nodes_cfc]) == (x_caa=nx, y_afa=ny, z_aac=nz)
+    @test dimsize(ds_s[:peripheral_nodes_ccf]) == (x_caa=nx, y_aca=ny, z_aaf=nz)
 
     @test all(ds_s[:bottom_height][:, :] .≈ Array(interior(grid.immersed_boundary.bottom_height, i_slice, j_slice)))
 
@@ -725,7 +727,7 @@ function test_netcdf_rectilinear_grid_fitted_bottom(arch)
     return nothing
 end
 
-function test_netcdf_latlon_grid_fitted_bottom(arch)
+function test_netcdf_latlon_grid_fitted_bottom(arch, bottom_boundary_type)
     Nλ, Nφ, Nz = 16, 16, 16
     Hλ, Hφ, Hz = 2, 3, 4
     Lλ, Lφ, H = 20, 10, 1000
@@ -745,7 +747,7 @@ function test_netcdf_latlon_grid_fitted_bottom(arch)
     seamount(λ, φ) = height * exp(-λ^2 / 2λ_width^2) * exp(-φ^2 / 2φ_width^2)
     bottom(λ, φ) = -H + seamount(λ, φ)
 
-    grid = ImmersedBoundaryGrid(underlying_grid, GridFittedBottom(bottom))
+    grid = ImmersedBoundaryGrid(underlying_grid, bottom_boundary_type(bottom))
 
     model = HydrostaticFreeSurfaceModel(; grid,
                                           momentum_advection = VectorInvariant(),
@@ -813,14 +815,14 @@ function test_netcdf_latlon_grid_fitted_bottom(arch)
     @test dimsize(ds_h[:bottom_height]) == (λ_caa=Nλ + 2Hλ, φ_aca=Nφ + 2Hφ)
 
     for loc in ("ccc", "fcc", "cfc", "ccf")
-        @test haskey(ds_h, "immersed_boundary_mask_$loc")
-        @test eltype(ds_h["immersed_boundary_mask_$loc"]) == Float64
+        @test haskey(ds_h, "peripheral_nodes_$loc")
+        @test eltype(ds_h["peripheral_nodes_$loc"]) == Float64
     end
 
-    @test dimsize(ds_h[:immersed_boundary_mask_ccc]) == (λ_caa=Nλ + 2Hλ,     φ_aca=Nφ + 2Hφ,     z_aac=Nz + 2Hz)
-    @test dimsize(ds_h[:immersed_boundary_mask_fcc]) == (λ_faa=Nλ + 2Hλ + 1, φ_aca=Nφ + 2Hφ,     z_aac=Nz + 2Hz)
-    @test dimsize(ds_h[:immersed_boundary_mask_cfc]) == (λ_caa=Nλ + 2Hλ,     φ_afa=Nφ + 2Hφ + 1, z_aac=Nz + 2Hz)
-    @test dimsize(ds_h[:immersed_boundary_mask_ccf]) == (λ_caa=Nλ + 2Hλ,     φ_aca=Nφ + 2Hφ,     z_aaf=Nz + 2Hz + 1)
+    @test dimsize(ds_h[:peripheral_nodes_ccc]) == (λ_caa=Nλ + 2Hλ,     φ_aca=Nφ + 2Hφ,     z_aac=Nz + 2Hz)
+    @test dimsize(ds_h[:peripheral_nodes_fcc]) == (λ_faa=Nλ + 2Hλ + 1, φ_aca=Nφ + 2Hφ,     z_aac=Nz + 2Hz)
+    @test dimsize(ds_h[:peripheral_nodes_cfc]) == (λ_caa=Nλ + 2Hλ,     φ_afa=Nφ + 2Hφ + 1, z_aac=Nz + 2Hz)
+    @test dimsize(ds_h[:peripheral_nodes_ccf]) == (λ_caa=Nλ + 2Hλ,     φ_aca=Nφ + 2Hφ,     z_aaf=Nz + 2Hz + 1)
 
     @test all(ds_h[:bottom_height][:, :] .≈ Array(parent(grid.immersed_boundary.bottom_height)))
 
@@ -835,14 +837,14 @@ function test_netcdf_latlon_grid_fitted_bottom(arch)
     @test dimsize(ds_n[:bottom_height]) == (λ_caa=Nλ, φ_aca=Nφ)
 
     for loc in ("ccc", "fcc", "cfc", "ccf")
-        @test haskey(ds_n, "immersed_boundary_mask_$loc")
-        @test eltype(ds_n["immersed_boundary_mask_$loc"]) == Float32
+        @test haskey(ds_n, "peripheral_nodes_$loc")
+        @test eltype(ds_n["peripheral_nodes_$loc"]) == Float32
     end
 
-    @test dimsize(ds_n[:immersed_boundary_mask_ccc]) == (λ_caa=Nλ,     φ_aca=Nφ,     z_aac=Nz)
-    @test dimsize(ds_n[:immersed_boundary_mask_fcc]) == (λ_faa=Nλ + 1, φ_aca=Nφ,     z_aac=Nz)
-    @test dimsize(ds_n[:immersed_boundary_mask_cfc]) == (λ_caa=Nλ,     φ_afa=Nφ + 1, z_aac=Nz)
-    @test dimsize(ds_n[:immersed_boundary_mask_ccf]) == (λ_caa=Nλ,     φ_aca=Nφ,     z_aaf=Nz + 1)
+    @test dimsize(ds_n[:peripheral_nodes_ccc]) == (λ_caa=Nλ,     φ_aca=Nφ,     z_aac=Nz)
+    @test dimsize(ds_n[:peripheral_nodes_fcc]) == (λ_faa=Nλ + 1, φ_aca=Nφ,     z_aac=Nz)
+    @test dimsize(ds_n[:peripheral_nodes_cfc]) == (λ_caa=Nλ,     φ_afa=Nφ + 1, z_aac=Nz)
+    @test dimsize(ds_n[:peripheral_nodes_ccf]) == (λ_caa=Nλ,     φ_aca=Nφ,     z_aaf=Nz + 1)
 
     @test all(ds_n[:bottom_height][:, :] .≈ Array(interior(grid.immersed_boundary.bottom_height)))
 
@@ -857,14 +859,14 @@ function test_netcdf_latlon_grid_fitted_bottom(arch)
     @test dimsize(ds_s[:bottom_height]) == (λ_caa=nλ, φ_aca=nφ)
 
     for loc in ("ccc", "fcc", "cfc", "ccf")
-        @test haskey(ds_s, "immersed_boundary_mask_$loc")
-        @test eltype(ds_s["immersed_boundary_mask_$loc"]) == Float32
+        @test haskey(ds_s, "peripheral_nodes_$loc")
+        @test eltype(ds_s["peripheral_nodes_$loc"]) == Float32
     end
 
-    @test dimsize(ds_s[:immersed_boundary_mask_ccc]) == (λ_caa=nλ, φ_aca=nφ, z_aac=nz)
-    @test dimsize(ds_s[:immersed_boundary_mask_fcc]) == (λ_faa=nλ, φ_aca=nφ, z_aac=nz)
-    @test dimsize(ds_s[:immersed_boundary_mask_cfc]) == (λ_caa=nλ, φ_afa=nφ, z_aac=nz)
-    @test dimsize(ds_s[:immersed_boundary_mask_ccf]) == (λ_caa=nλ, φ_aca=nφ, z_aaf=nz)
+    @test dimsize(ds_s[:peripheral_nodes_ccc]) == (λ_caa=nλ, φ_aca=nφ, z_aac=nz)
+    @test dimsize(ds_s[:peripheral_nodes_fcc]) == (λ_faa=nλ, φ_aca=nφ, z_aac=nz)
+    @test dimsize(ds_s[:peripheral_nodes_cfc]) == (λ_caa=nλ, φ_afa=nφ, z_aac=nz)
+    @test dimsize(ds_s[:peripheral_nodes_ccf]) == (λ_caa=nλ, φ_aca=nφ, z_aaf=nz)
 
     @test all(ds_s[:bottom_height][:, :] .≈ Array(interior(grid.immersed_boundary.bottom_height, i_slice, j_slice)))
 
@@ -2455,16 +2457,16 @@ function test_netcdf_vertically_stretched_grid_output(arch)
     @test ds["y_aca"][1] == grid.yᵃᶜᵃ[1]
     @test ds["y_afa"][1] == grid.yᵃᶠᵃ[1]
 
-    @test CUDA.@allowscalar ds["z_aac"][1] == grid.z.cᵃᵃᶜ[1]
-    @test CUDA.@allowscalar ds["z_aaf"][1] == grid.z.cᵃᵃᶠ[1]
+    @test @allowscalar ds["z_aac"][1] == grid.z.cᵃᵃᶜ[1]
+    @test @allowscalar ds["z_aaf"][1] == grid.z.cᵃᵃᶠ[1]
 
     @test ds["x_caa"][end] == grid.xᶜᵃᵃ[Nx]
     @test ds["x_faa"][end] == grid.xᶠᵃᵃ[Nx]
     @test ds["y_aca"][end] == grid.yᵃᶜᵃ[Ny]
     @test ds["y_afa"][end] == grid.yᵃᶠᵃ[Ny]
 
-    @test CUDA.@allowscalar ds["z_aac"][end] == grid.z.cᵃᵃᶜ[Nz]
-    @test CUDA.@allowscalar ds["z_aaf"][end] == grid.z.cᵃᵃᶠ[Nz+1]  # z is Bounded
+    @test @allowscalar ds["z_aac"][end] == grid.z.cᵃᵃᶜ[Nz]
+    @test @allowscalar ds["z_aaf"][end] == grid.z.cᵃᵃᶠ[Nz+1]  # z is Bounded
 
     close(ds)
     rm(nc_filepath)
@@ -2549,7 +2551,7 @@ function test_netcdf_free_surface_only_output(arch)
 
     # Kind of a hack because we want η to be a ReducedField.
     outputs = (;
-        η = Average(model.free_surface.η, dims=3)
+        η = Average(model.free_surface.η, dims=3),
     )
 
     Arch = typeof(arch)
@@ -2616,7 +2618,7 @@ function test_netcdf_free_surface_mixed_output(arch)
 
     # Kind of a hack because we want η to be a ReducedField.
     free_surface_outputs = (;
-        η = Average(model.free_surface.η, dims=3)
+        η = Average(model.free_surface.η, dims=3),
     )
 
     outputs = merge(model.velocities, model.tracers, free_surface_outputs)
@@ -2673,6 +2675,57 @@ function test_netcdf_free_surface_mixed_output(arch)
     return nothing
 end
 
+function test_netcdf_buoyancy_force(arch)
+
+    Nx, Nz = 8, 8
+    Hx, Hz = 2, 3
+    Lx, H  = 2, 1
+
+    grid = RectilinearGrid(arch,
+                           topology = (Periodic, Flat, Bounded),
+                           size = (Nx, Nz),
+                           halo = (Hx, Hz),
+                           x = (-Lx, Lx),
+                           z = (-H, 0))
+
+    Boussinesq_eos = (TEOS10EquationOfState(),
+                      RoquetEquationOfState(:Linear),
+                      RoquetEquationOfState(:Cabbeling),
+                      RoquetEquationOfState(:CabbelingThermobaricity),
+                      RoquetEquationOfState(:Freezing),
+                      RoquetEquationOfState(:SecondOrder),
+                      RoquetEquationOfState(:SimplestRealistic))
+
+    for eos in Boussinesq_eos
+
+        model = NonhydrostaticModel(; grid,
+                                    closure = ScalarDiffusivity(ν=4e-2, κ=4e-2),
+                                    buoyancy = SeawaterBuoyancy(equation_of_state=eos),
+                                    tracers = (:T, :S))
+
+        Nt = 7
+        simulation = Simulation(model, Δt=0.1, stop_iteration=Nt)
+
+        simulation.output_writers[:b_eos] = NetCDFWriter(model, fields(model),
+                                                         filename = string(eos)*"_.nc",
+                                                         schedule = IterationInterval(1),
+                                                         array_type = Array{Float64},
+                                                         include_grid_metrics = true,
+                                                         verbose = true)
+        # only tests that the writer builds, produces a file at filepath and sets attributes
+        @test simulation.output_writers[:b_eos] isa NetCDFWriter
+        @test isfile(simulation.output_writers[:b_eos].filepath)
+        ds = NCDataset(simulation.output_writers[:b_eos].filepath)
+        @test ds["T"].attrib["long_name"] == "Conservative temperature"
+        @test ds["T"].attrib["units"] == "°C"
+        @test ds["S"].attrib["long_name"] == "Absolute salinity"
+        @test ds["S"].attrib["units"] == "g/kg"
+        close(ds)
+        rm(simulation.output_writers[:b_eos].filepath)
+    end
+    return nothing
+end
+
 for arch in archs
     @testset "NetCDF output writer [$(typeof(arch))]" begin
         @info "  Testing NetCDF output writer [$(typeof(arch))]..."
@@ -2685,8 +2738,10 @@ for arch in archs
         test_netcdf_grid_metrics_latlon(arch, Float64)
         test_netcdf_grid_metrics_latlon(arch, Float32)
 
-        test_netcdf_rectilinear_grid_fitted_bottom(arch)
-        test_netcdf_latlon_grid_fitted_bottom(arch)
+        test_netcdf_rectilinear_grid_fitted_bottom(arch, GridFittedBottom)
+        test_netcdf_rectilinear_grid_fitted_bottom(arch, PartialCellBottom)
+        test_netcdf_latlon_grid_fitted_bottom(arch, GridFittedBottom)
+        test_netcdf_latlon_grid_fitted_bottom(arch, PartialCellBottom)
 
         test_netcdf_rectilinear_flat_xy(arch)
         test_netcdf_rectilinear_flat_xz(arch, immersed=false)
@@ -2718,5 +2773,7 @@ for arch in archs
 
         test_netcdf_free_surface_only_output(arch)
         test_netcdf_free_surface_mixed_output(arch)
+
+        test_netcdf_buoyancy_force(arch)
     end
 end

@@ -10,17 +10,17 @@ using JLD2
 using FFTW
 using OffsetArrays
 using SeawaterPolynomials
-using CUDA
 using MPI
+using Adapt
+using GPUArraysCore
+using CUDA
+
+MPI.Initialized() || MPI.Init()
 
 using Dates: DateTime, Nanosecond
 using Statistics: mean, mean!, norm
 using LinearAlgebra: norm
-using NCDatasets: Dataset
 using KernelAbstractions: @kernel, @index
-
-MPI.versioninfo()
-MPI.Initialized() || MPI.Init()
 
 using Oceananigans.Architectures
 using Oceananigans.Grids
@@ -51,7 +51,7 @@ using Oceananigans.AbstractOperations: UnaryOperation, Derivative, BinaryOperati
 using Oceananigans.AbstractOperations: KernelFunctionOperation
 using Oceananigans.BuoyancyFormulations: BuoyancyField
 using Oceananigans.Grids: architecture
-using Oceananigans.Fields: ZeroField, ConstantField, FunctionField, compute_at!, indices
+using Oceananigans.Fields: ZeroField, ConstantField, FunctionField, compute_at!, indices, instantiated_location
 using Oceananigans.Models.HydrostaticFreeSurfaceModels: tracernames
 using Oceananigans.ImmersedBoundaries: conditional_length
 using Oceananigans.Operators: ℑxyᶜᶠᵃ, ℑxyᶠᶜᵃ, hack_cosd
@@ -90,4 +90,3 @@ already_included[] = true
 
 float_types = (Float32, Float64)
 archs = test_architectures()
-
