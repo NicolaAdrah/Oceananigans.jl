@@ -19,14 +19,14 @@ model = state.model
 simulation = Simulation(model; Δt = 0.1minutes, stop_time = 5days)
 
 # Attach writers and run
-# outdir = IOAndViz.attach_writers_velocities!(simulation, time_int=10minutes)
-outdir = IOAndViz.attach_writers_tracer!(simulation, time_int=10minutes)
+outdir = IOAndViz.attach_writers_velocities!(simulation, time_int=10minutes)
+# outdir = IOAndViz.attach_writers_tracer!(simulation, time_int=10minutes)
 
 run!(simulation)
 
 # Make movie
-# IOAndViz.make_movie_velocities(outdir)
-IOAndViz.make_movie_tracer(outdir)
+IOAndViz.make_movie_velocities(outdir)
+# IOAndViz.make_movie_tracer(outdir)
 # IOAndViz.make_tracer_heatmap(outdir)
 # IOAndViz.make_debug_tracer_and_u(outdir)
 

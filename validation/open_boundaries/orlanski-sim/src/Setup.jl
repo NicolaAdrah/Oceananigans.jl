@@ -55,22 +55,22 @@ c₀(x, z) = _gaussian_bump_c(x, z)
 # ---------- Model ----------
 function build_model()
     grid = build_grid()
-    # free_surface = build_free_surface("Implicit")
+    free_surface = build_free_surface("Implicit")
     uᵂ, uᴱ, u₁ᵂ, u₁ᴱ = allocate_boundary_fields(grid)
     u_bcs = build_u_bcs(uᵂ, uᴱ, u₁ᵂ, u₁ᴱ)
     # c_bcs = build_c_bcs()
     model = HydrostaticFreeSurfaceModel(; grid,
-        # free_surface,
+        free_surface,
         # timestepper = :SplitRungeKutta3,
-        velocities = PrescribedVelocityFields(u = 1.0),
+        # velocities = PrescribedVelocityFields(u = 1.0),
         boundary_conditions = (; u = u_bcs),
-        tracers = :c,
-        tracer_advection = WENO(),
+        # tracers = :c,
+        # tracer_advection = WENO(),
     )
 
     # set ICs
-    # set!(model; η = η₀, c = c₀)
-    set!(model; c = c₀)
+    set!(model; η = η₀)
+    # set!(model; c = c₀)
 
     # initialize Orlanski history fields
     # BCs.initialize_boundary_history!(model, u₁ᵂ, u₁ᴱ)
