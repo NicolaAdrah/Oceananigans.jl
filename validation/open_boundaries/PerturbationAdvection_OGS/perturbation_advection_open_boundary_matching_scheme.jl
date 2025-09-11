@@ -5,29 +5,57 @@ using Oceananigans.BoundaryConditions: Open, BoundaryCondition, FieldBoundaryCon
 using Oceananigans.Fields: Field, interior
 using Oceananigans.Grids: Face, Center
 
-struct PerturbationAdvection{VT, FT} # {FT} is a type parameter like in c++ template<typename FT>
-       backward_step :: VT # `::` is type annotation
+"""
+    PerturbationAdvection
+
+For cases where we assume that the internal flow is a small perturbation from 
+an external prescribed or coarser flow, we can split the velocity into background
+and perturbation components.
+
+We begin with the equation governing the fluid in the interior:
+    ∂ₜu + u⋅∇u = −∇P + F,
+and note that on the boundary the pressure gradient is zero.
+We can then assume that the flow composes of mean (U⃗) and pertubation (u⃗′) components,
+and considering the x-component of velocity, we can rewrite the equation as
+    ∂ₜu₁ = -u₁∂₁u - u₂∂₂u₁ - u₃∂₃u₁ + F₁ ≈ - U₁∂₁u₁′ - U₂∂₂u₁′ - U₃∂₃u₁′ + F.
+
+Simplify by assuming that U⃗ = Ux̂, an then take a numerical step to find u₁.
+
+When the boundaries are filled the interior is at time tₙ₊₁ so we can take
+a backwards euler step (in the case that the mean flow is boundary normal) on a right boundary:
+    (Uⁿ⁺¹ - Uⁿ) / Δt + (u′ⁿ⁺¹ - u′ⁿ) / Δt = - Uⁿ⁺¹ (u′ⁿ⁺¹ᵢ - u′ⁿ⁺¹ᵢ₋₁) / Δx + Fᵤ.
+
+This can not be solved for general forcing, but if we assume the dominant forcing is
+relaxation to the mean velocity (i.e. u′→0) then Fᵤ = -u′ / τ then we can find u′ⁿ⁺¹:
+    u′ⁿ⁺¹ = (uⁿ + Ũu′ⁿ⁺¹ᵢ₋₁ - Uⁿ⁺¹) / (1 + Ũ + Δt/τ),
+
+where Ũ = U Δt / Δx, then uⁿ⁺¹ is:
+    uⁿ⁺¹ = (uᵢⁿ + Ũuᵢ₋₁ⁿ⁺¹ + Uⁿ⁺¹τ̃) / (1 + τ̃ + U)
+    
+where τ̃ = Δt/τ.
+
+The same operation can be repeated for left boundaries.
+"""
+struct PerturbationAdvection{VT, FT}
+       backward_step :: VT
     inflow_timescale :: FT
    outflow_timescale :: FT
 end
 
-# To adapt the struct to GPU arrays if needed
 Adapt.adapt_structure(to, pe::PerturbationAdvection) = 
     PerturbationAdvection(adapt(to, pe.backward_step),
                           adapt(to, pe.inflow_timescale),
                           adapt(to, pe.outflow_timescale))
 
-# PA constructor
 function PerturbationAdvectionOpenBoundaryCondition(val, FT = Float64; 
                                                     backward_step = true,
                                                     outflow_timescale = Inf, 
                                                     inflow_timescale = 300.0, kwargs...)
-    # This PA constructor builds a classification that is Open + the parameters of struct PA
+
     classification = Open(PerturbationAdvection(Val(backward_step), inflow_timescale, outflow_timescale))
 
     @warn "`PerturbationAdvection` open boundaries matching scheme is experimental and un-tested/validated"
     
-    # 
     return BoundaryCondition(classification, val; kwargs...)
 end
 
@@ -42,17 +70,13 @@ const FPAOBC = BoundaryCondition{<:Open{<:PerturbationAdvection{Val{false}}}}
 
     Δt = ifelse(isinf(Δt), 0, Δt)
 
-    # It returns the prescribed exterior value for this boundary condition at the current face and time
     ūⁿ⁺¹ = getbc(bc, l, m, grid, clock, model_fields)
 
-    # If boundary_indices is (i,j,k), then `getindex(u, boundary_indices...)` is u[i,j,k]
     uᵢⁿ     = @inbounds getindex(u, boundary_indices...)
     uᵢ₋₁ⁿ⁺¹ = @inbounds getindex(u, boundary_adjacent_indices...)
 
-    # Clamp U between [0, 1]
     U = max(0, min(1, Δt / ΔX * ūⁿ⁺¹))
 
-    # Get matching scheme, basically the same as `bc.classification.PerturbationAdvection`
     pa = bc.classification.matching_scheme
 
     τ = ifelse(ūⁿ⁺¹ >= 0, pa.outflow_timescale, pa.inflow_timescale)
@@ -61,8 +85,6 @@ const FPAOBC = BoundaryCondition{<:Open{<:PerturbationAdvection{Val{false}}}}
 
     uᵢⁿ⁺¹ = (uᵢⁿ + U * uᵢ₋₁ⁿ⁺¹ + ūⁿ⁺¹ * τ̃) / (1 + τ̃ + U)
 
-    # The updated boundary value is written back to the field
-    # With boundary_indices = (i,j,k), this is u[i,j,k] = uᵢⁿ⁺¹
     @inbounds setindex!(u, uᵢⁿ⁺¹, boundary_indices...)
 
     return nothing
