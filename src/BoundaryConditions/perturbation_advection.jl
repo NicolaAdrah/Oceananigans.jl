@@ -68,48 +68,86 @@ Adapt.adapt_structure(to, pe::PerturbationAdvection) =
 
 const PAOBC = BoundaryCondition{<:Open{<:PerturbationAdvection}}
 
-@inline function step_right_boundary!(bc::PAOBC, l, m, boundary_indices, boundary_adjacent_indices,
+@inline function step_right_boundary!(bc::PAOBC, l, m, boundary_indices, boundary_adjacent_indices, boundary_interior_indices,
                                       grid, u, clock, model_fields, ΔX)
     iᴮ, jᴮ, kᴮ = boundary_indices
     iᴬ, jᴬ, kᴬ = boundary_adjacent_indices
+    iᴵ, jᴵ, kᴵ = boundary_interior_indices
     Δt = clock.last_stage_Δt
     Δt = ifelse(isinf(Δt), 0, Δt)
 
-    ūⁿ⁺¹    = getbc(bc, l, m, grid, clock, model_fields)
+    grid_max_speed = sqrt(9.80665 * grid.Lz)
     uᵢⁿ     = @inbounds getindex(u, iᴮ, jᴮ, kᴮ)
     uᵢ₋₁ⁿ⁺¹ = @inbounds getindex(u, iᴬ, jᴬ, kᴬ)
-    U = max(0, min(1, Δt / ΔX * ūⁿ⁺¹))
+    uᵢ₋₂ⁿ⁺¹ = @inbounds getindex(u, iᴵ, jᴵ, kᴵ)
+    # Update U from the interior points
+    # Fallback for first use without a history snapshot: assume Δuₜ ≈ 0
+    uᵢ₋₁ⁿ = uᵢ₋₁ⁿ⁺¹
+    Δuₜ = uᵢ₋₁ⁿ⁺¹ - uᵢ₋₁ⁿ
+    Δuₓ = uᵢ₋₁ⁿ⁺¹ - uᵢ₋₂ⁿ⁺¹
+    uₜ_uₓ = if abs(Δuₓ * Δt) > 1e-20
+        - (Δuₜ * ΔX) / (Δuₓ * Δt)
+    else
+        0.0
+    end
+    if isnan(uₜ_uₓ); uₜ_uₓ = 0.0; end
+    # Orlanski's paper condition:
+    if uₜ_uₓ < 0.0
+        uₜ_uₓ = 0.0
+    elseif uₜ_uₓ < grid_max_speed
+        uₜ_uₓ = grid_max_speed
+    end
+    U = uₜ_uₓ * Δt / ΔX
+    # pa = bc.classification.scheme
+    # τ = ifelse(ūⁿ⁺¹ >= 0, pa.outflow_timescale, pa.inflow_timescale)
+    # τ̃ = Δt / τ # last stage Δt normalized by the inflow/output timescale
 
-    pa = bc.classification.scheme
-    τ = ifelse(ūⁿ⁺¹ >= 0, pa.outflow_timescale, pa.inflow_timescale)
-    τ̃ = Δt / τ # last stage Δt normalized by the inflow/output timescale
-
-    relaxed_uᵢⁿ⁺¹ = (uᵢⁿ + U * uᵢ₋₁ⁿ⁺¹ + ūⁿ⁺¹ * τ̃) / (1 + τ̃ + U)
-    uᵢⁿ⁺¹         = ifelse(τ == 0, ūⁿ⁺¹, relaxed_uᵢⁿ⁺¹)
+    # relaxed_uᵢⁿ⁺¹ = (uᵢⁿ + U * uᵢ₋₁ⁿ⁺¹ + ūⁿ⁺¹ * τ̃) / (1 + τ̃ + U)
+    uᵢⁿ⁺¹ = (uᵢⁿ + U * uᵢ₋₁ⁿ⁺¹) / (1 + U)
+    # uᵢⁿ⁺¹         = ifelse(τ == 0, ūⁿ⁺¹, relaxed_uᵢⁿ⁺¹)
 
     @inbounds setindex!(u, uᵢⁿ⁺¹, iᴮ, jᴮ, kᴮ)
 
     return nothing
 end
 
-@inline function step_left_boundary!(bc::PAOBC, l, m, boundary_indices, boundary_adjacent_indices,
+@inline function step_left_boundary!(bc::PAOBC, l, m, boundary_indices, boundary_adjacent_indices, boundary_interior_indices,
                                      grid, u, clock, model_fields, ΔX)
     iᴮ, jᴮ, kᴮ = boundary_indices
     iᴬ, jᴬ, kᴬ = boundary_adjacent_indices
+    iᴵ, jᴵ, kᴵ = boundary_interior_indices
     Δt = clock.last_stage_Δt
     Δt = ifelse(isinf(Δt), 0, Δt)
 
-    ūⁿ⁺¹    = getbc(bc, l, m, grid, clock, model_fields)
+    grid_max_speed = - sqrt(9.80665 * grid.Lz)
     uᵢⁿ     = @inbounds getindex(u, iᴮ, jᴮ, kᴮ)
     uᵢ₋₁ⁿ⁺¹ = @inbounds getindex(u, iᴬ, jᴬ, kᴬ)
-    U = min(0, max(-1, Δt / ΔX * ūⁿ⁺¹))
+    uᵢ₋₂ⁿ⁺¹ = @inbounds getindex(u, iᴵ, jᴵ, kᴵ)
+    # Fallback for first use without a history snapshot: assume Δuₜ ≈ 0
+    uᵢ₋₁ⁿ = uᵢ₋₁ⁿ⁺¹
+    Δuₜ = uᵢ₋₁ⁿ⁺¹ - uᵢ₋₁ⁿ
+    Δuₓ = uᵢ₋₂ⁿ⁺¹ - uᵢ₋₁ⁿ⁺¹
+    uₜ_uₓ = if abs(Δuₓ * Δt) > 1e-20
+        - (Δuₜ * ΔX) / (Δuₓ * Δt)
+    else
+        0.0
+    end
+    if isnan(uₜ_uₓ); uₜ_uₓ = 0.0; end
+    # Orlanski's paper condition:
+    if uₜ_uₓ < 0.0
+        uₜ_uₓ = 0.0
+    elseif uₜ_uₓ > grid_max_speed
+        uₜ_uₓ = grid_max_speed
+    end
+    U = uₜ_uₓ * Δt / ΔX
 
-    pa = bc.classification.scheme
-    τ = ifelse(ūⁿ⁺¹ <= 0, pa.outflow_timescale, pa.inflow_timescale)
-    τ̃ = Δt / τ # last stage Δt normalized by the inflow/output timescale
+    # pa = bc.classification.scheme
+    # τ = ifelse(ūⁿ⁺¹ <= 0, pa.outflow_timescale, pa.inflow_timescale)
+    # τ̃ = Δt / τ # last stage Δt normalized by the inflow/output timescale
 
-    relaxed_u₁ⁿ⁺¹ = (uᵢⁿ - U * uᵢ₋₁ⁿ⁺¹ + ūⁿ⁺¹ * τ̃) / (1 + τ̃ - U)
-    u₁ⁿ⁺¹         = ifelse(τ == 0, ūⁿ⁺¹, relaxed_u₁ⁿ⁺¹)
+    # relaxed_u₁ⁿ⁺¹ = (uᵢⁿ - U * uᵢ₋₁ⁿ⁺¹ + ūⁿ⁺¹ * τ̃) / (1 + τ̃ - U)
+    u₁ⁿ⁺¹ = (uᵢⁿ - U * uᵢ₋₁ⁿ⁺¹) / (1 - U)
+    # u₁ⁿ⁺¹         = ifelse(τ == 0, ūⁿ⁺¹, relaxed_u₁ⁿ⁺¹)
 
     @inbounds setindex!(u, u₁ⁿ⁺¹, iᴮ, jᴮ, kᴮ)
 
@@ -120,10 +158,11 @@ end
     i = grid.Nx + 1
     boundary_indices = (i, j, k)
     boundary_adjacent_indices = (i-1, j, k)
+    boundary_interior_indices = (i-2, j, k)
 
     Δx = Δxᶠᶜᶜ(i, j, k, grid)
 
-    step_right_boundary!(bc, j, k, boundary_indices, boundary_adjacent_indices, grid, u, clock, model_fields, Δx)
+    step_right_boundary!(bc, j, k, boundary_indices, boundary_adjacent_indices, boundary_interior_indices, grid, u, clock, model_fields, Δx)
 
     return nothing
 end
@@ -131,8 +170,10 @@ end
 @inline function _fill_west_halo!(j, k, grid, u, bc::PAOBC, ::Tuple{Face, Any, Any}, clock, model_fields)
     boundary_indices = (1, j, k)
     boundary_adjacent_indices = (2, j, k)
+    boundary_interior_indices = (3, j, k)
+    
     Δx = Δxᶠᶜᶜ(1, j, k, grid)
-    step_left_boundary!(bc, j, k, boundary_indices, boundary_adjacent_indices, grid, u, clock, model_fields, Δx)
+    step_left_boundary!(bc, j, k, boundary_indices, boundary_adjacent_indices, boundary_interior_indices, grid, u, clock, model_fields, Δx)
 
     return nothing
 end
@@ -143,7 +184,7 @@ end
     boundary_adjacent_indices = (i, j-1, k)
 
     Δy = Δyᶜᶠᶜ(i, j, k, grid)
-    step_right_boundary!(bc, i, k, boundary_indices, boundary_adjacent_indices, grid, u, clock, model_fields, Δy)
+    step_right_boundary!(bc, i, k, boundary_indices, boundary_adjacent_indices, boundary_interior_indices, grid, u, clock, model_fields, Δy)
 
     return nothing
 end
@@ -153,7 +194,7 @@ end
     boundary_adjacent_indices = (i, 2, k)
 
     Δy = Δyᶜᶠᶜ(i, 1, k, grid)
-    step_left_boundary!(bc, i, k, boundary_indices, boundary_adjacent_indices, grid, u, clock, model_fields, Δy)
+    step_left_boundary!(bc, i, k, boundary_indices, boundary_adjacent_indices, boundary_interior_indices, grid, u, clock, model_fields, Δy)
 
     return nothing
 end
@@ -164,7 +205,7 @@ end
     boundary_adjacent_indices = (i, j, k-1)
 
     Δz = Δzᶜᶜᶠ(i, j, k, grid)
-    step_right_boundary!(bc, i, j, boundary_indices, boundary_adjacent_indices, grid, u, clock, model_fields, Δz)
+    step_right_boundary!(bc, i, j, boundary_indices, boundary_adjacent_indices, boundary_interior_indices, grid, u, clock, model_fields, Δz)
 
     return nothing
 end
@@ -174,7 +215,7 @@ end
     boundary_adjacent_indices = (i, j, 2)
 
     Δz = Δzᶜᶜᶠ(i, j, 1, grid)
-    step_left_boundary!(bc, i, j, boundary_indices, boundary_adjacent_indices, grid, u, clock, model_fields, Δz)
+    step_left_boundary!(bc, i, j, boundary_indices, boundary_adjacent_indices, boundary_interior_indices, grid, u, clock, model_fields, Δz)
 
     return nothing
 end
