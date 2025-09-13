@@ -1,5 +1,5 @@
-include("perturbation_advection_open_boundary_matching_scheme.jl")
 using Oceananigans
+using Oceananigans.BoundaryConditions: PerturbationAdvection
 using Oceananigans.Units
 using Oceananigans.Advection: WENO
 using Oceananigans.OutputWriters: JLD2Writer, TimeInterval
@@ -21,8 +21,8 @@ uB_east = Field{Nothing, Center, Center}(grid);
 uB_west = Field{Nothing, Center, Center}(grid);
 
 u_bcs = FieldBoundaryConditions(
-    east = PerturbationAdvectionOpenBoundaryCondition(uB_east),
-    west = PerturbationAdvectionOpenBoundaryCondition(uB_west)
+    east = OpenBoundaryCondition(uB_east; scheme = PerturbationAdvection()),
+    west = OpenBoundaryCondition(uB_west; scheme = PerturbationAdvection())
 )
 
 # η_bcs = FieldBoundaryConditions(
