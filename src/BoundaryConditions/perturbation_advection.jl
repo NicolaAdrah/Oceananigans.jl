@@ -76,28 +76,23 @@ const PAOBC = BoundaryCondition{<:Open{<:PerturbationAdvection}}
     Δt = clock.last_stage_Δt
     Δt = ifelse(isinf(Δt), 0, Δt)
 
-    grid_max_speed = sqrt(9.80665 * grid.Lz)
     uᵢⁿ     = @inbounds getindex(u, iᴮ, jᴮ, kᴮ)
     uᵢ₋₁ⁿ⁺¹ = @inbounds getindex(u, iᴬ, jᴬ, kᴬ)
     uᵢ₋₂ⁿ⁺¹ = @inbounds getindex(u, iᴵ, jᴵ, kᴵ)
     # Update U from the interior points
-    # Fallback for first use without a history snapshot: assume Δuₜ ≈ 0
-    uᵢ₋₁ⁿ = uᵢ₋₁ⁿ⁺¹
-    Δuₜ = uᵢ₋₁ⁿ⁺¹ - uᵢ₋₁ⁿ
+    # Use previous boundary value as a fallback for temporal difference
+    Δuₜ = uᵢ₋₁ⁿ⁺¹ - uᵢⁿ
     Δuₓ = uᵢ₋₁ⁿ⁺¹ - uᵢ₋₂ⁿ⁺¹
+    # @info "R: Δuₜ = $Δuₜ, Δuₓ = $Δuₓ"
     uₜ_uₓ = if abs(Δuₓ * Δt) > 1e-20
         - (Δuₜ * ΔX) / (Δuₓ * Δt)
     else
         0.0
     end
+    # @info "ratioR = $uₜ_uₓ"
     if isnan(uₜ_uₓ); uₜ_uₓ = 0.0; end
-    # Orlanski's paper condition:
-    if uₜ_uₓ < 0.0
-        uₜ_uₓ = 0.0
-    elseif uₜ_uₓ < grid_max_speed
-        uₜ_uₓ = grid_max_speed
-    end
-    U = uₜ_uₓ * Δt / ΔX
+    U = max(0, min(1, uₜ_uₓ * Δt / ΔX))
+
     # pa = bc.classification.scheme
     # τ = ifelse(ūⁿ⁺¹ >= 0, pa.outflow_timescale, pa.inflow_timescale)
     # τ̃ = Δt / τ # last stage Δt normalized by the inflow/output timescale
@@ -119,27 +114,21 @@ end
     Δt = clock.last_stage_Δt
     Δt = ifelse(isinf(Δt), 0, Δt)
 
-    grid_max_speed = - sqrt(9.80665 * grid.Lz)
     uᵢⁿ     = @inbounds getindex(u, iᴮ, jᴮ, kᴮ)
     uᵢ₋₁ⁿ⁺¹ = @inbounds getindex(u, iᴬ, jᴬ, kᴬ)
     uᵢ₋₂ⁿ⁺¹ = @inbounds getindex(u, iᴵ, jᴵ, kᴵ)
-    # Fallback for first use without a history snapshot: assume Δuₜ ≈ 0
-    uᵢ₋₁ⁿ = uᵢ₋₁ⁿ⁺¹
-    Δuₜ = uᵢ₋₁ⁿ⁺¹ - uᵢ₋₁ⁿ
+    # Use previous boundary value as a fallback for temporal difference
+    Δuₜ = uᵢ₋₁ⁿ⁺¹ - uᵢⁿ
     Δuₓ = uᵢ₋₂ⁿ⁺¹ - uᵢ₋₁ⁿ⁺¹
+    # @info "L: Δuₜ = $Δuₜ, Δuₓ = $Δuₓ"
     uₜ_uₓ = if abs(Δuₓ * Δt) > 1e-20
         - (Δuₜ * ΔX) / (Δuₓ * Δt)
     else
         0.0
     end
+    # @info "ratioL = $uₜ_uₓ"
     if isnan(uₜ_uₓ); uₜ_uₓ = 0.0; end
-    # Orlanski's paper condition:
-    if uₜ_uₓ < 0.0
-        uₜ_uₓ = 0.0
-    elseif uₜ_uₓ > grid_max_speed
-        uₜ_uₓ = grid_max_speed
-    end
-    U = uₜ_uₓ * Δt / ΔX
+    U = min(0, max(-1, uₜ_uₓ * Δt / ΔX))
 
     # pa = bc.classification.scheme
     # τ = ifelse(ūⁿ⁺¹ <= 0, pa.outflow_timescale, pa.inflow_timescale)
@@ -182,6 +171,7 @@ end
     j = grid.Ny + 1
     boundary_indices = (i, j, k)
     boundary_adjacent_indices = (i, j-1, k)
+    boundary_interior_indices = (i, j-2, k)
 
     Δy = Δyᶜᶠᶜ(i, j, k, grid)
     step_right_boundary!(bc, i, k, boundary_indices, boundary_adjacent_indices, boundary_interior_indices, grid, u, clock, model_fields, Δy)
@@ -192,6 +182,7 @@ end
 @inline function _fill_south_halo!(i, k, grid, u, bc::PAOBC, ::Tuple{Any, Face, Any}, clock, model_fields)
     boundary_indices = (i, 1, k)
     boundary_adjacent_indices = (i, 2, k)
+    boundary_interior_indices = (i, 3, k)
 
     Δy = Δyᶜᶠᶜ(i, 1, k, grid)
     step_left_boundary!(bc, i, k, boundary_indices, boundary_adjacent_indices, boundary_interior_indices, grid, u, clock, model_fields, Δy)
@@ -203,6 +194,7 @@ end
     k = grid.Nz + 1
     boundary_indices = (i, j, k)
     boundary_adjacent_indices = (i, j, k-1)
+    boundary_interior_indices = (i, j, k-2)
 
     Δz = Δzᶜᶜᶠ(i, j, k, grid)
     step_right_boundary!(bc, i, j, boundary_indices, boundary_adjacent_indices, boundary_interior_indices, grid, u, clock, model_fields, Δz)
@@ -213,6 +205,7 @@ end
 @inline function _fill_bottom_halo!(i, j, grid, u, bc::PAOBC, ::Tuple{Any, Any, Face}, clock, model_fields)
     boundary_indices = (i, j, 1)
     boundary_adjacent_indices = (i, j, 2)
+    boundary_interior_indices = (i, j, 3)
 
     Δz = Δzᶜᶜᶠ(i, j, 1, grid)
     step_left_boundary!(bc, i, j, boundary_indices, boundary_adjacent_indices, boundary_interior_indices, grid, u, clock, model_fields, Δz)
