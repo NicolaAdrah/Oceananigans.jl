@@ -39,6 +39,7 @@ model = HydrostaticFreeSurfaceModel(;
     # tracer_advection  = WENO(),
 )
 
+
 x0 = 250kilometers; σx = 50kilometers
 η₀(x, z) = 0.1 * exp(-((x - x0)^2) / (2σx^2))
 ϕ(x, z)    = exp(-((x - x0)^2) / (2σx^2))
@@ -62,6 +63,20 @@ simulation.output_writers[:free_surface] = JLD2Writer(model, (; η,),
     overwrite_existing  = true
 )
 
+u = model.velocities.u
+simulation.output_writers[:velocities] = JLD2Writer(model, (; u,),
+    schedule            = TimeInterval(time_int),
+    filename            = joinpath(output_dir, "velocities.jld2"),
+    overwrite_existing  = true
+)
+
+β = model.free_surface.barotropic_volume_flux.u
+simulation.output_writers[:barotropic_volume_flux] = JLD2Writer(model, (; β,),
+    schedule            = TimeInterval(time_int),
+    filename            = joinpath(output_dir, "barotropic_volume_flux.jld2"),
+    overwrite_existing  = true
+)
+
 @info "Running..." 
 run!(simulation)
 @info "Done."
@@ -72,19 +87,29 @@ using Oceananigans.Grids: nodes
 using Oceananigans.Fields: interior
 
 η = FieldTimeSeries(joinpath(output_dir, "free_surface.jld2"), "η")
+u = FieldTimeSeries(joinpath(output_dir, "velocities.jld2"), "u")
+β = FieldTimeSeries(joinpath(output_dir, "barotropic_volume_flux.jld2"), "β")
 
 Nt   = length(η.times)
 
 fig = Figure(resolution = (1000, 500))
 axη = Axis(fig[1, 1], title = "free surface")
+axu = Axis(fig[1, 2], title = "velocities")
+axβ = Axis(fig[1, 3], title = "barotropic volume flux")
+
 
 n = Observable(1)
 ηn = @lift(interior(η[$n], :, 1, 1))
+un = @lift(interior(u[$n], :, 1, 1))
+βn = @lift(interior(β[$n], :, 1, 1))
 
-lines!(axη, ηn)
-ylims!(axη, (-0.1, 0.2))
+lines!(axη, ηn); lines!(axu, un); lines!(axβ, βn);
+ylims!(axη, (-0.1, 0.2)); ylims!(axu, (-0.07, 0.07)); ylims!(axβ, (-0.5, 0.5));
 
-mp4file = joinpath(output_dir, "free_surface.mp4")
+hlines!(axu, [0.045,-0.045]; color = :red, linestyle = :dash)
+hlines!(axβ, [0.45,-0.45]; color = :red, linestyle = :dash)
+
+mp4file = joinpath(output_dir, "perturbation_advection.mp4")
 record(fig, mp4file, 1:Nt) do i
     @info "frame $i / $Nt"
     n[] = i

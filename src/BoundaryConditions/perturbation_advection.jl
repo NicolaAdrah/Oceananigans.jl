@@ -128,7 +128,8 @@ end
     end
     # @info "ratioL = $uₜ_uₓ"
     if isnan(uₜ_uₓ); uₜ_uₓ = 0.0; end
-    U = min(0, max(-1, uₜ_uₓ * Δt / ΔX))
+    # U = min(0, max(-1, uₜ_uₓ * Δt / ΔX))
+    U = sqrt(9.81 * grid.Lz)
 
     # pa = bc.classification.scheme
     # τ = ifelse(ūⁿ⁺¹ <= 0, pa.outflow_timescale, pa.inflow_timescale)
