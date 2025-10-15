@@ -127,7 +127,7 @@ u_velocity_bcs(series) = (
     south = ValueBoundaryCondition(series),
     north = ValueBoundaryCondition(series)
 )
-    
+
 v_velocity_bcs(series) = (
     south = OpenBoundaryCondition(series; scheme = velocity_open_scheme),
     north = OpenBoundaryCondition(series; scheme = velocity_open_scheme)
@@ -161,7 +161,7 @@ tracer_advection   = WENO(order=7)
 
 ocean = ocean_simulation(grid; 
                          momentum_advection, 
-                         tracer_advection)
+                         tracer_advection,
                          # TODO: Uncomment below...
                          # timestepper,
                          free_surface=ImplicitFreeSurface(),
