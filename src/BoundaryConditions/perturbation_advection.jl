@@ -91,7 +91,7 @@ const PAOBC = BoundaryCondition{<:Open{<:PerturbationAdvection}}
     end
     # @info "ratioR = $uₜ_uₓ"
     if isnan(uₜ_uₓ); uₜ_uₓ = 0.0; end
-    U = max(0, min(1, uₜ_uₓ * Δt / ΔX))
+    U = max(0, min(0.49 * sqrt(9.8066 * grid.Lz) * Δt / ΔX, uₜ_uₓ * Δt / ΔX))
 
     # pa = bc.classification.scheme
     # τ = ifelse(ūⁿ⁺¹ >= 0, pa.outflow_timescale, pa.inflow_timescale)
@@ -128,8 +128,7 @@ end
     end
     # @info "ratioL = $uₜ_uₓ"
     if isnan(uₜ_uₓ); uₜ_uₓ = 0.0; end
-    # U = min(0, max(-1, uₜ_uₓ * Δt / ΔX))
-    U = sqrt(9.81 * grid.Lz)
+    U = min(0, max(-0.49 * sqrt(9.8066 * grid.Lz) * Δt / ΔX, uₜ_uₓ * Δt / ΔX))
 
     # pa = bc.classification.scheme
     # τ = ifelse(ūⁿ⁺¹ <= 0, pa.outflow_timescale, pa.inflow_timescale)
