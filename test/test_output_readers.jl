@@ -353,7 +353,6 @@ end
                                                           filename,
                                                           schedule=IterationInterval(1),
                                                           overwrite_existing = true)
-
             run!(simulation)
 
             ut = FieldTimeSeries(filename, "u")
@@ -365,6 +364,27 @@ end
             @test τy_ow isa Field{Center, Face, Nothing}
             @test architecture(τy_ow) isa CPU
             @test parent(τy_ow) isa Array
+            rm(filename)
+        end
+
+        @testset "FieldTimeSeries with Function boundary conditions [$(typeof(arch))]" begin
+            @info "  Testing FieldTimeSeries with Function boundary conditions..."
+            grid = RectilinearGrid(arch; topology=(Bounded, Periodic, Bounded), size=(1, 1, 1), x=(0, 1), y=(0, 1), z=(0, 1))
+
+            u_west(x, y, t) = 0
+            u_east(x, y, t) = 0
+            u_bcs = FieldBoundaryConditions(west = OpenBoundaryCondition(u_west), east = OpenBoundaryCondition(u_east, scheme=PerturbationAdvection()))
+            model = NonhydrostaticModel(; grid, boundary_conditions = (; u=u_bcs))
+            simulation = Simulation(model; Δt=1, stop_iteration=1)
+
+            filename = "test_function_bc.jld2"
+            simulation.output_writers[:jld2] = JLD2Writer(model, model.velocities;
+                                                          filename,
+                                                          schedule=IterationInterval(1),
+                                                          overwrite_existing = true)
+            run!(simulation)
+
+            @test FieldTimeSeries(filename, "u") isa FieldTimeSeries
             rm(filename)
         end
     end
@@ -494,9 +514,10 @@ end
             ds = FieldDataset(filepath3d, backend=Backend())
 
             @test ds isa FieldDataset
-            @test length(keys(ds.fields)) == 8
+            @test length(keys(ds)) == 8
 
             for var_str in ("u", "v", "w", "T", "S", "b", "ζ", "ke")
+                @test var_str in keys(ds)
                 @test ds[var_str] isa FieldTimeSeries
                 @test ds[var_str][1] isa Field
             end

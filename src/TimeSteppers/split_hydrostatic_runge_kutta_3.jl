@@ -56,7 +56,7 @@ function SplitRungeKutta3TimeStepper(grid, prognostic_fields, args...;
                                      Ψ⁻::PF = map(similar, prognostic_fields),
                                      kwargs...) where {TI, TG, PF}
 
-    @warn("Split barotropic-baroclinic time stepping with SplitRungeKutta3TimeStepper is and experimental.\n" *
+    @warn("Split barotropic-baroclinic time stepping with SplitRungeKutta3TimeStepper is experimental.\n" *
           "Use at own risk, and report any issues encountered at [https://github.com/CliMA/Oceananigans.jl/issues](https://github.com/CliMA/Oceananigans.jl/issues).")
 
     FT = eltype(grid)
@@ -148,6 +148,7 @@ function split_rk3_substep!(model, Δt)
                        model.diffusivity_fields,
                        tracer_index,
                        model.clock,
+                       fields(model),
                        Δt)
     end
 end
