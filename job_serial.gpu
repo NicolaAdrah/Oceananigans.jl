@@ -1,0 +1,18 @@
+#!/bin/bash
+#SBATCH --time=00:10:00
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --gpus-per-node=1
+##SBATCH --mem=0
+#SBATCH --partition=boost_usr_prod
+#SBATCH --err=nicola_gloerr_serial.err
+#SBATCH --out=nicola_gloout_serial.out
+#SBATCH --account=OGS23_PRACE_IT_0
+export CUDA_VERSION=12.2
+module load profile/meteo
+module load cuda/$CUDA_VERSION
+module load openmpi
+## source /leonardo/home/userexternal/mreale01/.bash_profile
+## TODO: remove -O0 for production runs
+julia --project -e 'using Pkg; Pkg.instantiate()'
+julia --project --check-bounds=no -O0 --color=yes validation/open_boundaries/PerturbationAdvection_OGS/adriatic_simulation.jl

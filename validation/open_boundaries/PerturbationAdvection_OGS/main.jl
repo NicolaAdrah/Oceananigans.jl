@@ -1,9 +1,5 @@
-##########
-# Driver #
-##########
-
-include("perturbation_advection_open_boundary_matching_scheme.jl")
 using Oceananigans
+using Oceananigans.BoundaryConditions: PerturbationAdvection
 using Oceananigans.Units
 using Oceananigans.Advection: WENO
 using Oceananigans.OutputWriters: JLD2Writer, TimeInterval
@@ -11,12 +7,9 @@ using Oceananigans.Grids: Face, Center, nodes
 using Oceananigans.Fields: Field
 using Oceananigans: Simulation, run!, set!, FieldTimeSeries, PrescribedVelocityFields
 
-
 output_dir = "validation/open_boundaries/PerturbationAdvection_OGS/output"
 time_int   = 30minutes
 
-
-# --- 1) Grid (as requested) ---------------------------------------------------
 grid = RectilinearGrid(CPU();
     size     = (50, 10),
     x        = (0, 500kilometers),
@@ -24,45 +17,63 @@ grid = RectilinearGrid(CPU();
     z        = (-10, 0)
 )
 
-# --- 2) Allocate boundary *fields* for the mean boundary velocity ū ----------
-#     (These are used by your PerturbationAdvectionOpenBoundaryCondition)
-uB_east = Field{Nothing, Nothing, Center}(grid);  set!(uB_east, 1.0)   # 1 m/s at east boundary
-uB_west = Field{Nothing, Nothing, Center}(grid);  set!(uB_west, 1.0)   # 1 m/s at west boundary
+uB_east = Field{Nothing, Nothing, Center}(grid);
+uB_west = Field{Nothing, Nothing, Center}(grid);
 
 u_bcs = FieldBoundaryConditions(
-    east = PerturbationAdvectionOpenBoundaryCondition(uB_east),
-    west = PerturbationAdvectionOpenBoundaryCondition(uB_west)
+    east = OpenBoundaryCondition(uB_east; scheme = PerturbationAdvection()),
+    west = OpenBoundaryCondition(uB_west; scheme = PerturbationAdvection())
 )
-# Note: with PrescribedVelocityFields below, these u BCs are "allocated" and available to your
-# matching scheme, even though the velocity is prescribed (not prognostic).
 
-# --- 3) Model with prescribed flow and tracer ---------------------------------
+# η_bcs = FieldBoundaryConditions(
+#     east = PerturbationAdvectionOpenBoundaryCondition(uB_east),
+#     west = PerturbationAdvectionOpenBoundaryCondition(uB_west)
+# )
+
 model = HydrostaticFreeSurfaceModel(;
     grid,
-    free_surface      = ExplicitFreeSurface(),        # simple choice for this demo
-    buoyancy          = nothing,                      # no T/S buoyancy
-    velocities        = PrescribedVelocityFields(u = 1.0),  # constant eastward flow
-    tracers           = (:c,),
-    tracer_advection  = WENO(),
-    # (Optional) you can attach tracer BCs if you want open/zero-gradient:
-    # boundary_conditions = (c = FieldBoundaryConditions(east = GradientBoundaryCondition(0.0),
-    #                                                   west = GradientBoundaryCondition(0.0)),)
+    free_surface = ImplicitFreeSurface(),
+    boundary_conditions = (; u = u_bcs),
+    # velocities        = PrescribedVelocityFields(u = 1.0),  # constant eastward flow
+    # tracers           = (:c,),
+    # tracer_advection  = WENO(),
 )
 
-# --- 4) Initial condition for tracer: a small Gaussian bump -------------------
+
 x0 = 250kilometers; σx = 50kilometers
-# Define a function with both arities so it works for Flat and non-Flat cases
+η₀(x, z) = 0.1 * exp(-((x - x0)^2) / (2σx^2))
 ϕ(x, z)    = exp(-((x - x0)^2) / (2σx^2))
 
-set!(model; c = ϕ)
+# set!(model; c = ϕ)
+set!(model; η = η₀)
 
-# --- 5) Output writers: write c and u to JLD2 so we can make FieldTimeSeries --
 simulation = Simulation(model; Δt = 5minutes, stop_time = 5days)
 
-c = model.tracers.c
-simulation.output_writers[:tracer] = JLD2Writer(model, (; c,),
+# c = model.tracers.c
+# simulation.output_writers[:tracer] = JLD2Writer(model, (; c,),
+#     schedule            = TimeInterval(time_int),
+#     filename            = joinpath(output_dir, "tracer.jld2"),
+#     overwrite_existing  = true
+# )
+
+η = model.free_surface.η
+simulation.output_writers[:free_surface] = JLD2Writer(model, (; η,),
     schedule            = TimeInterval(time_int),
-    filename            = joinpath(output_dir, "tracer.jld2"),
+    filename            = joinpath(output_dir, "free_surface.jld2"),
+    overwrite_existing  = true
+)
+
+u = model.velocities.u
+simulation.output_writers[:velocities] = JLD2Writer(model, (; u,),
+    schedule            = TimeInterval(time_int),
+    filename            = joinpath(output_dir, "velocities.jld2"),
+    overwrite_existing  = true
+)
+
+β = model.free_surface.barotropic_volume_flux.u
+simulation.output_writers[:barotropic_volume_flux] = JLD2Writer(model, (; β,),
+    schedule            = TimeInterval(time_int),
+    filename            = joinpath(output_dir, "barotropic_volume_flux.jld2"),
     overwrite_existing  = true
 )
 
@@ -70,46 +81,36 @@ simulation.output_writers[:tracer] = JLD2Writer(model, (; c,),
 run!(simulation)
 @info "Done."
 
-# --- 6) Postprocess + debug plots via FieldTimeSeries -------------------------
 using GLMakie
 using Oceananigans.OutputReaders: FieldTimeSeries
 using Oceananigans.Grids: nodes
 using Oceananigans.Fields: interior
 
-# --- Load tracer time series ---
-c_tr = FieldTimeSeries(joinpath(output_dir, "tracer.jld2"), "c")
-Nt   = length(c_tr.times)
+η = FieldTimeSeries(joinpath(output_dir, "free_surface.jld2"), "η")
+u = FieldTimeSeries(joinpath(output_dir, "velocities.jld2"), "u")
+β = FieldTimeSeries(joinpath(output_dir, "barotropic_volume_flux.jld2"), "β")
 
-# Coordinates
-xC, _, zC = nodes(model.grid, Center(), Center(), Center())
-Nx = length(xC)
+Nt   = length(η.times)
 
-# --- Observables for animation ---
-n      = Observable(1)
-title_obs = @lift("Tracer c — t = $(round(c_tr.times[$n]/hour, digits=2)) h")
+fig = Figure(resolution = (1000, 500))
+axη = Axis(fig[1, 1], title = "free surface")
+axu = Axis(fig[1, 2], title = "velocities")
+axβ = Axis(fig[1, 3], title = "barotropic volume flux")
 
-# 2D tracer slice (x–z, at y=1 since it's Flat)
-c_slice = @lift(Array(interior(c_tr[$n]))[:, 1, :])
 
-# 1D tracer line (take bottom-left cell line: z=1, y=1)
-c_line  = @lift(interior(c_tr[$n], :, 1, 1))
+n = Observable(1)
+ηn = @lift(interior(η[$n], :, 1, 1))
+un = @lift(interior(u[$n], :, 1, 1))
+βn = @lift(interior(β[$n], :, 1, 1))
 
-# --- Figure ---
-fig = Figure(resolution = (1000, 800))
+lines!(axη, ηn); lines!(axu, un); lines!(axβ, βn);
+ylims!(axη, (-0.1, 0.2)); ylims!(axu, (-0.07, 0.07)); ylims!(axβ, (-0.5, 0.5));
 
-ax1 = Axis(fig[1, 1],
-           xlabel = "x (km)", ylabel = "z (m)",
-           title  = title_obs)
-hm = heatmap!(ax1, xC ./ kilometer, zC, c_slice)
-Colorbar(fig[1, 2], hm, label = "c")
+hlines!(axu, [0.045,-0.045]; color = :red, linestyle = :dash)
+hlines!(axβ, [0.45,-0.45]; color = :red, linestyle = :dash)
 
-ax2 = Axis(fig[2, 1], xlabel = "x (km)", ylabel = "c",
-           title = "Tracer bump at y=1, z=1")
-lines!(ax2, xC ./ kilometer, c_line)
-
-# --- Record MP4 ---
-mp4file = joinpath(output_dir, "cu_hydro_bc_tracer.mp4")
-record(fig, mp4file, 1:Nt; framerate = 12) do i
+mp4file = joinpath(output_dir, "perturbation_advection.mp4")
+record(fig, mp4file, 1:Nt) do i
     @info "frame $i / $Nt"
     n[] = i
 end
