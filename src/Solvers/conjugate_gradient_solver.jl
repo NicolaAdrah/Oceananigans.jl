@@ -1,7 +1,6 @@
 using Oceananigans.Architectures: architecture
-using Oceananigans.Grids: interior_parent_indices
 using Oceananigans.Utils: prettysummary
-using Statistics: norm, dot
+using LinearAlgebra: norm, dot
 using LinearAlgebra
 using KernelAbstractions: @kernel, @index
 
@@ -235,8 +234,6 @@ end
 
 """ first iteration of the PCG """
 function initialize_solution!(q, x, b, solver, args...)
-    # TODO NICOLA
-    if any(!isfinite, parent(b)) @warn("Right-hand side b contains non-finite values!") end
     solver.linear_operation!(q, x, args...)
     # r = b - A * x
     parent(solver.residual) .= parent(b) .- parent(q)

@@ -1,4 +1,3 @@
-import Base: show
 using Oceananigans.Utils: prettysummary
 
 const DFBC = DefaultBoundaryCondition
@@ -17,10 +16,6 @@ bc_str(::MCBC)                   = "MultiRegionCommunication"
 bc_str(::DCBC)                   = "DistributedCommunication"
 bc_str(::Nothing)                = "Nothing"
 bc_str(zbc::ZBC)                 = "Zipper($(zbc.condition))"
-
-# TODO NICOLA
-# added these when I faced errors during plotting in adriatic_simulation
-bc_str(::Missing)                = "Missing"
 
 #####
 ##### BoundaryCondition
@@ -42,7 +37,7 @@ function Base.summary(bc::MBC)
            prettysummary(bc.condition.inhomogeneity))
 end
 
-show(io::IO, bc::BoundaryCondition) = print(io, summary(bc))
+Base.show(io::IO, bc::BoundaryCondition) = print(io, summary(bc))
 
 #####
 ##### FieldBoundaryConditions

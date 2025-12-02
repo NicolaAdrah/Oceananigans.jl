@@ -98,7 +98,7 @@ const DistributedCommunicationBoundaryCondition = BoundaryCondition{<:Distribute
 # More readable BC constructors for the public API.
                 PeriodicBoundaryCondition() = BoundaryCondition(Periodic(),                 nothing)
                   NoFluxBoundaryCondition() = BoundaryCondition(Flux(),                     nothing)
-            ImpenetrableBoundaryCondition() = BoundaryCondition(Open(),                     nothing)
+            ImpenetrableBoundaryCondition() = BoundaryCondition(Open(), nothing)
 MultiRegionCommunicationBoundaryCondition() = BoundaryCondition(MultiRegionCommunication(), nothing)
                   ZipperBoundaryCondition() = BoundaryCondition(Zipper(), 1) # 1 means that the sign will not be switched
 
