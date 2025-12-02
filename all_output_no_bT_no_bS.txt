@@ -1,0 +1,2519 @@
+WARNING: using IntervalArithmetic.numtype in module TaylorSeries conflicts with an existing identifier.
+┌ Warning: Error requiring `IntervalArithmetic` from `TaylorSeries`
+│   exception =
+│    LoadError: UndefVarError: `IntervalBox` not defined
+│    Stacktrace:
+│      [1] top-level scope
+│        @ ~/.julia/packages/TaylorSeries/ZBRjU/src/intervals.jl:171
+│      [2] include(mod::Module, _path::String)
+│        @ Base ./Base.jl:495
+│      [3] include(x::String)
+│        @ TaylorSeries ~/.julia/packages/TaylorSeries/ZBRjU/src/TaylorSeries.jl:17
+│      [4] top-level scope
+│        @ ~/.julia/packages/Requires/1eCOK/src/Requires.jl:40
+│      [5] eval
+│        @ ./boot.jl:385 [inlined]
+│      [6] eval
+│        @ ~/.julia/packages/TaylorSeries/ZBRjU/src/TaylorSeries.jl:17 [inlined]
+│      [7] (::TaylorSeries.var"#54#57")()
+│        @ TaylorSeries ~/.julia/packages/Requires/1eCOK/src/require.jl:101
+│      [8] macro expansion
+│        @ timing.jl:395 [inlined]
+│      [9] err(f::Any, listener::Module, modname::String, file::String, line::Any)
+│        @ Requires ~/.julia/packages/Requires/1eCOK/src/require.jl:47
+│     [10] (::TaylorSeries.var"#53#56")()
+│        @ TaylorSeries ~/.julia/packages/Requires/1eCOK/src/require.jl:100
+│     [11] withpath(f::Any, path::String)
+│        @ Requires ~/.julia/packages/Requires/1eCOK/src/require.jl:37
+│     [12] (::TaylorSeries.var"#52#55")()
+│        @ TaylorSeries ~/.julia/packages/Requires/1eCOK/src/require.jl:99
+│     [13] listenpkg(f::Any, pkg::Base.PkgId)
+│        @ Requires ~/.julia/packages/Requires/1eCOK/src/require.jl:20
+│     [14] macro expansion
+│        @ ~/.julia/packages/Requires/1eCOK/src/require.jl:98 [inlined]
+│     [15] __init__()
+│        @ TaylorSeries ~/.julia/packages/TaylorSeries/ZBRjU/src/TaylorSeries.jl:79
+│     [16] run_module_init(mod::Module, i::Int64)
+│        @ Base ./loading.jl:1193
+│     [17] register_restored_modules(sv::Core.SimpleVector, pkg::Base.PkgId, path::String)
+│        @ Base ./loading.jl:1181
+│     [18] _include_from_serialized(pkg::Base.PkgId, path::String, ocachepath::String, depmods::Vector{Any})
+│        @ Base ./loading.jl:1126
+│     [19] _tryrequire_from_serialized(modkey::Base.PkgId, path::String, ocachepath::String, sourcepath::String, depmods::Vector{Any})
+│        @ Base ./loading.jl:1551
+│     [20] _require_search_from_serialized(pkg::Base.PkgId, sourcepath::String, build_id::UInt128)
+│        @ Base ./loading.jl:1644
+│     [21] _require(pkg::Base.PkgId, env::String)
+│        @ Base ./loading.jl:2008
+│     [22] __require_prelocked(uuidkey::Base.PkgId, env::String)
+│        @ Base ./loading.jl:1882
+│     [23] #invoke_in_world#3
+│        @ ./essentials.jl:926 [inlined]
+│     [24] invoke_in_world
+│        @ ./essentials.jl:923 [inlined]
+│     [25] _require_prelocked(uuidkey::Base.PkgId, env::String)
+│        @ Base ./loading.jl:1873
+│     [26] macro expansion
+│        @ ./loading.jl:1860 [inlined]
+│     [27] macro expansion
+│        @ ./lock.jl:267 [inlined]
+│     [28] __require(into::Module, mod::Symbol)
+│        @ Base ./loading.jl:1823
+│     [29] #invoke_in_world#3
+│        @ ./essentials.jl:926 [inlined]
+│     [30] invoke_in_world
+│        @ ./essentials.jl:923 [inlined]
+│     [31] require(into::Module, mod::Symbol)
+│        @ Base ./loading.jl:1816
+│     [32] include(mod::Module, _path::String)
+│        @ Base ./Base.jl:495
+│     [33] exec_options(opts::Base.JLOptions)
+│        @ Base ./client.jl:323
+│     [34] _start()
+│        @ Base ./client.jl:557
+│    in expression starting at /home/nicola/.julia/packages/TaylorSeries/ZBRjU/src/intervals.jl:171
+└ @ Requires ~/.julia/packages/Requires/1eCOK/src/require.jl:51
+    CondaPkg Found dependencies: /home/nicola/.julia/packages/CondaPkg/0UqYV/CondaPkg.toml
+    CondaPkg Found dependencies: /home/nicola/.julia/packages/PythonCall/mkWc2/CondaPkg.toml
+    CondaPkg Found dependencies: /home/nicola/.julia/environments/v1.10/CondaPkg.toml
+    CondaPkg Found dependencies: /home/nicola/.julia/packages/ClimaOcean/5Dct7/CondaPkg.toml
+    CondaPkg Found dependencies: /home/nicola/.julia/packages/CopernicusMarine/Zz9gU/CondaPkg.toml
+    CondaPkg Initialising pixi
+             │ /home/nicola/.julia/artifacts/cefba4912c2b400756d043a2563ef77a0088866b/bin/pixi
+             │ init
+             │ --format pixi
+             └ /home/nicola/MHPC/project/Oceananigans.jl/.CondaPkg
+✔ Created /home/nicola/MHPC/project/Oceananigans.jl/.CondaPkg/pixi.toml
+    CondaPkg Wrote /home/nicola/MHPC/project/Oceananigans.jl/.CondaPkg/pixi.toml
+             │ [dependencies]
+             │ openssl = ">=3, <3.6"
+             │ libstdcxx = ">=3.4,<15.0"
+             │ uv = ">=0.4"
+             │ libstdcxx-ng = ">=3.4,<15.0"
+             │ 
+             │     [dependencies.copernicusmarine]
+             │     channel = "conda-forge"
+             │     version = "*"
+             │ 
+             │     [dependencies.python]
+             │     channel = "conda-forge"
+             │     build = "*cp*"
+             │     version = "3.12.*, >=3.9,<4"
+             │ 
+             │ [project]
+             │ name = ".CondaPkg"
+             │ platforms = ["linux-64"]
+             │ channels = ["conda-forge"]
+             │ channel-priority = "strict"
+             │ description = "automatically generated by CondaPkg.jl"
+             │ 
+             │ [pypi-dependencies]
+             │ jax = ">=0.6"
+             │ xarray = ">=2024.7.0"
+             │ copernicusmarine = ">=2.0.0"
+             │ numpy = ">=2.0.0"
+             └ tensorflow = ">=2.17"
+    CondaPkg Installing packages
+             │ /home/nicola/.julia/artifacts/cefba4912c2b400756d043a2563ef77a0088866b/bin/pixi
+             │ install
+             └ --manifest-path /home/nicola/MHPC/project/Oceananigans.jl/.CondaPkg/pixi.toml
+✔ The default environment has been installed.
+┌ Info: bbox_snapped
+│   lon_min = 10.166666666666666
+│   lon_max = 18.083333333333332
+│   lat_min = 41.416666666666664
+└   lat_max = 47.833333333333336
+┌ Warning: `end_date` (1990-12-31T21:00:00) is after the last date in the dataset 1990-12-31T00:00:00
+└ @ ClimaOcean.DataWrangling ~/.julia/packages/ClimaOcean/5Dct7/src/DataWrangling/metadata.jl:289
+┌ Warning: `end_date` (1990-12-31T21:00:00) is after the last date in the dataset 1990-12-31T00:00:00
+└ @ ClimaOcean.DataWrangling ~/.julia/packages/ClimaOcean/5Dct7/src/DataWrangling/metadata.jl:289
+[ Info: Initializing simulation...
+┌ Info: Time: 0 seconds, Iteration 0, Δt 1 minute, max(vel): (0.00e+00, 0.00e+00, 0.00e+00), max(T, S): 16.58, 38.99
+│ 
+└                                                    min(vel): (0.00e+00, 0.00e+00, 0.00e+00), min(T, S): 8.56, 29.86
+┌ Info: Advective CFL
+│   iteration = 0
+└   cfl = 0.0
+[ Info:     ... simulation initialization complete (2.521 minutes)
+[ Info: Executing initial time step...
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+[ Info:     ... initial time step complete (4.019 minutes).
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 10 minutes, Iteration 10, Δt 1 minute, max(vel): (1.76e-02, 1.56e-02, 9.65e-05), max(T, S): 16.58, 38.99
+│ 
+└                                                    min(vel): (3.22e-07, 0.00e+00, 0.00e+00), min(T, S): 8.56, 29.86
+┌ Info: Advective CFL
+│   iteration = 10
+└   cfl = 0.0009396490590209844
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 20 minutes, Iteration 20, Δt 1 minute, max(vel): (2.77e-02, 2.32e-02, 1.59e-04), max(T, S): 16.58, 38.99
+│ 
+└                                                    min(vel): (2.47e-07, 0.00e+00, 0.00e+00), min(T, S): 8.56, 29.85
+┌ Info: Advective CFL
+│   iteration = 20
+└   cfl = 0.0018472495984252816
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 30 minutes, Iteration 30, Δt 1 minute, max(vel): (3.69e-02, 3.60e-02, 2.35e-04), max(T, S): 16.58, 38.99
+│ 
+└                                                    min(vel): (3.35e-08, 0.00e+00, 0.00e+00), min(T, S): 8.56, 29.85
+┌ Info: Advective CFL
+│   iteration = 30
+└   cfl = 0.0021324349038321783
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 40 minutes, Iteration 40, Δt 1 minute, max(vel): (4.70e-02, 4.76e-02, 3.10e-04), max(T, S): 16.58, 38.99
+│ 
+└                                                    min(vel): (1.25e-06, 0.00e+00, 0.00e+00), min(T, S): 8.56, 29.85
+┌ Info: Advective CFL
+│   iteration = 40
+└   cfl = 0.0024877858413543006
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 50 minutes, Iteration 50, Δt 1 minute, max(vel): (6.03e-02, 5.93e-02, 3.81e-04), max(T, S): 16.58, 38.99
+│ 
+└                                                    min(vel): (1.22e-06, 0.00e+00, 0.00e+00), min(T, S): 8.56, 29.85
+┌ Info: Advective CFL
+│   iteration = 50
+└   cfl = 0.002915362772773078
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 1 hour, Iteration 60, Δt 1 minute, max(vel): (7.43e-02, 6.99e-02, 4.50e-04), max(T, S): 16.58, 38.99
+│ 
+└                                                    min(vel): (1.68e-06, 0.00e+00, 0.00e+00), min(T, S): 8.56, 29.85
+┌ Info: Advective CFL
+│   iteration = 60
+└   cfl = 0.003339576006268422
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 1.167 hours, Iteration 70, Δt 1 minute, max(vel): (8.75e-02, 8.09e-02, 5.17e-04), max(T, S): 16.58, 38.99
+│ 
+└                                                    min(vel): (3.78e-07, 0.00e+00, 0.00e+00), min(T, S): 8.56, 29.85
+┌ Info: Advective CFL
+│   iteration = 70
+└   cfl = 0.003795702893876257
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 1.333 hours, Iteration 80, Δt 1 minute, max(vel): (9.99e-02, 9.09e-02, 5.82e-04), max(T, S): 16.58, 38.99
+│ 
+└                                                    min(vel): (4.51e-08, 0.00e+00, 0.00e+00), min(T, S): 8.57, 29.85
+┌ Info: Advective CFL
+│   iteration = 80
+└   cfl = 0.004268290241502581
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 1.500 hours, Iteration 90, Δt 1 minute, max(vel): (1.13e-01, 1.00e-01, 6.46e-04), max(T, S): 16.58, 38.99
+│ 
+└                                                    min(vel): (2.83e-08, 0.00e+00, 0.00e+00), min(T, S): 8.57, 29.85
+┌ Info: Advective CFL
+│   iteration = 90
+└   cfl = 0.0047571066720287596
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 1.667 hours, Iteration 100, Δt 1 minute, max(vel): (1.26e-01, 1.08e-01, 7.08e-04), max(T, S): 16.58, 38.99
+│ 
+└                                                    min(vel): (2.91e-06, 0.00e+00, 0.00e+00), min(T, S): 8.57, 29.85
+┌ Info: Advective CFL
+│   iteration = 100
+└   cfl = 0.0052132153683562
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 1.833 hours, Iteration 110, Δt 1 minute, max(vel): (1.40e-01, 1.15e-01, 7.67e-04), max(T, S): 16.58, 38.99
+│ 
+└                                                    min(vel): (5.95e-07, 0.00e+00, 0.00e+00), min(T, S): 8.57, 29.85
+┌ Info: Advective CFL
+│   iteration = 110
+└   cfl = 0.00556844035627004
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 2 hours, Iteration 120, Δt 1 minute, max(vel): (1.54e-01, 1.21e-01, 8.22e-04), max(T, S): 16.58, 38.99
+│ 
+└                                                    min(vel): (9.53e-07, 0.00e+00, 0.00e+00), min(T, S): 8.57, 29.85
+┌ Info: Advective CFL
+│   iteration = 120
+└   cfl = 0.005866682018923633
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 2.167 hours, Iteration 130, Δt 1 minute, max(vel): (1.67e-01, 1.26e-01, 8.74e-04), max(T, S): 16.58, 38.99
+│ 
+└                                                    min(vel): (2.80e-07, 0.00e+00, 0.00e+00), min(T, S): 8.58, 29.85
+┌ Info: Advective CFL
+│   iteration = 130
+└   cfl = 0.006233731058771343
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 2.333 hours, Iteration 140, Δt 1 minute, max(vel): (1.81e-01, 1.30e-01, 9.24e-04), max(T, S): 16.58, 38.99
+│ 
+└                                                    min(vel): (3.32e-06, 0.00e+00, 0.00e+00), min(T, S): 8.58, 29.85
+┌ Info: Advective CFL
+│   iteration = 140
+└   cfl = 0.0065769761071824175
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 2.500 hours, Iteration 150, Δt 1 minute, max(vel): (1.95e-01, 1.34e-01, 9.71e-04), max(T, S): 16.58, 38.99
+│ 
+└                                                    min(vel): (1.15e-06, 0.00e+00, 0.00e+00), min(T, S): 8.58, 29.86
+┌ Info: Advective CFL
+│   iteration = 150
+└   cfl = 0.006891814618229093
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 2.667 hours, Iteration 160, Δt 1 minute, max(vel): (2.09e-01, 1.37e-01, 1.02e-03), max(T, S): 16.58, 38.99
+│ 
+└                                                    min(vel): (1.23e-06, 0.00e+00, 0.00e+00), min(T, S): 8.58, 29.86
+┌ Info: Advective CFL
+│   iteration = 160
+└   cfl = 0.007211775218686452
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 2.833 hours, Iteration 170, Δt 1 minute, max(vel): (2.23e-01, 1.40e-01, 1.06e-03), max(T, S): 16.58, 38.99
+│ 
+└                                                    min(vel): (6.33e-07, 0.00e+00, 0.00e+00), min(T, S): 8.59, 29.86
+┌ Info: Advective CFL
+│   iteration = 170
+└   cfl = 0.007531629106385088
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 3 hours, Iteration 180, Δt 1 minute, max(vel): (2.39e-01, 1.43e-01, 1.10e-03), max(T, S): 16.57, 38.99
+│ 
+└                                                    min(vel): (7.53e-07, 0.00e+00, 0.00e+00), min(T, S): 8.59, 29.86
+┌ Info: Advective CFL
+│   iteration = 180
+└   cfl = 0.007860568622923818
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 3.167 hours, Iteration 190, Δt 1 minute, max(vel): (2.54e-01, 1.48e-01, 1.13e-03), max(T, S): 16.57, 38.99
+│ 
+└                                                    min(vel): (2.02e-07, 0.00e+00, 0.00e+00), min(T, S): 8.59, 29.86
+┌ Info: Advective CFL
+│   iteration = 190
+└   cfl = 0.008164168910367406
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 3.333 hours, Iteration 200, Δt 1 minute, max(vel): (2.69e-01, 1.52e-01, 1.16e-03), max(T, S): 16.57, 38.99
+│ 
+└                                                    min(vel): (1.07e-07, 0.00e+00, 0.00e+00), min(T, S): 8.59, 29.86
+┌ Info: Advective CFL
+│   iteration = 200
+└   cfl = 0.008435510903649997
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 3.500 hours, Iteration 210, Δt 1 minute, max(vel): (2.82e-01, 1.63e-01, 1.19e-03), max(T, S): 16.57, 38.99
+│ 
+└                                                    min(vel): (2.30e-07, 0.00e+00, 0.00e+00), min(T, S): 8.60, 29.86
+┌ Info: Advective CFL
+│   iteration = 210
+└   cfl = 0.008668631222549971
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 3.667 hours, Iteration 220, Δt 1 minute, max(vel): (2.94e-01, 1.76e-01, 1.21e-03), max(T, S): 16.57, 38.99
+│ 
+└                                                    min(vel): (5.97e-07, 0.00e+00, 0.00e+00), min(T, S): 8.60, 29.86
+┌ Info: Advective CFL
+│   iteration = 220
+└   cfl = 0.008856847796194677
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 3.833 hours, Iteration 230, Δt 1 minute, max(vel): (3.07e-01, 1.88e-01, 1.23e-03), max(T, S): 16.57, 38.99
+│ 
+└                                                    min(vel): (1.06e-07, 0.00e+00, 0.00e+00), min(T, S): 8.60, 29.86
+┌ Info: Advective CFL
+│   iteration = 230
+└   cfl = 0.008991586649705126
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 4 hours, Iteration 240, Δt 1 minute, max(vel): (3.20e-01, 2.00e-01, 1.25e-03), max(T, S): 16.57, 38.99
+│ 
+└                                                    min(vel): (2.32e-06, 0.00e+00, 0.00e+00), min(T, S): 8.61, 29.86
+┌ Info: Advective CFL
+│   iteration = 240
+└   cfl = 0.009067010888653387
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 4.167 hours, Iteration 250, Δt 1 minute, max(vel): (3.34e-01, 2.12e-01, 1.27e-03), max(T, S): 16.57, 38.99
+│ 
+└                                                    min(vel): (9.19e-07, 0.00e+00, 0.00e+00), min(T, S): 8.61, 29.87
+┌ Info: Advective CFL
+│   iteration = 250
+└   cfl = 0.009225880225539634
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 4.333 hours, Iteration 260, Δt 1 minute, max(vel): (3.47e-01, 2.23e-01, 1.28e-03), max(T, S): 16.57, 38.99
+│ 
+└                                                    min(vel): (1.53e-07, 0.00e+00, 0.00e+00), min(T, S): 8.62, 29.87
+┌ Info: Advective CFL
+│   iteration = 260
+└   cfl = 0.009420127137460257
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 4.500 hours, Iteration 270, Δt 1 minute, max(vel): (3.60e-01, 2.33e-01, 1.29e-03), max(T, S): 16.57, 38.99
+│ 
+└                                                    min(vel): (2.11e-07, 0.00e+00, 0.00e+00), min(T, S): 8.62, 29.87
+┌ Info: Advective CFL
+│   iteration = 270
+└   cfl = 0.009582023992569674
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 4.667 hours, Iteration 280, Δt 1 minute, max(vel): (3.73e-01, 2.43e-01, 1.30e-03), max(T, S): 16.56, 38.99
+│ 
+└                                                    min(vel): (1.84e-07, 0.00e+00, 0.00e+00), min(T, S): 8.62, 29.87
+┌ Info: Advective CFL
+│   iteration = 280
+└   cfl = 0.00971185140702107
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 4.833 hours, Iteration 290, Δt 1 minute, max(vel): (3.85e-01, 2.51e-01, 1.30e-03), max(T, S): 16.56, 38.99
+│ 
+└                                                    min(vel): (7.87e-07, 0.00e+00, 0.00e+00), min(T, S): 8.63, 29.87
+┌ Info: Advective CFL
+│   iteration = 290
+└   cfl = 0.00981559422262445
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 5 hours, Iteration 300, Δt 1 minute, max(vel): (3.96e-01, 2.60e-01, 1.30e-03), max(T, S): 16.56, 38.99
+│ 
+└                                                    min(vel): (3.57e-06, 0.00e+00, 0.00e+00), min(T, S): 8.63, 29.87
+┌ Info: Advective CFL
+│   iteration = 300
+└   cfl = 0.009903428106893257
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 5.167 hours, Iteration 310, Δt 1 minute, max(vel): (4.06e-01, 2.67e-01, 1.30e-03), max(T, S): 16.56, 38.99
+│ 
+└                                                    min(vel): (5.72e-06, 0.00e+00, 0.00e+00), min(T, S): 8.63, 29.87
+┌ Info: Advective CFL
+│   iteration = 310
+└   cfl = 0.009984476731463833
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 5.333 hours, Iteration 320, Δt 1 minute, max(vel): (4.14e-01, 2.75e-01, 1.31e-03), max(T, S): 16.56, 38.99
+│ 
+└                                                    min(vel): (1.27e-06, 0.00e+00, 0.00e+00), min(T, S): 8.64, 29.87
+┌ Info: Advective CFL
+│   iteration = 320
+└   cfl = 0.010056139890118776
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 5.500 hours, Iteration 330, Δt 1 minute, max(vel): (4.21e-01, 2.83e-01, 1.32e-03), max(T, S): 16.56, 38.99
+│ 
+└                                                    min(vel): (1.27e-06, 0.00e+00, 0.00e+00), min(T, S): 8.64, 29.87
+┌ Info: Advective CFL
+│   iteration = 330
+└   cfl = 0.010106569566724061
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 5.667 hours, Iteration 340, Δt 1 minute, max(vel): (4.28e-01, 2.91e-01, 1.32e-03), max(T, S): 16.56, 38.99
+│ 
+└                                                    min(vel): (1.58e-06, 0.00e+00, 0.00e+00), min(T, S): 8.64, 29.87
+┌ Info: Advective CFL
+│   iteration = 340
+└   cfl = 0.010117023117267702
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 5.833 hours, Iteration 350, Δt 1 minute, max(vel): (4.33e-01, 3.00e-01, 1.31e-03), max(T, S): 16.56, 38.99
+│ 
+└                                                    min(vel): (3.57e-07, 0.00e+00, 0.00e+00), min(T, S): 8.65, 29.87
+┌ Info: Advective CFL
+│   iteration = 350
+└   cfl = 0.01008990821835357
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 6 hours, Iteration 360, Δt 1 minute, max(vel): (4.37e-01, 3.11e-01, 1.31e-03), max(T, S): 16.56, 38.99
+│ 
+└                                                    min(vel): (6.94e-06, 0.00e+00, 0.00e+00), min(T, S): 8.65, 29.87
+┌ Info: Advective CFL
+│   iteration = 360
+└   cfl = 0.010045052746532382
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 6.167 hours, Iteration 370, Δt 1 minute, max(vel): (4.40e-01, 3.24e-01, 1.33e-03), max(T, S): 16.55, 38.99
+│ 
+└                                                    min(vel): (7.93e-07, 0.00e+00, 0.00e+00), min(T, S): 8.65, 29.87
+┌ Info: Advective CFL
+│   iteration = 370
+└   cfl = 0.009992773705709288
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 6.333 hours, Iteration 380, Δt 1 minute, max(vel): (4.43e-01, 3.37e-01, 1.36e-03), max(T, S): 16.55, 38.99
+│ 
+└                                                    min(vel): (1.92e-06, 0.00e+00, 0.00e+00), min(T, S): 8.65, 29.87
+┌ Info: Advective CFL
+│   iteration = 380
+└   cfl = 0.009994810988178877
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 6.500 hours, Iteration 390, Δt 1 minute, max(vel): (4.45e-01, 3.49e-01, 1.39e-03), max(T, S): 16.55, 38.99
+│ 
+└                                                    min(vel): (3.59e-06, 0.00e+00, 0.00e+00), min(T, S): 8.66, 29.87
+┌ Info: Advective CFL
+│   iteration = 390
+└   cfl = 0.010001683870665466
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 6.667 hours, Iteration 400, Δt 1 minute, max(vel): (4.48e-01, 3.60e-01, 1.41e-03), max(T, S): 16.55, 38.99
+│ 
+└                                                    min(vel): (5.72e-06, 0.00e+00, 0.00e+00), min(T, S): 8.66, 29.87
+┌ Info: Advective CFL
+│   iteration = 400
+└   cfl = 0.010047674163814274
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 6.833 hours, Iteration 410, Δt 1 minute, max(vel): (4.50e-01, 3.70e-01, 1.43e-03), max(T, S): 16.55, 38.99
+│ 
+└                                                    min(vel): (3.15e-06, 0.00e+00, 0.00e+00), min(T, S): 8.66, 29.87
+┌ Info: Advective CFL
+│   iteration = 410
+└   cfl = 0.010126902136670043
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 7 hours, Iteration 420, Δt 1 minute, max(vel): (4.51e-01, 3.78e-01, 1.44e-03), max(T, S): 16.55, 38.99
+│ 
+└                                                    min(vel): (5.90e-06, 0.00e+00, 0.00e+00), min(T, S): 8.66, 29.87
+┌ Info: Advective CFL
+│   iteration = 420
+└   cfl = 0.010552226201108178
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 7.167 hours, Iteration 430, Δt 1 minute, max(vel): (4.52e-01, 3.86e-01, 1.45e-03), max(T, S): 16.55, 38.99
+│ 
+└                                                    min(vel): (7.55e-06, 0.00e+00, 0.00e+00), min(T, S): 8.66, 29.86
+┌ Info: Advective CFL
+│   iteration = 430
+└   cfl = 0.010891944842230494
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 7.333 hours, Iteration 440, Δt 1 minute, max(vel): (4.51e-01, 3.94e-01, 1.45e-03), max(T, S): 16.55, 38.99
+│ 
+└                                                    min(vel): (4.36e-06, 0.00e+00, 0.00e+00), min(T, S): 8.66, 29.86
+┌ Info: Advective CFL
+│   iteration = 440
+└   cfl = 0.01112438123660502
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 7.500 hours, Iteration 450, Δt 1 minute, max(vel): (4.50e-01, 4.01e-01, 1.45e-03), max(T, S): 16.55, 38.99
+│ 
+└                                                    min(vel): (4.59e-06, 0.00e+00, 0.00e+00), min(T, S): 8.66, 29.86
+┌ Info: Advective CFL
+│   iteration = 450
+└   cfl = 0.01123951089572238
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 7.667 hours, Iteration 460, Δt 1 minute, max(vel): (4.51e-01, 4.08e-01, 1.45e-03), max(T, S): 16.55, 38.99
+│ 
+└                                                    min(vel): (1.71e-07, 0.00e+00, 0.00e+00), min(T, S): 8.66, 29.86
+┌ Info: Advective CFL
+│   iteration = 460
+└   cfl = 0.011263688874563686
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 7.833 hours, Iteration 470, Δt 1 minute, max(vel): (4.51e-01, 4.16e-01, 1.44e-03), max(T, S): 16.55, 38.99
+│ 
+└                                                    min(vel): (1.56e-06, 0.00e+00, 0.00e+00), min(T, S): 8.66, 29.85
+┌ Info: Advective CFL
+│   iteration = 470
+└   cfl = 0.011230224362804294
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 8 hours, Iteration 480, Δt 1 minute, max(vel): (4.50e-01, 4.23e-01, 1.43e-03), max(T, S): 16.54, 38.99
+│ 
+└                                                    min(vel): (8.24e-06, 0.00e+00, 0.00e+00), min(T, S): 8.66, 29.85
+┌ Info: Advective CFL
+│   iteration = 480
+└   cfl = 0.011168440874339661
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 8.167 hours, Iteration 490, Δt 1 minute, max(vel): (4.48e-01, 4.29e-01, 1.41e-03), max(T, S): 16.54, 38.99
+│ 
+└                                                    min(vel): (5.53e-06, 0.00e+00, 0.00e+00), min(T, S): 8.66, 29.85
+┌ Info: Advective CFL
+│   iteration = 490
+└   cfl = 0.011099887730382712
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 8.333 hours, Iteration 500, Δt 1 minute, max(vel): (4.46e-01, 4.35e-01, 1.39e-03), max(T, S): 16.54, 38.99
+│ 
+└                                                    min(vel): (8.65e-06, 0.00e+00, 0.00e+00), min(T, S): 8.66, 29.85
+┌ Info: Advective CFL
+│   iteration = 500
+└   cfl = 0.01103998373853653
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 8.500 hours, Iteration 510, Δt 1 minute, max(vel): (4.43e-01, 4.42e-01, 1.36e-03), max(T, S): 16.54, 38.99
+│ 
+└                                                    min(vel): (1.37e-06, 0.00e+00, 0.00e+00), min(T, S): 8.66, 29.84
+┌ Info: Advective CFL
+│   iteration = 510
+└   cfl = 0.011009335991726842
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 8.667 hours, Iteration 520, Δt 1 minute, max(vel): (4.40e-01, 4.48e-01, 1.33e-03), max(T, S): 16.54, 38.99
+│ 
+└                                                    min(vel): (2.48e-06, 0.00e+00, 0.00e+00), min(T, S): 8.66, 29.84
+┌ Info: Advective CFL
+│   iteration = 520
+└   cfl = 0.011033978895818692
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 8.833 hours, Iteration 530, Δt 1 minute, max(vel): (4.37e-01, 4.54e-01, 1.29e-03), max(T, S): 16.54, 38.99
+│ 
+└                                                    min(vel): (4.14e-06, 0.00e+00, 0.00e+00), min(T, S): 8.66, 29.84
+┌ Info: Advective CFL
+│   iteration = 530
+└   cfl = 0.01112214013821812
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 9 hours, Iteration 540, Δt 1 minute, max(vel): (4.33e-01, 4.60e-01, 1.26e-03), max(T, S): 16.54, 38.99
+│ 
+└                                                    min(vel): (4.07e-06, 0.00e+00, 0.00e+00), min(T, S): 8.67, 29.84
+┌ Info: Advective CFL
+│   iteration = 540
+└   cfl = 0.011258041273226023
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 9.167 hours, Iteration 550, Δt 1 minute, max(vel): (4.28e-01, 4.66e-01, 1.22e-03), max(T, S): 16.54, 38.99
+│ 
+└                                                    min(vel): (1.02e-06, 0.00e+00, 0.00e+00), min(T, S): 8.67, 29.83
+┌ Info: Advective CFL
+│   iteration = 550
+└   cfl = 0.01139899936207966
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 9.333 hours, Iteration 560, Δt 1 minute, max(vel): (4.22e-01, 4.72e-01, 1.19e-03), max(T, S): 16.54, 38.99
+│ 
+└                                                    min(vel): (2.92e-06, 0.00e+00, 0.00e+00), min(T, S): 8.67, 29.83
+┌ Info: Advective CFL
+│   iteration = 560
+└   cfl = 0.011489468673646926
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 9.500 hours, Iteration 570, Δt 1 minute, max(vel): (4.16e-01, 4.78e-01, 1.15e-03), max(T, S): 16.54, 38.99
+│ 
+└                                                    min(vel): (1.39e-05, 0.00e+00, 0.00e+00), min(T, S): 8.67, 29.83
+┌ Info: Advective CFL
+│   iteration = 570
+└   cfl = 0.011528142461370964
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 9.667 hours, Iteration 580, Δt 1 minute, max(vel): (4.08e-01, 4.84e-01, 1.12e-03), max(T, S): 16.54, 38.99
+│ 
+└                                                    min(vel): (1.19e-06, 0.00e+00, 0.00e+00), min(T, S): 8.67, 29.83
+┌ Info: Advective CFL
+│   iteration = 580
+└   cfl = 0.011545126164442088
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 9.833 hours, Iteration 590, Δt 1 minute, max(vel): (4.01e-01, 4.90e-01, 1.09e-03), max(T, S): 16.54, 38.99
+│ 
+└                                                    min(vel): (5.63e-06, 0.00e+00, 0.00e+00), min(T, S): 8.67, 29.82
+┌ Info: Advective CFL
+│   iteration = 590
+└   cfl = 0.011542529919032131
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 10 hours, Iteration 600, Δt 1 minute, max(vel): (3.92e-01, 4.96e-01, 1.07e-03), max(T, S): 16.53, 38.99
+│ 
+└                                                    min(vel): (7.39e-06, 0.00e+00, 0.00e+00), min(T, S): 8.67, 29.82
+┌ Info: Advective CFL
+│   iteration = 600
+└   cfl = 0.011521484280411557
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 10.167 hours, Iteration 610, Δt 1 minute, max(vel): (3.84e-01, 5.01e-01, 1.04e-03), max(T, S): 16.53, 38.99
+│ 
+└                                                    min(vel): (4.11e-06, 0.00e+00, 0.00e+00), min(T, S): 8.68, 29.82
+┌ Info: Advective CFL
+│   iteration = 610
+└   cfl = 0.011537865158495912
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 10.333 hours, Iteration 620, Δt 1 minute, max(vel): (3.76e-01, 5.06e-01, 1.08e-03), max(T, S): 16.53, 38.99
+│ 
+└                                                    min(vel): (2.18e-06, 0.00e+00, 0.00e+00), min(T, S): 8.68, 29.82
+┌ Info: Advective CFL
+│   iteration = 620
+└   cfl = 0.011606071738427976
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 10.500 hours, Iteration 630, Δt 1 minute, max(vel): (3.69e-01, 5.11e-01, 1.13e-03), max(T, S): 16.53, 38.99
+│ 
+└                                                    min(vel): (3.72e-06, 0.00e+00, 0.00e+00), min(T, S): 8.68, 29.82
+┌ Info: Advective CFL
+│   iteration = 630
+└   cfl = 0.011707971981027018
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 10.667 hours, Iteration 640, Δt 1 minute, max(vel): (3.63e-01, 5.15e-01, 1.19e-03), max(T, S): 16.53, 38.99
+│ 
+└                                                    min(vel): (2.77e-07, 0.00e+00, 0.00e+00), min(T, S): 8.68, 29.82
+┌ Info: Advective CFL
+│   iteration = 640
+└   cfl = 0.011834186382605992
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 10.833 hours, Iteration 650, Δt 1 minute, max(vel): (3.57e-01, 5.18e-01, 1.24e-03), max(T, S): 16.53, 38.99
+│ 
+└                                                    min(vel): (2.12e-06, 0.00e+00, 0.00e+00), min(T, S): 8.68, 29.81
+┌ Info: Advective CFL
+│   iteration = 650
+└   cfl = 0.011963373329712534
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 11 hours, Iteration 660, Δt 1 minute, max(vel): (3.51e-01, 5.20e-01, 1.29e-03), max(T, S): 16.53, 38.99
+│ 
+└                                                    min(vel): (4.35e-07, 0.00e+00, 0.00e+00), min(T, S): 8.68, 29.81
+┌ Info: Advective CFL
+│   iteration = 660
+└   cfl = 0.01206420531387478
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 11.167 hours, Iteration 670, Δt 1 minute, max(vel): (3.45e-01, 5.23e-01, 1.34e-03), max(T, S): 16.53, 38.99
+│ 
+└                                                    min(vel): (1.09e-06, 0.00e+00, 0.00e+00), min(T, S): 8.68, 29.81
+┌ Info: Advective CFL
+│   iteration = 670
+└   cfl = 0.01211589089041931
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 11.333 hours, Iteration 680, Δt 1 minute, max(vel): (3.39e-01, 5.25e-01, 1.40e-03), max(T, S): 16.53, 38.99
+│ 
+└                                                    min(vel): (2.13e-06, 0.00e+00, 0.00e+00), min(T, S): 8.68, 29.81
+┌ Info: Advective CFL
+│   iteration = 680
+└   cfl = 0.012108742791347047
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 11.500 hours, Iteration 690, Δt 1 minute, max(vel): (3.33e-01, 5.27e-01, 1.45e-03), max(T, S): 16.53, 38.99
+│ 
+└                                                    min(vel): (4.49e-06, 0.00e+00, 0.00e+00), min(T, S): 8.69, 29.80
+┌ Info: Advective CFL
+│   iteration = 690
+└   cfl = 0.012037369748618108
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 11.667 hours, Iteration 700, Δt 1 minute, max(vel): (3.28e-01, 5.30e-01, 1.50e-03), max(T, S): 16.53, 38.99
+│ 
+└                                                    min(vel): (6.79e-06, 0.00e+00, 0.00e+00), min(T, S): 8.69, 29.80
+┌ Info: Advective CFL
+│   iteration = 700
+└   cfl = 0.011936943161177797
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 11.833 hours, Iteration 710, Δt 1 minute, max(vel): (3.23e-01, 5.33e-01, 1.55e-03), max(T, S): 16.53, 38.99
+│ 
+└                                                    min(vel): (3.53e-06, 0.00e+00, 0.00e+00), min(T, S): 8.69, 29.80
+┌ Info: Advective CFL
+│   iteration = 710
+└   cfl = 0.012361573715888223
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 12 hours, Iteration 720, Δt 1 minute, max(vel): (3.19e-01, 5.38e-01, 1.60e-03), max(T, S): 16.52, 38.99
+│ 
+└                                                    min(vel): (7.15e-06, 0.00e+00, 0.00e+00), min(T, S): 8.69, 29.80
+┌ Info: Advective CFL
+│   iteration = 720
+└   cfl = 0.0129217179935564
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 12.167 hours, Iteration 730, Δt 1 minute, max(vel): (3.17e-01, 5.44e-01, 1.64e-03), max(T, S): 16.52, 38.99
+│ 
+└                                                    min(vel): (9.66e-06, 0.00e+00, 0.00e+00), min(T, S): 8.69, 29.80
+┌ Info: Advective CFL
+│   iteration = 730
+└   cfl = 0.013528652197178213
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 12.333 hours, Iteration 740, Δt 1 minute, max(vel): (3.16e-01, 5.52e-01, 1.69e-03), max(T, S): 16.52, 38.99
+│ 
+└                                                    min(vel): (1.66e-05, 0.00e+00, 0.00e+00), min(T, S): 8.69, 29.79
+┌ Info: Advective CFL
+│   iteration = 740
+└   cfl = 0.014220236986103418
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 12.500 hours, Iteration 750, Δt 1 minute, max(vel): (3.17e-01, 5.63e-01, 1.73e-03), max(T, S): 16.51, 38.99
+│ 
+└                                                    min(vel): (9.11e-06, 0.00e+00, 0.00e+00), min(T, S): 8.69, 29.79
+┌ Info: Advective CFL
+│   iteration = 750
+└   cfl = 0.015018797833799502
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 12.667 hours, Iteration 760, Δt 1 minute, max(vel): (3.20e-01, 5.78e-01, 1.77e-03), max(T, S): 16.51, 38.99
+│ 
+└                                                    min(vel): (3.40e-06, 0.00e+00, 0.00e+00), min(T, S): 8.69, 29.79
+┌ Info: Advective CFL
+│   iteration = 760
+└   cfl = 0.01590090140719246
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 12.833 hours, Iteration 770, Δt 1 minute, max(vel): (3.26e-01, 5.98e-01, 1.81e-03), max(T, S): 16.51, 38.99
+│ 
+└                                                    min(vel): (4.41e-06, 0.00e+00, 0.00e+00), min(T, S): 8.69, 29.79
+┌ Info: Advective CFL
+│   iteration = 770
+└   cfl = 0.01689292028875458
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 13 hours, Iteration 780, Δt 1 minute, max(vel): (3.35e-01, 6.25e-01, 1.84e-03), max(T, S): 16.51, 38.99
+│ 
+└                                                    min(vel): (1.31e-06, 0.00e+00, 0.00e+00), min(T, S): 8.69, 29.78
+┌ Info: Advective CFL
+│   iteration = 780
+└   cfl = 0.018056467738229484
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 13.167 hours, Iteration 790, Δt 1 minute, max(vel): (4.05e-01, 6.62e-01, 1.87e-03), max(T, S): 16.51, 38.99
+│ 
+└                                                    min(vel): (1.78e-06, 0.00e+00, 0.00e+00), min(T, S): 8.69, 29.78
+┌ Info: Advective CFL
+│   iteration = 790
+└   cfl = 0.019433844127757074
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 13.333 hours, Iteration 800, Δt 1 minute, max(vel): (5.99e-01, 9.45e-01, 1.90e-03), max(T, S): 16.51, 38.99
+│ 
+└                                                    min(vel): (3.36e-06, 0.00e+00, 0.00e+00), min(T, S): 8.69, 29.78
+┌ Info: Advective CFL
+│   iteration = 800
+└   cfl = 0.021098107342995952
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 13.500 hours, Iteration 810, Δt 1 minute, max(vel): (9.48e-01, 1.47e+00, 2.36e-03), max(T, S): 16.51, 38.99
+│ 
+└                                                    min(vel): (1.07e-05, 0.00e+00, 0.00e+00), min(T, S): 8.69, 29.78
+┌ Info: Advective CFL
+│   iteration = 810
+└   cfl = 0.025193484555597803
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 13.667 hours, Iteration 820, Δt 1 minute, max(vel): (1.67e+00, 2.62e+00, 3.42e-03), max(T, S): 16.51, 38.99
+│ 
+└                                                    min(vel): (1.22e-05, 0.00e+00, 0.00e+00), min(T, S): 8.69, 29.77
+┌ Info: Advective CFL
+│   iteration = 820
+└   cfl = 0.04053725790980035
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 13.833 hours, Iteration 830, Δt 1 minute, max(vel): (3.51e+00, 5.88e+00, 5.71e-03), max(T, S): 16.51, 38.99
+│ 
+└                                                    min(vel): (2.29e-06, 0.00e+00, 0.00e+00), min(T, S): 8.69, 29.77
+┌ Info: Advective CFL
+│   iteration = 830
+└   cfl = 0.08443032960407458
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 14 hours, Iteration 840, Δt 1 minute, max(vel): (1.03e+01, 2.47e+01, 1.92e-02), max(T, S): 16.51, 38.99
+│ 
+└                                                    min(vel): (1.97e-06, 0.00e+00, 0.00e+00), min(T, S): 8.69, 29.77
+┌ Info: Advective CFL
+│   iteration = 840
+└   cfl = 0.7191864077132152
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Warning: Right-hand side b contains non-finite values!
+└ @ Oceananigans.Solvers ~/MHPC/project/Oceananigans.jl/src/Solvers/conjugate_gradient_solver.jl:239
+┌ Info: Time: 14.167 hours, Iteration 850, Δt 1 minute, max(vel): (NaN, NaN, NaN), max(T, S): NaN, NaN
+│ 
+└                                                    min(vel): (NaN, NaN, NaN), min(T, S): NaN, NaN
+┌ Warning: Non-finite u
+│   first_index = CartesianIndex(67, 7, 9)
+└ @ Main ~/MHPC/project/Oceananigans.jl/validation/open_boundaries/PerturbationAdvection_OGS/adriatic_simulation_skipped.jl:299
+┌ Warning: Non-finite v
+│   first_index = CartesianIndex(30, 8, 7)
+└ @ Main ~/MHPC/project/Oceananigans.jl/validation/open_boundaries/PerturbationAdvection_OGS/adriatic_simulation_skipped.jl:303
+┌ Warning: Non-finite T
+│   first_index = CartesianIndex(67, 8, 7)
+└ @ Main ~/MHPC/project/Oceananigans.jl/validation/open_boundaries/PerturbationAdvection_OGS/adriatic_simulation_skipped.jl:307
+┌ Warning: Non-finite S
+│   first_index = CartesianIndex(67, 8, 7)
+└ @ Main ~/MHPC/project/Oceananigans.jl/validation/open_boundaries/PerturbationAdvection_OGS/adriatic_simulation_skipped.jl:311
+┌ Info: Advective CFL
+│   iteration = 850
+└   cfl = NaN
+┌ Info: Time: 14.333 hours, Iteration 860, Δt 1 minute, max(vel): (NaN, NaN, NaN), max(T, S): NaN, NaN
+│ 
+└                                                    min(vel): (NaN, NaN, NaN), min(T, S): NaN, NaN
+┌ Warning: Non-finite u
+│   first_index = CartesianIndex(67, 7, 9)
+└ @ Main ~/MHPC/project/Oceananigans.jl/validation/open_boundaries/PerturbationAdvection_OGS/adriatic_simulation_skipped.jl:299
+┌ Warning: Non-finite v
+│   first_index = CartesianIndex(30, 8, 7)
+└ @ Main ~/MHPC/project/Oceananigans.jl/validation/open_boundaries/PerturbationAdvection_OGS/adriatic_simulation_skipped.jl:303
+┌ Warning: Non-finite T
+│   first_index = CartesianIndex(67, 8, 7)
+└ @ Main ~/MHPC/project/Oceananigans.jl/validation/open_boundaries/PerturbationAdvection_OGS/adriatic_simulation_skipped.jl:307
+┌ Warning: Non-finite S
+│   first_index = CartesianIndex(67, 8, 7)
+└ @ Main ~/MHPC/project/Oceananigans.jl/validation/open_boundaries/PerturbationAdvection_OGS/adriatic_simulation_skipped.jl:311
+┌ Info: Advective CFL
+│   iteration = 860
+└   cfl = NaN
+┌ Info: Time: 14.500 hours, Iteration 870, Δt 1 minute, max(vel): (NaN, NaN, NaN), max(T, S): NaN, NaN
+│ 
+└                                                    min(vel): (NaN, NaN, NaN), min(T, S): NaN, NaN
+┌ Warning: Non-finite u
+│   first_index = CartesianIndex(67, 7, 9)
+└ @ Main ~/MHPC/project/Oceananigans.jl/validation/open_boundaries/PerturbationAdvection_OGS/adriatic_simulation_skipped.jl:299
+┌ Warning: Non-finite v
+│   first_index = CartesianIndex(30, 8, 7)
+└ @ Main ~/MHPC/project/Oceananigans.jl/validation/open_boundaries/PerturbationAdvection_OGS/adriatic_simulation_skipped.jl:303
+┌ Warning: Non-finite T
+│   first_index = CartesianIndex(67, 8, 7)
+└ @ Main ~/MHPC/project/Oceananigans.jl/validation/open_boundaries/PerturbationAdvection_OGS/adriatic_simulation_skipped.jl:307
+┌ Warning: Non-finite S
+│   first_index = CartesianIndex(67, 8, 7)
+└ @ Main ~/MHPC/project/Oceananigans.jl/validation/open_boundaries/PerturbationAdvection_OGS/adriatic_simulation_skipped.jl:311
+┌ Info: Advective CFL
+│   iteration = 870
+└   cfl = NaN
+┌ Info: Time: 14.667 hours, Iteration 880, Δt 1 minute, max(vel): (NaN, NaN, NaN), max(T, S): NaN, NaN
+│ 
+└                                                    min(vel): (NaN, NaN, NaN), min(T, S): NaN, NaN
+┌ Warning: Non-finite u
+│   first_index = CartesianIndex(67, 7, 9)
+└ @ Main ~/MHPC/project/Oceananigans.jl/validation/open_boundaries/PerturbationAdvection_OGS/adriatic_simulation_skipped.jl:299
+┌ Warning: Non-finite v
+│   first_index = CartesianIndex(30, 8, 7)
+└ @ Main ~/MHPC/project/Oceananigans.jl/validation/open_boundaries/PerturbationAdvection_OGS/adriatic_simulation_skipped.jl:303
+┌ Warning: Non-finite T
+│   first_index = CartesianIndex(67, 8, 7)
+└ @ Main ~/MHPC/project/Oceananigans.jl/validation/open_boundaries/PerturbationAdvection_OGS/adriatic_simulation_skipped.jl:307
+┌ Warning: Non-finite S
+│   first_index = CartesianIndex(67, 8, 7)
+└ @ Main ~/MHPC/project/Oceananigans.jl/validation/open_boundaries/PerturbationAdvection_OGS/adriatic_simulation_skipped.jl:311
+┌ Info: Advective CFL
+│   iteration = 880
+└   cfl = NaN
+┌ Info: Time: 14.833 hours, Iteration 890, Δt 1 minute, max(vel): (NaN, NaN, NaN), max(T, S): NaN, NaN
+│ 
+└                                                    min(vel): (NaN, NaN, NaN), min(T, S): NaN, NaN
+┌ Warning: Non-finite u
+│   first_index = CartesianIndex(67, 7, 9)
+└ @ Main ~/MHPC/project/Oceananigans.jl/validation/open_boundaries/PerturbationAdvection_OGS/adriatic_simulation_skipped.jl:299
+┌ Warning: Non-finite v
+│   first_index = CartesianIndex(30, 8, 7)
+└ @ Main ~/MHPC/project/Oceananigans.jl/validation/open_boundaries/PerturbationAdvection_OGS/adriatic_simulation_skipped.jl:303
+┌ Warning: Non-finite T
+│   first_index = CartesianIndex(67, 8, 7)
+└ @ Main ~/MHPC/project/Oceananigans.jl/validation/open_boundaries/PerturbationAdvection_OGS/adriatic_simulation_skipped.jl:307
+┌ Warning: Non-finite S
+│   first_index = CartesianIndex(67, 8, 7)
+└ @ Main ~/MHPC/project/Oceananigans.jl/validation/open_boundaries/PerturbationAdvection_OGS/adriatic_simulation_skipped.jl:311
+┌ Info: Advective CFL
+│   iteration = 890
+└   cfl = NaN
+[ Info: time = 54000.0, iteration = 900: NaN found in field u_ocean. Stopping simulation.
+┌ Info: Time: 15 hours, Iteration 900, Δt 1 minute, max(vel): (NaN, NaN, NaN), max(T, S): NaN, NaN
+│ 
+└                                                    min(vel): (NaN, NaN, NaN), min(T, S): NaN, NaN
+┌ Warning: Non-finite u
+│   first_index = CartesianIndex(67, 7, 9)
+└ @ Main ~/MHPC/project/Oceananigans.jl/validation/open_boundaries/PerturbationAdvection_OGS/adriatic_simulation_skipped.jl:299
+┌ Warning: Non-finite v
+│   first_index = CartesianIndex(30, 8, 7)
+└ @ Main ~/MHPC/project/Oceananigans.jl/validation/open_boundaries/PerturbationAdvection_OGS/adriatic_simulation_skipped.jl:303
+┌ Warning: Non-finite T
+│   first_index = CartesianIndex(67, 8, 7)
+└ @ Main ~/MHPC/project/Oceananigans.jl/validation/open_boundaries/PerturbationAdvection_OGS/adriatic_simulation_skipped.jl:307
+┌ Warning: Non-finite S
+│   first_index = CartesianIndex(67, 8, 7)
+└ @ Main ~/MHPC/project/Oceananigans.jl/validation/open_boundaries/PerturbationAdvection_OGS/adriatic_simulation_skipped.jl:311
+┌ Info: Advective CFL
+│   iteration = 900
+└   cfl = NaN
+[ Info: recording iteration 1
+[ Info: recording iteration 2
+[ Info: recording iteration 3
+[ Info: recording iteration 4
+[ Info: recording iteration 5
+[ Info: recording iteration 6
+[ Info: recording iteration 7
+[ Info: recording iteration 8
+[ Info: recording iteration 9
+[ Info: recording iteration 10
+[ Info: recording iteration 11
+[ Info: recording iteration 12
+[ Info: recording iteration 13
+[ Info: recording iteration 14
+[ Info: recording iteration 15
+[ Info: recording iteration 16
+┌ Warning: No strict ticks found
+└ @ PlotUtils ~/.julia/packages/PlotUtils/dVEMd/src/ticks.jl:194
+ERROR: LoadError: Failed to resolve cairo_attributes:
+[ComputeEdge] cairo_attributes = #15((grid_x, grid_y, image, interpolate, space, projectionview, model_f32c, clip_planes, cairo_uv_transform, resolution, computed_color, ), changed, cached)
+  @ /home/nicola/.julia/packages/CairoMakie/F8YX7/src/utils.jl:4
+[ComputeEdge] grid_x, grid_y = #46((positions_transformed_f32c, image, ), changed, cached)
+  @ /home/nicola/.julia/packages/CairoMakie/F8YX7/src/image-hmap.jl:21
+  with edge inputs:
+    positions_transformed_f32c = Point{2, Float32}[[243.0, NaN], [255.0, NaN], [255.0, NaN], [243.0, NaN]]
+    image = Float32[NaN NaN … NaN NaN]
+Triggered by update of:
+  transform_func, arg1, arg2, arg3, arg1, arg2, arg3, model, f32c, space, arg1, arg2 or arg3
+Due to ERROR: ArgumentError: start and stop must be finite, got NaN and NaN
+Stacktrace:
+  [1] _linspace(start::Float32, stop::Float32, len::Int64)
+    @ Base ./twiceprecision.jl:671
+  [2] range_start_stop_length(start::Float32, stop::Float32, len::Int64)
+    @ Base ./twiceprecision.jl:666
+  [3] _range
+    @ ./range.jl:166 [inlined]
+  [4] range
+    @ ./range.jl:149 [inlined]
+  [5] #46
+    @ ~/.julia/packages/CairoMakie/F8YX7/src/image-hmap.jl:23 [inlined]
+  [6] resolve!(edge::ComputePipeline.TypedEdge{@NamedTuple{positions_transformed_f32c::Base.RefValue{Vector{Point{2, Float32}}}, image::Base.RefValue{Matrix{Float32}}}, Tuple{Base.RefValue{StepRangeLen{Float32, Float64, Float64, Int64}}, Base.RefValue{StepRangeLen{Float32, Float64, Float64, Int64}}}, CairoMakie.var"#46#47"})
+    @ ComputePipeline ~/.julia/packages/ComputePipeline/03tW7/src/ComputePipeline.jl:627
+  [7] (::ComputePipeline.var"#52#54"{ComputePipeline.ComputeEdge{ComputePipeline.ComputeGraph}})()
+    @ ComputePipeline ~/.julia/packages/ComputePipeline/03tW7/src/ComputePipeline.jl:666
+  [8] lock(f::ComputePipeline.var"#52#54"{ComputePipeline.ComputeEdge{ComputePipeline.ComputeGraph}}, l::ReentrantLock)
+    @ Base ./lock.jl:229
+  [9] resolve!(edge::ComputePipeline.ComputeEdge{ComputePipeline.ComputeGraph})
+    @ ComputePipeline ~/.julia/packages/ComputePipeline/03tW7/src/ComputePipeline.jl:659
+ [10] _resolve!(computed::ComputePipeline.Computed)
+    @ ComputePipeline ~/.julia/packages/ComputePipeline/03tW7/src/ComputePipeline.jl:652
+ [11] foreach
+    @ ./abstractarray.jl:3098 [inlined]
+ [12] (::ComputePipeline.var"#52#54"{ComputePipeline.ComputeEdge{ComputePipeline.ComputeGraph}})()
+    @ ComputePipeline ~/.julia/packages/ComputePipeline/03tW7/src/ComputePipeline.jl:661
+ [13] lock(f::ComputePipeline.var"#52#54"{ComputePipeline.ComputeEdge{ComputePipeline.ComputeGraph}}, l::ReentrantLock)
+    @ Base ./lock.jl:229
+ [14] resolve!(edge::ComputePipeline.ComputeEdge{ComputePipeline.ComputeGraph})
+    @ ComputePipeline ~/.julia/packages/ComputePipeline/03tW7/src/ComputePipeline.jl:659
+ [15] _resolve!(computed::ComputePipeline.Computed)
+    @ ComputePipeline ~/.julia/packages/ComputePipeline/03tW7/src/ComputePipeline.jl:652
+ [16] resolve!(computed::ComputePipeline.Computed)
+    @ ComputePipeline ~/.julia/packages/ComputePipeline/03tW7/src/ComputePipeline.jl:644
+ [17] getindex
+    @ ~/.julia/packages/ComputePipeline/03tW7/src/ComputePipeline.jl:563 [inlined]
+ [18] draw_atomic(scene::Scene, screen::CairoMakie.Screen{CairoMakie.IMAGE}, plot::Image{Tuple{Makie.EndPoints{Float32}, Makie.EndPoints{Float32}, Matrix{Float32}}})
+    @ CairoMakie ~/.julia/packages/CairoMakie/F8YX7/src/image-hmap.jl:47
+ [19] draw_plot(scene::Scene, screen::CairoMakie.Screen{CairoMakie.IMAGE}, primitive::Image{Tuple{Makie.EndPoints{Float32}, Makie.EndPoints{Float32}, Matrix{Float32}}})
+    @ CairoMakie ~/.julia/packages/CairoMakie/F8YX7/src/plot-primitives.jl:135
+ [20] cairo_draw(screen::CairoMakie.Screen{CairoMakie.IMAGE}, scene::Scene)
+    @ CairoMakie ~/.julia/packages/CairoMakie/F8YX7/src/plot-primitives.jl:49
+ [21] colorbuffer(screen::CairoMakie.Screen{CairoMakie.IMAGE})
+    @ CairoMakie ~/.julia/packages/CairoMakie/F8YX7/src/screen.jl:381
+ [22] colorbuffer(screen::CairoMakie.Screen{CairoMakie.IMAGE}, format::Makie.ImageStorageFormat)
+    @ Makie ~/.julia/packages/Makie/4JW9B/src/display.jl:395
+ [23] recordframe!(io::VideoStream)
+    @ Makie ~/.julia/packages/Makie/4JW9B/src/ffmpeg-util.jl:302
+ [24] Record(func::var"#26#27", figlike::Figure, iter::UnitRange{Int64}; kw_args::@Kwargs{format::SubString{String}, framerate::Int64})
+    @ Makie ~/.julia/packages/Makie/4JW9B/src/recording.jl:174
+ [25] record(func::Function, figlike::Figure, path::String, iter::UnitRange{Int64}; kw_args::@Kwargs{framerate::Int64})
+    @ Makie ~/.julia/packages/Makie/4JW9B/src/recording.jl:154
+ [26] top-level scope
+    @ ~/MHPC/project/Oceananigans.jl/validation/open_boundaries/PerturbationAdvection_OGS/adriatic_simulation_skipped.jl:410
+in expression starting at /home/nicola/MHPC/project/Oceananigans.jl/validation/open_boundaries/PerturbationAdvection_OGS/adriatic_simulation_skipped.jl:410

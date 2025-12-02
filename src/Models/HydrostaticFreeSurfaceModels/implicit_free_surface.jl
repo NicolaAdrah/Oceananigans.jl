@@ -145,6 +145,12 @@ function step_free_surface!(free_surface::ImplicitFreeSurface, model, timesteppe
 
     compute_implicit_free_surface_right_hand_side!(rhs, solver, g, Δt, ∫ᶻQ, η)
 
+    # TODO NICOLA
+    # To check the data passed to the solver is finite
+    @debug begin
+        @warn all(isfinite, parent(model.velocities.v.data))
+        @warn all(isfinite, parent(model.velocities.u.data)) 
+    end
     # Solve for the free surface at tⁿ⁺¹
     start_time = time_ns()
 

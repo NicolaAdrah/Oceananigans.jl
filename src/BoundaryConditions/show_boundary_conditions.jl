@@ -18,6 +18,10 @@ bc_str(::DCBC)                   = "DistributedCommunication"
 bc_str(::Nothing)                = "Nothing"
 bc_str(zbc::ZBC)                 = "Zipper($(zbc.condition))"
 
+# TODO NICOLA
+# added these when I faced errors during plotting in adriatic_simulation
+bc_str(::Missing)                = "Missing"
+
 #####
 ##### BoundaryCondition
 #####

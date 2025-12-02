@@ -19,7 +19,8 @@ bbox = ClimaOcean.DataWrangling.BoundingBox(
             longitude = (x_faces[1]-2, x_faces[end]+2), 
             latitude  = (y_faces[1]-2, y_faces[end]+2))
 
-dir = "./data"
+# dir = "./data"
+dir = "./data_temp_sal_02"
 dataset = GLORYSDaily()
 u_meta = Metadata(:u_velocity;  dataset, dir, bounding_box=bbox, start_date=start_date, end_date=end_date)
 v_meta = Metadata(:v_velocity;  dataset, dir, bounding_box=bbox, start_date=start_date, end_date=end_date)

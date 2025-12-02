@@ -596,6 +596,10 @@ const ReducedField = Union{XReducedField,
 
 # 0D boundary conditions --- easy case
 @inline getbc(condition::XYZReducedField, ::Integer, ::Integer, ::AbstractGrid, args...) = @inbounds condition[1, 1, 1]
+# TODO NICOLA
+# Here I added the following that helps in the boundary conditions
+# Add a dedicated method for the doubly‑reduced case
+@inline getbc(condition::XYReducedField, ::Integer, k::Integer, ::AbstractGrid, args...) = @inbounds condition[1, 1, k]
 
 # Preserve location when adapting fields reduced on one or more dimensions
 function Adapt.adapt_structure(to, reduced_field::ReducedField)

@@ -235,6 +235,8 @@ end
 
 """ first iteration of the PCG """
 function initialize_solution!(q, x, b, solver, args...)
+    # TODO NICOLA
+    if any(!isfinite, parent(b)) @warn("Right-hand side b contains non-finite values!") end
     solver.linear_operation!(q, x, args...)
     # r = b - A * x
     parent(solver.residual) .= parent(b) .- parent(q)

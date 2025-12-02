@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../../../.julia/packages/ClimaOcean/5Dct7"
+		},
+		{
+			"path": "../../../.julia/packages/SeawaterPolynomials/6Vjr1"
+		}
+	],
+	"settings": {
+		"julia.environmentPath": "/home/nicola/MHPC/project/Oceananigans.jl"
+	}
+}

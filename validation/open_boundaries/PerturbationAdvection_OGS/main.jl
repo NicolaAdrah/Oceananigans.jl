@@ -6,6 +6,8 @@ using Oceananigans.OutputWriters: JLD2Writer, TimeInterval
 using Oceananigans.Grids: Face, Center, nodes
 using Oceananigans.Fields: Field
 using Oceananigans: Simulation, run!, set!, FieldTimeSeries, PrescribedVelocityFields
+using Oceananigans.Diagnostics: AdvectiveCFL
+using Printf
 
 output_dir = "validation/open_boundaries/PerturbationAdvection_OGS/output"
 time_int   = 30minutes
@@ -21,8 +23,10 @@ uB_east = Field{Nothing, Nothing, Center}(grid);
 uB_west = Field{Nothing, Nothing, Center}(grid);
 
 u_bcs = FieldBoundaryConditions(
-    east = OpenBoundaryCondition(uB_east; scheme = PerturbationAdvection()),
-    west = OpenBoundaryCondition(uB_west; scheme = PerturbationAdvection())
+    east = OpenBoundaryCondition(uB_east; scheme = PerturbationAdvection(inflow_timescale = 2hours,
+                                                   outflow_timescale = 8hours)),
+    west = OpenBoundaryCondition(uB_west; scheme = PerturbationAdvection(inflow_timescale = 2hours,
+                                                   outflow_timescale = 8hours))
 )
 
 # η_bcs = FieldBoundaryConditions(
@@ -35,8 +39,8 @@ model = HydrostaticFreeSurfaceModel(;
     free_surface = ImplicitFreeSurface(),
     boundary_conditions = (; u = u_bcs),
     # velocities        = PrescribedVelocityFields(u = 1.0),  # constant eastward flow
-    # tracers           = (:c,),
-    # tracer_advection  = WENO(),
+    tracers           = (:c,),
+    tracer_advection  = WENO(),
 )
 
 
@@ -47,7 +51,7 @@ x0 = 250kilometers; σx = 50kilometers
 # set!(model; c = ϕ)
 set!(model; η = η₀)
 
-simulation = Simulation(model; Δt = 5minutes, stop_time = 5days)
+simulation = Simulation(model; Δt = 5minutes, stop_time = 10days)
 
 # c = model.tracers.c
 # simulation.output_writers[:tracer] = JLD2Writer(model, (; c,),
@@ -77,7 +81,26 @@ simulation.output_writers[:barotropic_volume_flux] = JLD2Writer(model, (; β,),
     overwrite_existing  = true
 )
 
+advective_cfl = AdvectiveCFL(simulation.Δt)
+simulation.callbacks[:cfl_monitor] = Callback(IterationInterval(10)) do sim
+    current_cfl = advective_cfl(sim.model)
+    @info "Advective CFL" iteration = sim.model.clock.iteration cfl = current_cfl
+end
+
 @info "Running..." 
+function progress(sim) 
+    u, v, w = sim.model.velocities
+    # T, S = sim.model.tracers
+
+    @info @sprintf("Time: %s, Iteration %d, Δt %s, max(vel): (%.2e, %.2e, %.2e)\n",
+                   prettytime(sim.model.clock.time),
+                   sim.model.clock.iteration,
+                   prettytime(sim.Δt),
+                   maximum(abs, u), maximum(abs, v), maximum(abs, w))
+                #    maximum(abs, T), maximum(abs, S),    )
+end
+
+simulation.callbacks[:progress] = Callback(progress, IterationInterval(10))
 run!(simulation)
 @info "Done."
 
