@@ -8,6 +8,7 @@ using Oceananigans.Fields: Field
 using Oceananigans: Simulation, run!, set!, FieldTimeSeries, PrescribedVelocityFields
 
 output_dir = "validation/open_boundaries/PerturbationAdvection_OGS/output"
+mkpath(output_dir) # TODO Nicola: "Ensure output directory exists"
 time_int   = 30minutes
 
 grid = RectilinearGrid(CPU();
@@ -47,7 +48,7 @@ x0 = 250kilometers; σx = 50kilometers
 # set!(model; c = ϕ)
 set!(model; η = η₀)
 
-simulation = Simulation(model; Δt = 5minutes, stop_time = 5days)
+simulation = Simulation(model; Δt = 5minutes, stop_time = 3days)
 
 # c = model.tracers.c
 # simulation.output_writers[:tracer] = JLD2Writer(model, (; c,),
@@ -116,3 +117,6 @@ record(fig, mp4file, 1:Nt) do i
 end
 
 println("Saved $mp4file")
+
+# TODO Nicola: "Generate static plots for thesis"
+include("thesis_plots.jl")
