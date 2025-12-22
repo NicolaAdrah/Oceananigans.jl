@@ -1,6 +1,8 @@
+# TODO Nicola: "Add evolution plots for velocity and free surface"
 using GLMakie
+using Oceananigans.Units
 using Oceananigans.OutputReaders: FieldTimeSeries
-using Oceananigans.Grids: nodes
+using Oceananigans.Grids: nodes, Center, Face
 using Oceananigans.Fields: interior
 
 # Output directory and file paths
@@ -55,5 +57,28 @@ for (i, n) in enumerate(indices)
 end
 
 save(joinpath(output_dir, "snapshots_eta.png"), fig_snap)
+
+# --- Evolution Plots ---
+# TODO Nicola: "Add time-evolution plots for peak free surface and velocity"
+u_file = joinpath(output_dir, "velocities.jld2")
+u_ts = FieldTimeSeries(u_file, "u")
+ux = nodes(u_ts.grid, Face(), Center(), Center())[1]
+
+η_max = [maximum(abs, interior(η_ts[n], :, 1, 1)) for n in 1:Nt]
+u_max = [maximum(abs, interior(u_ts[n], :, 1, 1)) for n in 1:Nt]
+
+fig_evol = Figure(size = (800, 600), fontsize = 18)
+ax_eta = Axis(fig_evol[1, 1], 
+    ylabel = "|η| max (m)", 
+    title = "Evolution of Peak Free Surface")
+ax_u = Axis(fig_evol[2, 1], 
+    xlabel = "Time (days)", 
+    ylabel = "|u| max (m/s)", 
+    title = "Evolution of Peak Velocity")
+
+lines!(ax_eta, times / 1day, η_max, color = :blue, linewidth = 2)
+lines!(ax_u, times / 1day, u_max, color = :red, linewidth = 2)
+
+save(joinpath(output_dir, "evolution_v_eta.png"), fig_evol)
 
 println("Thesis plots saved to $output_dir")

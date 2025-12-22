@@ -110,13 +110,13 @@ ylims!(axη, (-0.1, 0.2)); ylims!(axu, (-0.07, 0.07)); ylims!(axβ, (-0.5, 0.5))
 hlines!(axu, [0.045,-0.045]; color = :red, linestyle = :dash)
 hlines!(axβ, [0.45,-0.45]; color = :red, linestyle = :dash)
 
-mp4file = joinpath(output_dir, "perturbation_advection.mp4")
-record(fig, mp4file, 1:Nt) do i
-    @info "frame $i / $Nt"
-    n[] = i
-end
+# mp4file = joinpath(output_dir, "perturbation_advection.mp4")
+# record(fig, mp4file, 1:Nt) do i
+#     @info "frame $i / $Nt"
+#     n[] = i
+# end
 
-println("Saved $mp4file")
+# println("Saved $mp4file")
 
 # TODO Nicola: "Generate static plots for thesis"
 include("thesis_plots.jl")
