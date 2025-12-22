@@ -5,8 +5,9 @@ using Oceananigans.BoundaryConditions: PerturbationAdvection
 using Oceananigans.Advection: WENO
 using Oceananigans.OutputWriters: JLD2Writer, TimeInterval, Checkpointer
 using Oceananigans.Grids: Face, Center, nodes, MutableVerticalDiscretization
-using Oceananigans.Fields: Field
-using Oceananigans: Simulation, run!, set!, FieldTimeSeries, PrescribedVelocityFields, architecture, launch!
+using Oceananigans.Fields: Field, interior, FieldStatus
+using Oceananigans.Models.HydrostaticFreeSurfaceModels: vertical_vorticity
+using Oceananigans: Simulation, run!, set!, FieldTimeSeries, PrescribedVelocityFields, architecture, launch!, compute!
 using Oceananigans: fill_halo_regions!
 using ClimaOcean
 using Oceananigans.Units
@@ -28,13 +29,24 @@ using CopernicusMarine
 # in = 6hours, out = 1hours, NaN at 14.667 hours
 # in = 3days, out = 1days, NaN at 14.167 hours
 
-const velocity_open_scheme = PerturbationAdvection(inflow_timescale = 6hours,
-                                                   outflow_timescale = 1hours)
-Δt = 1minutes
-stop_time = 15days
+start_date = Date(2018, 1, 1)
+# start_date = Date(2012, 1, 1)
+# end_date   = Date(2020, 12, 30)
+end_date   = Date(2018, 12, 30)
+const velocity_open_scheme = PerturbationAdvection(outflow_timescale = 6hours, inflow_timescale = 12hours)
+Δt = 60seconds
+stop_time = 5days
+
 
 const OTime = Oceananigans.Units.Time
 const ENABLE_ADRIATIC_DEBUG = false
+const ENABLE_ORLANSKI_HISTORY_DEBUG = false
+const ORLANSKI_HISTORY_DEBUG_START = 1          # iteration to start logging
+const ORLANSKI_HISTORY_DEBUG_EVERY = 50         # log every N iterations once started
+const DISABLE_GLORYS = false 
+# TODO Nicola: debugging
+Oceananigans.Models.HydrostaticFreeSurfaceModels.ENABLE_PCG_RHS_DEBUG[] = false
+const PCG_RHS_DEBUG_EVERY = 1
 # -----------------------------------------------
 
 
@@ -43,6 +55,15 @@ function debug_print(args...)
     println("[AdriaticDebug] ", join(string.(args), ""))
     return nothing
 end
+
+log_orlanski_history(msg, iter; kwargs...) = begin
+    ENABLE_ORLANSKI_HISTORY_DEBUG || return nothing
+    @info "[OrlanskiHistory] $msg" iteration=iter kwargs...
+    return nothing
+end
+
+# Track when we last refreshed pa.previous to ensure it's actually advancing each step.
+const orlanski_history_state = IdDict{PerturbationAdvection, Int}()
 # # For debugging
 # using Logging
 # ENV["JULIA_DEBUG"] = "ClimaOcean.DataWrangling"
@@ -66,6 +87,7 @@ end
 
 # ---------- End of modifications
 
+# arch = CPU()
 arch = CPU()
 
 ds = Dataset("data/mesh_mask2D_NA.nc")
@@ -119,11 +141,6 @@ bottom_height[end,:] .= 0.0  # coastal boundary at east
 
 grid = ImmersedBoundaryGrid(grid, GridFittedBottom(bottom_height); active_cells_map=true)
 debug_print("Applied bathymetry; active cells map ready (min depth ", minimum(bottom_height), ", max depth ", maximum(bottom_height), ")")
-
-start_date = Date(2019, 1, 1)
-# start_date = Date(2012, 1, 1)
-# end_date   = Date(2020, 12, 30)
-end_date   = Date(2019, 12, 30)
 
 const POINTS_PER_DEG = 12  # GLORYS 1/12°
 
@@ -247,8 +264,16 @@ debug_print("Boundary indices pinned at j_south=", j_south, ", j_north=", j_nort
 # --- Helper to wrap a FieldTimeSeries as a discrete boundary function
 # side ∈ (:south, :north)
 @inline bc_from_series(series, side::Symbol) = begin
-    j = side === :south ? 1 : size(series, 2)      # robust for Center (Ny) and v-Face (Ny+1)
-    (i, k, grid, clock, fields...) -> series[i, j, k, OTime(clock.time)]
+    j_fixed = side === :south ? 1 : size(series, 2)      # robust for Center (Ny) and v-Face (Ny+1)
+    # Boundary kernels pass (i, k, grid, clock, model_fields...) for south/north fills.
+    (i, k, grid, clock, fields...) -> begin
+        val = series[i, j_fixed, k, OTime(clock.time)]
+        if !isfinite(val)
+             @warn "NaN in boundary series" i k j_fixed time=clock.time val iteration=clock.iteration
+            #  return zero(eltype(series))
+        end
+        return val
+    end
 end
 
 
@@ -307,37 +332,129 @@ atmosphere = JRA55PrescribedAtmosphere(
 
 radiation = Radiation()
 
-coupled_model = OceanSeaIceModel(ocean; atmosphere, radiation)
-
+coupled_model = OceanSeaIceModel(ocean; atmosphere, radiation=radiation)
 
 simulation = Simulation(coupled_model; Δt, stop_time)
 debug_print("Simulation configured with Δt=", prettytime(Δt), ", stop_time=", prettytime(stop_time))
 
+# ---------
+updating_orlanski_each = 1
+# ---------
+
+using Oceananigans: TimeStepCallsite
 using Oceananigans.BoundaryConditions: Open, BoundaryCondition
 
 function update_orlanski_history!(sim)
     ocean_model = sim.model.ocean.model
-
-    # We are using Orlanski / PerturbationAdvection on v_south
+    iter = sim.model.clock.iteration
     v_field = ocean_model.velocities.v.data
     bc_south = ocean_model.velocities.v.boundary_conditions.south
 
-    # Check that this is indeed an Open(PerturbationAdvection) BC
     if bc_south isa BoundaryCondition{<:Open{<:PerturbationAdvection}}
         pa = bc_south.classification.scheme
+        prev_iter = get(orlanski_history_state, pa, -1)
 
+        should_log = ENABLE_ORLANSKI_HISTORY_DEBUG &&
+                     iter >= ORLANSKI_HISTORY_DEBUG_START &&
+                     iter % ORLANSKI_HISTORY_DEBUG_EVERY == 0
+
+        newly_allocated = false
         if pa.previous === nothing
             pa.previous = similar(v_field)
+            newly_allocated = true
+            should_log && log_orlanski_history("allocated pa.previous", iter;
+                                               previous_summary=summary(pa.previous),
+                                               prev_iter=prev_iter)
         end
+
+        pre_diff = should_log && !newly_allocated ? maximum(abs, pa.previous .- v_field) : missing
 
         # true "know" := last time step; here we store current state
         copyto!(pa.previous, v_field)
-    end
+        orlanski_history_state[pa] = iter
 
-    return nothing
+        if should_log
+            post_diff = maximum(abs, pa.previous .- v_field)
+            log_orlanski_history("updated pa.previous", iter;
+                                 newly_allocated=newly_allocated,
+                                 prev_iter=prev_iter,
+                                 pre_diff=pre_diff,
+                                 post_diff=post_diff,
+                                 prev_size=size(pa.previous),
+                                 v_size=size(v_field))
+        end
+    end
 end
 
-simulation.callbacks[:orlanski_history] = Callback(update_orlanski_history!, IterationInterval(1))
+simulation.callbacks[:orlanski_history] =
+    Callback(update_orlanski_history!, IterationInterval(1))
+
+# const boundary_vorticity = Field(vertical_vorticity(ocean.model))
+# boundary_vorticity_extrema(slice) = (min = minimum(slice), max = maximum(slice))
+
+# function log_boundary_vorticity(sim)
+#     compute!(boundary_vorticity)
+#     ζ = interior(boundary_vorticity)
+
+#     south = boundary_vorticity_extrema(view(ζ, :, 1, :))
+#     north = boundary_vorticity_extrema(view(ζ, :, size(ζ, 2), :))
+#     west  = boundary_vorticity_extrema(view(ζ, 1, :, :))
+#     east  = boundary_vorticity_extrema(view(ζ, size(ζ, 1), :, :))
+
+#     @info "Boundary vertical vorticity extrema" iteration=sim.model.clock.iteration south=south north=north west=west east=east
+# end
+
+# simulation.callbacks[:boundary_vorticity] = Callback(log_boundary_vorticity, IterationInterval(updating_progress_each))
+
+using Oceananigans: UpdateStateCallsite
+
+function scan_for_nans(sim)
+    u = sim.model.ocean.model.velocities.u
+    v = sim.model.ocean.model.velocities.v
+    bu = findfirst(!isfinite, parent(u.data))
+    bv = findfirst(!isfinite, parent(v.data))
+    if bu !== nothing
+        ci = CartesianIndices(parent(u.data))[bu]
+        @warn "[AnyNaN] u" iteration=sim.model.clock.iteration idx=Tuple(ci) val=parent(u.data)[bu]
+        sim.running = false
+    elseif bv !== nothing
+        ci = CartesianIndices(parent(v.data))[bv]
+        @warn "[AnyNaN] v" iteration=sim.model.clock.iteration idx=Tuple(ci) val=parent(v.data)[bv]
+        sim.running = false
+    end
+end
+
+simulation.callbacks[:nan_scan] = Callback(scan_for_nans, IterationInterval(1))
+
+# function log_active_mask(sim)
+#     acm = sim.model.ocean.model.grid.active_cells_map[1]
+#     @info "[MaskCheck]" iteration=sim.model.clock.iteration idx=(51,8,7) active=acm[51,8,7]
+# end
+
+# simulation.callbacks[:mask_check] =
+#     Callback(log_active_mask, IterationInterval(1))
+
+using Oceananigans.Operators: Azᶜᶜᶠ
+
+function log_volume_anomaly(sim)
+    ocean = sim.model.ocean.model
+    grid = ocean.grid
+    η = ocean.free_surface.η
+
+    compute!(η)  # ensure η is up to date
+
+    total = zero(eltype(grid))
+    @inbounds for j in 1:grid.Ny, i in 1:grid.Nx
+        Az = Azᶜᶜᶠ(i, j, grid.Nz, grid)   # surface cell area
+        total += Az * η[i, j, grid.Nz+1]
+    end
+
+    @info "[MassCheck]" iteration=sim.model.clock.iteration volume_anomaly=total
+end
+
+simulation.callbacks[:mass_check] =
+    Callback(log_volume_anomaly, IterationInterval(1))
+
 
 function progress(sim) 
     u, v, w = sim.model.ocean.model.velocities
@@ -370,7 +487,11 @@ function progress(sim)
     end
 end
 
-simulation.callbacks[:progress] = Callback(progress, IterationInterval(10))
+# ---------
+updating_progress_each = 1
+# ---------
+
+simulation.callbacks[:progress] = Callback(progress, IterationInterval(updating_progress_each))
 
 #Versione con uscite ogni 24 ore
 simulation.output_writers[:surface_fields] = JLD2Writer(ocean.model, merge(ocean.model.tracers, ocean.model.velocities),
@@ -382,7 +503,7 @@ simulation.output_writers[:surface_fields] = JLD2Writer(ocean.model, merge(ocean
 using Oceananigans.Diagnostics: AdvectiveCFL
 advective_cfl = AdvectiveCFL(Δt)
 
-simulation.callbacks[:cfl_monitor] = Callback(IterationInterval(10)) do sim
+simulation.callbacks[:cfl_monitor] = Callback(IterationInterval(updating_progress_each)) do sim
     ocean_model = sim.model.ocean.model
     current_cfl = advective_cfl(ocean_model)
     @info "Advective CFL" iteration = sim.model.clock.iteration cfl = current_cfl
@@ -398,6 +519,7 @@ ocean.output_writers[:checkpointer] = Checkpointer(ocean.model,
 						   schedule = IterationInterval(86400),
 						   overwrite_existing = true,
 						   prefix = "mediterranean")
+
 
 ## Running the Simulation
 debug_print("Starting simulation run...")
@@ -416,11 +538,11 @@ run!(simulation)
 # # (3) Temperature (T)
 # # (4) Salinity (S)
 
-u_series = FieldTimeSeries("med_surface_fields.jld2", "u"; backend=OnDisk())
-v_series = FieldTimeSeries("med_surface_fields.jld2", "v"; backend=OnDisk())
-T_series = FieldTimeSeries("med_surface_fields.jld2", "T"; backend=OnDisk())
-S_series = FieldTimeSeries("med_surface_fields.jld2", "S"; backend=OnDisk())
-η_series = FieldTimeSeries("freesurface_field.jld2", "η"; backend=OnDisk())
+u_series = FieldTimeSeries("med_surface_fields.jld2", "u")
+v_series = FieldTimeSeries("med_surface_fields.jld2", "v")
+T_series = FieldTimeSeries("med_surface_fields.jld2", "T")
+S_series = FieldTimeSeries("med_surface_fields.jld2", "S")
+η_series = FieldTimeSeries("freesurface_field.jld2", "η")
 iter = Observable(1)
 
 umin = minimum(u_series)

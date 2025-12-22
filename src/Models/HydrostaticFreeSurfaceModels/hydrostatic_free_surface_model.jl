@@ -17,6 +17,8 @@ using Oceananigans.Utils: tupleit
 import Oceananigans: initialize!
 import Oceananigans.Models: total_velocities
 import Oceananigans.TurbulenceClosures: buoyancy_force, buoyancy_tracers
+# TODO Nicola: Pull in boundary mass flux utilities for hydrostatic models
+import Oceananigans.Models.NonhydrostaticModels: initialize_boundary_mass_fluxes
 
 PressureField(grid) = (; pHY′ = CenterField(grid))
 
@@ -34,7 +36,7 @@ function default_vertical_coordinate(grid)
 end
 
 mutable struct HydrostaticFreeSurfaceModel{TS, E, A<:AbstractArchitecture, S,
-                                           G, T, V, B, R, F, P, BGC, U, C, Φ, K, AF, Z} <: AbstractModel{TS, A}
+                                           G, T, V, B, R, F, P, BGC, U, C, Φ, K, AF, BM, Z} <: AbstractModel{TS, A}
 
     architecture :: A           # Computer `Architecture` on which `Model` is run
     grid :: G                   # Grid of physical points on which `Model` is solved
@@ -53,6 +55,8 @@ mutable struct HydrostaticFreeSurfaceModel{TS, E, A<:AbstractArchitecture, S,
     closure_fields :: K         # Container for auxiliary fields for closures
     timestepper :: TS           # Object containing timestepper fields and parameters
     auxiliary_fields :: AF      # User-specified auxiliary fields for forcing functions and boundary conditions
+    # TODO Nicola: Track boundary mass fluxes for open boundaries
+    boundary_mass_fluxes :: BM  # Container for averaged mass fluxes at open boundaries
     vertical_coordinate :: Z    # Rulesets that define the time-evolution of the grid
 end
 
@@ -223,14 +227,16 @@ function HydrostaticFreeSurfaceModel(; grid,
     model_fields = merge(prognostic_fields, auxiliary_fields)
     forcing = model_forcing(forcing, model_fields, prognostic_fields)
 
+    # TODO Nicola: Initialize boundary mass flux bookkeeping for hydrostatic models
+    boundary_mass_fluxes = initialize_boundary_mass_fluxes(velocities)
+
     !isnothing(particles) && arch isa Distributed && error("LagrangianParticles are not supported on Distributed architectures.")
 
     model = HydrostaticFreeSurfaceModel(arch, grid, clock, advection, buoyancy, coriolis,
                                         free_surface, forcing, closure, particles, biogeochemistry, velocities, tracers,
-                                        pressure, closure_fields, timestepper, auxiliary_fields, vertical_coordinate)
+                                        pressure, closure_fields, timestepper, auxiliary_fields, boundary_mass_fluxes, vertical_coordinate)
 
     initialization_update_state!(model; compute_tendencies=false)
-
     return model
 end
 

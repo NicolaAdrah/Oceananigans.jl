@@ -8,6 +8,8 @@ using Oceananigans.ImmersedBoundaries: mask_immersed_field!, mask_immersed_field
 using Oceananigans.Models: update_model_field_time_series!
 using Oceananigans.Models.NonhydrostaticModels: update_hydrostatic_pressure!, p_kernel_parameters
 
+# TODO Nicola: Bring in boundary mass conservation enforcement for hydrostatic runs
+import Oceananigans.Models.NonhydrostaticModels: enforce_open_boundary_mass_conservation!
 import Oceananigans.Models.NonhydrostaticModels: compute_auxiliaries!
 import Oceananigans.TimeSteppers: update_state!
 
@@ -36,6 +38,9 @@ function update_state!(model::HydrostaticFreeSurfaceModel, grid, callbacks; comp
 
     # Update the boundary conditions
     @apply_regionally update_boundary_conditions!(fields(model), model)
+
+    # TODO Nicola: Enforce open boundary mass conservation after updating BCs
+    enforce_open_boundary_mass_conservation!(model, model.boundary_mass_fluxes)
 
     # Fill the halos
     fill_halo_regions!(prognostic_fields(model), model.grid, model.clock, fields(model); async=true)

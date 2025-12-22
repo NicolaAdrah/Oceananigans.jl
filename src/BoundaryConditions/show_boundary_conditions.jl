@@ -1,3 +1,4 @@
+import Base: show
 using Oceananigans.Utils: prettysummary
 
 const DFBC = DefaultBoundaryCondition
@@ -17,6 +18,10 @@ bc_str(::DCBC)                   = "DistributedCommunication"
 bc_str(::Nothing)                = "Nothing"
 bc_str(zbc::ZBC)                 = "Zipper($(zbc.condition))"
 
+# TODO NICOLA
+# added these when I faced errors during plotting in adriatic_simulation
+bc_str(::Missing)                = "Missing"
+
 #####
 ##### BoundaryCondition
 #####
@@ -32,12 +37,12 @@ Base.summary(bc::DCBC)                    = string("DistributedBoundaryCondition
 Base.summary(bc::ZBC)                     = string("ZipperBoundaryCondition: ", prettysummary(bc.condition))
 
 function Base.summary(bc::MBC)
-    string("MixedBoundaryCondition: ",
-           prettysummary(bc.condition.coefficient), " c + ",
-           prettysummary(bc.condition.inhomogeneity))
+   string("MixedBoundaryCondition: ",
+          prettysummary(bc.condition.coefficient), " c + ",
+          prettysummary(bc.condition.inhomogeneity))
 end
 
-Base.show(io::IO, bc::BoundaryCondition) = print(io, summary(bc))
+show(io::IO, bc::BoundaryCondition) = print(io, summary(bc))
 
 #####
 ##### FieldBoundaryConditions
@@ -46,13 +51,13 @@ Base.show(io::IO, bc::BoundaryCondition) = print(io, summary(bc))
 Base.summary(fbcs::FieldBoundaryConditions) = "FieldBoundaryConditions"
 
 show_field_boundary_conditions(bcs::FieldBoundaryConditions, padding="") =
-    string("Oceananigans.FieldBoundaryConditions, with boundary conditions", "\n",
-           padding, "├── west: ",     summary(bcs.west), "\n",
-           padding, "├── east: ",     summary(bcs.east), "\n",
-           padding, "├── south: ",    summary(bcs.south), "\n",
-           padding, "├── north: ",    summary(bcs.north), "\n",
-           padding, "├── bottom: ",   summary(bcs.bottom), "\n",
-           padding, "├── top: ",      summary(bcs.top), "\n",
-           padding, "└── immersed: ", summary(bcs.immersed))
+   string("Oceananigans.FieldBoundaryConditions, with boundary conditions", "\n",
+          padding, "├── west: ",     summary(bcs.west), "\n",
+          padding, "├── east: ",     summary(bcs.east), "\n",
+          padding, "├── south: ",    summary(bcs.south), "\n",
+          padding, "├── north: ",    summary(bcs.north), "\n",
+          padding, "├── bottom: ",   summary(bcs.bottom), "\n",
+          padding, "├── top: ",      summary(bcs.top), "\n",
+          padding, "└── immersed: ", summary(bcs.immersed))
 
 Base.show(io::IO, fieldbcs::FieldBoundaryConditions) = print(io, show_field_boundary_conditions(fieldbcs))

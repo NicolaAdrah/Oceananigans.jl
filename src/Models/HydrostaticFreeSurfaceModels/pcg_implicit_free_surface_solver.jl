@@ -6,6 +6,7 @@ using Oceananigans.Grids: isrectilinear, halo_size
 using Oceananigans.Solvers: Solvers, solve!, ConjugateGradientSolver
 import Oceananigans.Architectures: architecture
 
+
 """
     struct PCGImplicitFreeSurfaceSolver{V, S, R}
 
@@ -89,14 +90,67 @@ function Solvers.solve!(η, implicit_free_surface_solver::PCGImplicitFreeSurface
     return nothing
 end
 
+# TODO Nicola: debugging
+const ENABLE_PCG_RHS_DEBUG = Ref(false)
+
 function compute_implicit_free_surface_right_hand_side!(rhs, implicit_solver::PCGImplicitFreeSurfaceSolver,
                                                         g, Δt, U, η)
 
     solver = implicit_solver.preconditioned_conjugate_gradient_solver
     arch = architecture(solver)
     grid = solver.grid
+    kᴺ = grid.Nz
+    parent_rhs = parent(rhs)
+
+    # Clear previous contents (including halos) so stale values don't linger outside k = Nz+1.
+    parent_rhs .= 0
+
+    # TODO Nicola: debugging
+    if ENABLE_PCG_RHS_DEBUG[]
+        bad_u = findfirst(!isfinite, parent(U.u))
+        bad_v = findfirst(!isfinite, parent(U.v))
+        bad_η = findfirst(!isfinite, parent(η))
+        @warn "[PCGRHSDebug] Non-finite inputs?" bad_u bad_v bad_η
+    end
 
     @apply_regionally compute_regional_rhs!(rhs, arch, grid, g, Δt, U, η)
+
+    # Zero everything except the surface slice we just wrote to (in case the kernel
+    # or earlier steps left garbage elsewhere).
+    ksize = size(parent_rhs, 3)
+    if kᴺ >= 1 && ksize > kᴺ + 1
+        @inbounds parent_rhs[:, :, 1:kᴺ] .= 0
+        @inbounds parent_rhs[:, :, kᴺ+2:ksize] .= 0
+    end
+
+    # TODO Nicola: debugging
+    if ENABLE_PCG_RHS_DEBUG[] && any(!isfinite, parent(rhs))
+        bad = findfirst(!isfinite, parent(rhs))
+        ci = CartesianIndices(parent(rhs))[bad]
+        i, j, k = Tuple(ci)
+        rhs_val = parent(rhs)[bad]
+
+        # ZFaceField(rhs) is collapsed in z. If ksize == 1 then k=1 corresponds to physical k = kN+1.
+        logical_k = (ksize == 1 && k == 1) ? kᴺ + 1 : k
+        on_surface = (logical_k == kᴺ + 1)
+
+        if !on_surface
+            @warn "[PCGRHSDebug] Non-finite rhs off surface slice (expected zeroed)" idx=(i, j, k) logical_k=logical_k rhs=rhs_val ksize=ksize kN=kᴺ
+        else
+            Az   = Azᶜᶜᶠ(i, j, kᴺ, grid)
+            δx_U = δxᶜᶜᶜ(i, j, kᴺ, grid, Δy_qᶠᶜᶜ, barotropic_U, nothing, U.u)
+            δy_V = δyᶜᶜᶜ(i, j, kᴺ, grid, Δx_qᶜᶠᶜ, barotropic_V, nothing, U.v)
+            η_val = η[i, j, logical_k]
+            Nx, Ny, _ = size(grid)
+            u_center = U.u[i, j, logical_k]
+            u_west   = i > 1     ? U.u[i-1, j, logical_k] : NaN
+            u_east   = i < Nx    ? U.u[i+1, j, logical_k] : NaN
+            v_center = U.v[i, j, logical_k]
+            v_south  = j > 1     ? U.v[i, j-1, logical_k] : NaN
+            v_north  = j < Ny    ? U.v[i, j+1, logical_k] : NaN
+            @warn "[PCGRHSDebug] Non-finite rhs components" idx=(i, j, logical_k) rhs=rhs_val δx_U=δx_U δy_V=δy_V η=η_val Az=Az Δt=Δt g=g finite_δx=isfinite(δx_U) finite_δy=isfinite(δy_V) finite_η=isfinite(η_val) u_center=u_center u_west=u_west u_east=u_east v_center=v_center v_south=v_south v_north=v_north
+        end
+    end
 
     return nothing
 end
