@@ -1,13 +1,10 @@
-# TODO Nicola
+# Boundary-condition helpers for perturbation-based advection and Orlanski radiation.
 using Oceananigans.Operators: Δxᶠᶜᶜ, Δyᶜᶠᶜ, Δzᶜᶜᶠ, Ax_qᶠᶜᶜ, Ay_qᶜᶠᶜ, Az_qᶜᶜᶠ
 using Oceananigans.Grids: xnode, ynode, znode
 using Oceananigans: defaults
 
 
-# struct PerturbationAdvection{FT}
-#     inflow_timescale :: FT
-#    outflow_timescale :: FT
-# end
+# Doc: PerturbationAdvection — nudging/perturbation-based boundary update with separate inflow/outflow timescales.
 
 """
    PerturbationAdvection(FT = defaults.FloatType;
@@ -71,6 +68,7 @@ function PerturbationAdvection(FT = defaults.FloatType;
    return PerturbationAdvection{FT}(inflow_timescale, outflow_timescale, nothing)
 end
 
+# Adapt nested scheme fields to target types/containers (used when moving to a different FloatType or device).
 Adapt.adapt_structure(to, pe::PerturbationAdvection) =
    PerturbationAdvection(adapt(to, pe.inflow_timescale),
                          adapt(to, pe.outflow_timescale),
@@ -80,6 +78,7 @@ const X_AXIS = :x
 const Y_AXIS = :y
 const Z_AXIS = :z
 
+# Return the axis symbol (:x/:y/:z) along which two index triples differ.
 @inline function axis_from_indices(bry_idx, adj_idx)
    if bry_idx[1] != adj_idx[1]
        return X_AXIS
@@ -92,42 +91,30 @@ end
 
 const PAOBC = BoundaryCondition{<:Open{<:PerturbationAdvection}}
 
-@inline function step_right_boundary!(bc::PAOBC, l, m, boundary_indices, boundary_adjacent_indices, boundary_interior_indices,
-                                     grid, u, clock, model_fields, loc, ΔX)
-   @warn "Accessing step_right_boundary!"
-   iᴮ, jᴮ, kᴮ = boundary_indices
-   iᴬ, jᴬ, kᴬ = boundary_adjacent_indices
-   Δt = clock.last_stage_Δt
-   Δt = ifelse(isinf(Δt), 0, Δt)
+@inline function step_right_boundary!(bc::PAOBC, l, m, boundary_indices, boundary_adjacent_indices,
+                                      grid, u, clock, model_fields, ΔX)
+    iᴮ, jᴮ, kᴮ = boundary_indices
+    iᴬ, jᴬ, kᴬ = boundary_adjacent_indices
+    Δt = clock.last_stage_Δt
+    Δt = ifelse(isinf(Δt), 0, Δt)
 
-   uᵢⁿ     = @inbounds getindex(u, iᴮ, jᴮ, kᴮ)
-   uᵢ₋₁ⁿ⁺¹ = @inbounds getindex(u, iᴬ, jᴬ, kᴬ)
-   normal_axis = axis_from_indices(boundary_indices, boundary_adjacent_indices)
-   Ũ = dimensionless_phase_speed(u, uᵢⁿ, boundary_adjacent_indices, boundary_interior_indices,
-                                  grid, loc, Δt, ΔX, normal_axis, 1)
-   if Ũ isa AbstractFloat && !isfinite(Ũ)
-       Ũ = zero(Ũ)
-   end
-   max_speed = convert(typeof(Ũ), 0.29)
-   U = clamp(Ũ, zero(Ũ), max_speed)
-   # pa = bc.classification.scheme
-   # ū = getbc(bc, l, m, grid, clock, model_fields)
-   # τ = isnothing(pa) ? Inf : (ū ≥ 0 ? pa.outflow_timescale : pa.inflow_timescale)
+    ūⁿ⁺¹    = getbc(bc, l, m, grid, clock, model_fields)
+    uᵢⁿ     = @inbounds getindex(u, iᴮ, jᴮ, kᴮ)
+    uᵢ₋₁ⁿ⁺¹ = @inbounds getindex(u, iᴬ, jᴬ, kᴬ)
+    U = max(0, min(1, Δt / ΔX * ūⁿ⁺¹))
 
-   # if τ == 0
-       # uᵢⁿ⁺¹ = ū
-   # else
-       # τ̃ = isinf(τ) || Δt == 0 ? zero(Δt) : Δt / τ
-       # numer = uᵢⁿ + U * uᵢ₋₁ⁿ⁺¹ + τ̃ * ū
-       numer = uᵢⁿ + U * uᵢ₋₁ⁿ⁺¹
-       # denom = 1 + τ̃ + U
-       denom = 1 + U
-       uᵢⁿ⁺¹ = abs(denom) < 100 * eps(eltype(denom)) ? uᵢⁿ : numer / denom
-   # end
-   @inbounds setindex!(u, uᵢⁿ⁺¹, iᴮ, jᴮ, kᴮ)
+    pa = bc.classification.scheme
+    τ = ifelse(ūⁿ⁺¹ >= 0, pa.outflow_timescale, pa.inflow_timescale)
+    τ̃ = Δt / τ # last stage Δt normalized by the inflow/output timescale
 
-   return nothing
+    relaxed_uᵢⁿ⁺¹ = (uᵢⁿ + U * uᵢ₋₁ⁿ⁺¹ + ūⁿ⁺¹ * τ̃) / (1 + τ̃ + U)
+    uᵢⁿ⁺¹         = ifelse(τ == 0, ūⁿ⁺¹, relaxed_uᵢⁿ⁺¹)
+
+    @inbounds setindex!(u, uᵢⁿ⁺¹, iᴮ, jᴮ, kᴮ)
+
+    return nothing
 end
+
 
 @inline function _fill_east_halo!(j, k, grid, u, bc::PAOBC, loc::Tuple{Face, Any, Any}, clock, model_fields)
    i = grid.Nx + 1
@@ -168,7 +155,7 @@ end
    return nothing
 end
 
-# TODO Nicola: debugging and diagnostics
+# Orlanski radiation scheme configuration flags and diagnostics toggles (tune for debugging vs production).
 const ORLANSKI_EPS = 1e-20
 const RADIATION_2D = true
 const IMPLICIT_NUDGING = false
@@ -183,6 +170,7 @@ const SAFE_MODE = false                     # If true, use fallback values inste
 const LOG_CORNER_CELL_WARNINGS = false     # If true, log warnings for corner cells (can be noisy)
 const LOG_ONLY_ON_ERROR = true             # Only log detailed diagnostics when actual non-finite values detected  
 
+# Conditional logger for Orlanski debugging that respects debug start/every controls.
 @inline function maybe_log_orlanski(iter, i, k; stage=:radiation, kwargs...)
     ENABLE_ORLANSKI_DEBUG || return nothing
     iter >= ORLANSKI_DEBUG_START || return nothing
@@ -191,7 +179,7 @@ const LOG_ONLY_ON_ERROR = true             # Only log detailed diagnostics when 
     return nothing
 end
 
-# TODO Nicola: Helper function to validate array bounds
+# Check that indices required by the Orlanski update lie within the array bounds; return (ok, message).
 @inline function validate_orlanski_bounds(u::AbstractArray, i::Int, j::Int, k::Int, 
                                          j_adj::Int, j_intr_1::Int, j_intr_2::Int)
     Nx, Ny, Nz = size(u)
@@ -223,7 +211,7 @@ end
     return true, "All bounds valid"
 end
 
-# TODO Nicola: Helper function to check if cell is in immersed boundary
+# Return true if the given cell index is inside an immersed boundary (uses grid.immersed_boundary.mask when available).
 @inline function is_immersed_cell(grid, i::Int, j::Int, k::Int)
     # Check if grid has immersed boundary information
     if hasproperty(grid, :immersed_boundary)
@@ -236,11 +224,12 @@ end
     return false
 end
 
-# let this function return dVdt and dVde to be used outside for the nudging.
+# Compute Orlanski radiation update at southern halo cell: estimate phase-speeds dVdt/dVde, apply 2D radiation blending,
+# perform safety/diagnostic checks, and return (dVdt, dVde, updated_value).
 @inline function orlanski_south_boundary!(
-   u::AbstractArray,      # current time level (like kout)
-   u_old::AbstractArray,  # previous time level (like know)
-   i::Int, k::Int, j::Int; iter::Union{Nothing, Int}=nothing,
+    u::AbstractArray,      # current time level
+    u_old::AbstractArray,  # previous time level
+    i::Int, k::Int, j::Int; iter::Union{Nothing, Int}=nothing,
 )
    Nx = size(u, 1)
    Ny = size(u, 2)
@@ -276,108 +265,6 @@ end
    dVdt = zero(eltype(u))
    dVde = zero(eltype(u))
    @inbounds begin
-    # =========================================================================
-    # TODO Nicola: The following block has been commented out and replaced 
-    # with corrected indices matching ROMS implementation.
-    # =========================================================================
-    #    # ROMS:
-    #    # grad(i, j_adj)   = vbar(i, j_adj,   know) - vbar(i-1, j_adj,   know)
-    #    # grad(i, j_adj+1) = vbar(i, j_adj+1, know) - vbar(i-1, j_adj+1, know)
-    #    grad_j_adj_I_bw      = u_old[i,   j_adj, k] - u_old[i-1, j_adj, k]
-    #    grad_j_adj_I_fw  = u_old[i+1, j_adj, k] - u_old[i,   j_adj, k]
-    #
-    #    grad_j_intr1_I_bw        = u_old[i,   j_intr_1,  k] - u_old[i-1, j_intr_1,  k]
-    #    grad_j_intr1_I_fw    = u_old[i+1, j_intr_1,  k] - u_old[i,   j_intr_1,  k]
-    #
-    #    # ROMS:
-    #    #   dVdt = vbar(i, j_adj+1, know) - vbar(i, j_adj+1, kout)
-    #    #   dVde = vbar(i, j_adj+1, kout) - vbar(i, j_adj+2, kout)
-    #    v_know_j_intr_1  = u_old[i, j_intr_1, k]
-    #    v_kout_j_intr_1  = u[i,     j_intr_1, k]
-    #    v_kout_j_intr_2  = u[i,     j_intr_2, k]
-    #
-    #    dVdt = v_know_j_intr_1 - v_kout_j_intr_1
-    #    dVde = v_kout_j_intr_1 - v_kout_j_intr_2
-    #
-    #    if dVdt * dVde < 0
-    #        dVdt = zero(dVdt)
-    #    end
-    #
-    #    # ROMS:
-    #    # IF (dVdt*(grad(i,j_adj+1) + grad(i+1,j_adj+1))) > 0 THEN
-    #    #   dVdx = grad(i,j_adj+1)
-    #    # ELSE
-    #    #   dVdx = grad(i+1,j_adj+1)
-    #    s    = dVdt * (grad_j_intr1_I_bw + grad_j_intr1_I_fw)
-    #    dVdx = s > 0 ? grad_j_intr1_I_bw : grad_j_intr1_I_fw
-    #
-    #    # cff = MAX(dVdx*dVdx + dVde*dVde, eps)
-    #    cff = dVdx * dVdx + dVde * dVde
-    #
-    #    # In ROMS:
-    #    #   Cx = MIN(cff, MAX(dVdt*dVdx, -cff))   (for RADIATION_2D)
-    #    #   Ce = dVdt * dVde
-    #   
-    #    # TODO Nicola put keyword to accept @static condition in the function call.
-    #    @static if RADIATION_2D
-    #    # println("using RADIATION_2D")
-    #        Cx = min(cff, max(dVdt * dVdx, -cff))
-    #    else
-    #     #  println("not using RADIATION_2D")
-    #        Cx = 0.0
-    #    end
-    #
-    #    Ce = dVdt * dVde
-    #
-    #    v_know_j_adj = u_old[i, j_adj, k]
-    #     vals = (v_know_j_adj, v_kout_j_intr_1, v_kout_j_intr_2,
-    #             grad_j_adj_I_bw, grad_j_adj_I_fw,
-    #             grad_j_intr1_I_bw, grad_j_intr1_I_fw)
-    #
-    #     if any(!isfinite, vals)
-    #         error("Non-finite value encountered in Orlanski boundary condition computation at (i=$i, j=$j_halo, k=$k). Values: $vals")
-    #     end
-    #
-    #    denom = cff + Ce
-    #    if denom < ORLANSKI_EPS
-    #         denom = ORLANSKI_EPS
-    #    end
-    #
-    #    # To be as close as possible to ROMS, we *do not* add extra guards here.
-    #    # If denom ≈ 0, the scheme is marginal; with your Δt and grid this
-    #    # should not systematically happen.
-    # #    @info "cff=$cff, Ce=$Ce, Cx=$Cx, denom=$denom"
-    #    v_boundary = (  cff * v_know_j_adj
-    #                   + Ce  * v_kout_j_intr_1
-    #                   - max(Cx, zero(Cx)) * grad_j_adj_I_bw
-    #                   - min(Cx, zero(Cx)) * grad_j_adj_I_fw
-    #                  ) / denom
-    #
-    #     u[i, j_halo, k] = v_boundary
-    #
-    # #    if any(!isfinite, (v_know_j_adj, v_kout_j_intr_1, v_kout_j_intr_2,
-    # #                grad_j_adj_I_bw, grad_j_adj_I_fw,
-    # #                grad_j_intr1_I_bw, grad_j_intr1_I_fw, cff, Ce, Cx))
-    # #         @warn "[OrlanskiZeros] injected zero at (i=$i, j=$j, k=$k)"
-    # #         v_boundary = zero(eltype(u))  # or getbc(bc, l, m, grid, clock, model_fields)
-    # #     end
-    # #     u[i, j_halo, k] = v_boundary
-    #
-    #    if iter !== nothing
-    #        maybe_log_orlanski(iter, i, k;
-    #                           stage=:radiation,
-    #                           dVdt=dVdt, dVde=dVde, Cx=Cx, Ce=Ce, cff=cff, denom=denom,
-    #                           v_boundary=v_boundary,
-    #                           grad_bw=grad_j_adj_I_bw, grad_fw=grad_j_adj_I_fw,
-    #                           v_adj=v_know_j_adj,
-    #                           v_intr1_old=v_know_j_intr_1,
-    #                           v_intr1_new=v_kout_j_intr_1,
-    #                           v_intr2_new=v_kout_j_intr_2)
-    #    end
-
-       # =========================================================================
-       # Corrected Implementation 
-       # =========================================================================
    
        grad_j_halo_I_bw = u_old[i,   j_halo, k] - u_old[i-1, j_halo, k]
        grad_j_halo_I_fw = u_old[i+1, j_halo, k] - u_old[i,   j_halo, k]
@@ -385,12 +272,9 @@ end
        grad_j_adj_I_bw  = u_old[i,   j_adj, k] - u_old[i-1, j_adj, k]
        grad_j_adj_I_fw  = u_old[i+1, j_adj, k] - u_old[i,   j_adj, k]
    
-       # ROMS Phase speed estimation at Jstr+1 (j_adj):
-       # dVdt = vbar(i, Jstr+1, know) - vbar(i, Jstr+1, kout)
        v_know_j_adj = u_old[i, j_adj, k]
        v_kout_j_adj = u[i,     j_adj, k]
        
-       # dVde = vbar(i, Jstr+1, kout) - vbar(i, Jstr+2, kout)
        v_kout_j_intr_1 = u[i, j_intr_1, k] # (j_adj + 1)
    
        dVdt = v_know_j_adj - v_kout_j_adj
@@ -400,7 +284,6 @@ end
            dVdt = zero(dVdt)
        end
    
-       # dVdx = grad(i, Jstr+1) ..
        s    = dVdt * (grad_j_adj_I_bw + grad_j_adj_I_fw)
        dVdx = s > 0 ? grad_j_adj_I_bw : grad_j_adj_I_fw
    
@@ -416,10 +299,8 @@ end
    
        v_know_j_halo = u_old[i, j_halo, k]
        
-       # TODO Nicola: Enhanced diagnostics - check each value individually
+    # Detailed per-value diagnostics (enabled by `ENABLE_DETAILED_DIAGNOSTICS`) to detect and handle non-finite intermediate values.
        @static if ENABLE_DETAILED_DIAGNOSTICS
-           # Always run detailed diagnostics
-           # First, check all raw input values from arrays
            raw_vals = (
                u_old_i_jh = u_old[i, j_halo, k],
                u_old_im1_jh = u_old[i-1, j_halo, k],
@@ -568,10 +449,6 @@ end
        if denom < ORLANSKI_EPS
            denom = ORLANSKI_EPS
        end
-   
-       # ROMS Update at Jstr (j_halo):
-       # vbar(i,Jstr,kout) = ( cff * vbar(i,Jstr,know) + Ce * vbar(i,Jstr+1,kout)
-       #                       - MAX(Cx,0)*grad(i,Jstr) - MIN(Cx,0)*grad(i+1,Jstr) ) / (cff+Ce)
        
        v_boundary = (  cff * v_know_j_halo
                      + Ce  * v_kout_j_adj
@@ -579,8 +456,8 @@ end
                      - min(Cx, zero(Cx)) * grad_j_halo_I_fw
                     ) / denom
    
-       # TODO Nicola: Final safety check on computed boundary value
-       @static if ENABLE_DETAILED_DIAGNOSTICS
+    # Final safety check on computed boundary value
+    @static if ENABLE_DETAILED_DIAGNOSTICS
            if !isfinite(v_boundary)
                @warn "[OrlanskiNonFinite] Non-finite boundary value computed" location=(i,j_halo,k) iteration=iter v_boundary=v_boundary cff=cff Ce=Ce Cx=Cx denom=denom
                @static if SAFE_MODE
@@ -618,8 +495,8 @@ end
    if normal_axis === Y_AXIS
        pa = bc.classification.scheme  # ::PerturbationAdvection
 
-       # TODO Nicola: Check if this cell is in an immersed boundary
-       @static if CHECK_IMMERSED_BOUNDARY
+    # If cell lies inside an immersed boundary, skip Orlanski update and set safe fallback.
+    @static if CHECK_IMMERSED_BOUNDARY
            if is_immersed_cell(grid, iB, jB, kB)
                @warn "[OrlanskiImmersed] Skipping Orlanski BC for immersed boundary cell" location=(iB,jB,kB) iteration=clock.iteration
                # Set to zero or keep current value
@@ -629,7 +506,7 @@ end
        end
 
        # 1. Ensure we have a previous time level
-    #    Couldn't be that we are not updating correctly?
+    #TODO Nicola:  Couldn't be that we are not updating correctly?
        if pa.previous === nothing
            @static if ENABLE_DETAILED_DIAGNOSTICS
                @info "[OrlanskiInit] Initializing pa.previous (first time)" iteration=clock.iteration
@@ -673,7 +550,7 @@ end
            return nothing
        end
 
-       # 5. External boundary value this should looks like (ROMS BOUNDARY(ng)%vbar_south(i))
+       # 5. External boundary value
        ū = getbc(bc, l, m, grid, clock, model_fields)
 
        # 6. Time step
@@ -682,9 +559,6 @@ end
 
        # 7. nudging
        @static if IMPLICIT_NUDGING
-           # "Implicit" nudging like ROMS' IMPLICIT_NUDGING:
-           #   phi = Δt / (τ + Δt)
-           #   u_new = (1 - phi) * u_rad + phi * ū
            if Δt > 0
                φ   = Δt / (τ + Δt)
                @inbounds begin
@@ -721,8 +595,8 @@ end
     # end
 
     # CFL clamp on the boundary value
+    #TODO Nicola: Is this needed? would add instability at this level?
     val = u[iB, jB, kB]
-    # Δt = clock.last_stage_Δt # Already defined above
     cfl = abs(val) * Δt / ΔX
     if cfl > ORLANSKI_MAX_CFL && cfl > 0
         val *= ORLANSKI_MAX_CFL / cfl
@@ -734,7 +608,7 @@ end
 end
 
 @inline function _fill_south_halo!(i, k, grid, u, bc::PAOBC, loc::Tuple{Any, Face, Any}, clock, model_fields)
-   # We must fill from the interior outwards.
+   # Let's try to fill from the interior outwards.
    # The boundary is at j=1.
    # We also need to fill the ghost cells j=0, j=-1, ... down to 1-Hy.
    
